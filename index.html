@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="as" data-landing>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Lessons</title>
+<script>
+(function(){
+  var ok=['as','en','hi','ja'],p=new URLSearchParams(location.search),l=p.get('language');
+  if(ok.indexOf(l)<0){
+    l=null;try{l=localStorage.getItem('siteLanguage');}catch(e){}
+    if(ok.indexOf(l)<0)l='as';
+    p.set('language',l);
+    history.replaceState(null,'',location.pathname+'?'+p.toString()+location.hash);
+  }
+  try{localStorage.setItem('siteLanguage',l);}catch(e){}
+  document.documentElement.lang=l;
+})();
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700&display=swap">
+<style>
+  /* Layout: one column of numbered chapter rows, like a textbook contents page. */
+  :root {
+    --bg: #f3f6f9; --fg: #16202e; --muted: #566577; --line: #d4dce5; --row: #ffffff; --accent: #1f5f99;
+    --font: "Noto Sans", "Noto Sans Bengali", "Noto Sans Devanagari", "Noto Sans JP", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #10171f; --fg: #eef3f8; --muted: #9fb0c2; --line: #2a3644; --row: #18222d; --accent: #7cc4ff; color-scheme: dark; }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--font); line-height: 1.5; padding-block: 72px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  main { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  h1 { font-size: 1.75rem; line-height: 1.25; text-wrap: balance; }
+  ol { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  a.lesson { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 14px 16px; background: var(--row); border: 1px solid var(--line); border-radius: 8px; color: inherit; text-decoration: none; }
+  a.lesson:hover { border-color: var(--accent); }
+  a.lesson:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .no { color: var(--muted); font-size: .875rem; font-variant-numeric: tabular-nums; }
+  .name { font-weight: 600; font-size: 1.0625rem; }
+  .go { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1 id="heading"></h1>
+  <ol id="lessons"></ol>
+</main>
+<script>
+  (function () {
+    var CATALOG = [{"slug":"average-acceleration","no":"4.1.4","titles":{"as":"গড় ত্বৰণ","en":"Average Acceleration","hi":"औसत त्वरण","ja":"平均加速度"}},{"slug":"immiscible-liquids","no":"5.4.1","titles":{"as":"অমিশ্ৰণীয় তৰল","en":"Immiscible Liquids","hi":"अमिश्रणीय द्रव","ja":"混ざり合わない液体"}},{"slug":"newtons-first-law","no":"6.4","titles":{"as":"নিউটনৰ গতিৰ প্ৰথম সূত্ৰ","en":"Newton's First Law of Motion","hi":"न्यूटन का गति का प्रथम नियम","ja":"ニュートンの第一運動法則"}},{"slug":"pulley","no":"7.6.1","titles":{"as":"কপিকল","en":"Pulleys","hi":"घिरनियाँ","ja":"滑車"}},{"slug":"atomic-number","no":"8.5","titles":{"as":"পাৰমাণৱিক সংখ্যা","en":"The Atomic Number","hi":"परमाणु संख्या","ja":"原子番号"}},{"slug":"daltons-atomic-theory","no":"9.3","titles":{"as":"ডাল্টনৰ পাৰমাণৱিক তত্ত্ব","en":"Dalton’s Atomic Theory","hi":"डाल्टन का परमाणु सिद्धांत","ja":"ドルトンの原子論"}},{"slug":"sound-waves","no":"10.3","titles":{"as":"শব্দ তৰংগ","en":"Sound Waves","hi":"ध्वनि तरंगें","ja":"音波"}}];
+    var HEADING = { as: 'পাঠসমূহ', en: 'Lessons', hi: 'पाठ', ja: 'レッスン' };
+    var lang = new URLSearchParams(location.search).get('language') || 'as';
+    document.getElementById('heading').textContent = HEADING[lang];
+    var list = document.getElementById('lessons');
+    CATALOG.forEach(function (c) {
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.className = 'lesson';
+      a.href = c.slug + '/?language=' + lang;
+      [['no', c.no], ['name', c.titles[lang]], ['go', '→']].forEach(function (p) {
+        var s = document.createElement('span');
+        s.className = p[0];
+        s.textContent = p[1];
+        a.appendChild(s);
+      });
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+  })();
+</script>
+<script src="language-button.js"></script>
+</body>
+</html>

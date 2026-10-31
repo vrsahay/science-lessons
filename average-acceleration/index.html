@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+(function(){
+  var ok=['as','en','hi','ja'],p=new URLSearchParams(location.search),l=p.get('language');
+  if(ok.indexOf(l)<0){
+    l=null;try{l=localStorage.getItem('siteLanguage');}catch(e){}
+    if(ok.indexOf(l)<0)l='as';
+    p.set('language',l);
+    history.replaceState(null,'',location.pathname+'?'+p.toString()+location.hash);
+  }
+  try{localStorage.setItem('siteLanguage',l);}catch(e){}
+  document.documentElement.lang=l;
+})();
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Average Acceleration — Class 9 Physics</title>
+    <script src="lesson_data_aa.js"></script>
+    <script>
+    (function(){
+      var ld=window.__lessonData||{};
+      var loc=ld.defaultLocale||'en';
+      var supported=ld.supportedLocales||['en'];
+      var urlParam=null;
+      try{urlParam=new URLSearchParams(location.search).get('language');}catch(e){}
+      if(urlParam&&supported.indexOf(urlParam)>=0){loc=urlParam;}
+      else{try{var stored=localStorage.getItem('__locale');if(stored&&supported.indexOf(stored)>=0)loc=stored;}catch(e){}}
+      try{localStorage.setItem('__locale',loc);}catch(e){}
+      window.__locale=loc;
+      window.__localeData=(ld.locales||{})[loc]||(ld.locales||{})['en']||{};
+      var s=document.createElement('script');s.src='audio_index_'+loc+'.js';document.head.appendChild(s);
+    })();
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'DM Sans', 'Noto Sans Devanagari', 'Noto Sans JP', 'Noto Sans Bengali', -apple-system, BlinkMacSystemFont, sans-serif; transition: background 1s ease; }
+        .bg-welcome { background: linear-gradient(135deg, #0a1428 0%, #112347 50%, #1a3568 100%); }
+        .bg-section-0 { background: linear-gradient(135deg, #0a1428 0%, #15305c 50%, #1f4485 100%); }
+        .bg-section-1 { background: linear-gradient(135deg, #0c172e 0%, #18386a 50%, #234f95 100%); }
+        .bg-section-2 { background: linear-gradient(135deg, #081020 0%, #122a52 50%, #1c3c75 100%); }
+        .bg-exercise { background: linear-gradient(135deg, #060d1c 0%, #0e2244 50%, #163363 100%); }
+        .bg-complete { background: linear-gradient(135deg, #1a3568 0%, #2a55a5 50%, #3a78d8 100%); }
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 0; }
+        .particle { position: absolute; width: 3px; height: 3px; background: rgba(255,255,255,0.2); border-radius: 50%; animation: float 18s infinite ease-in-out; }
+        @keyframes float { 0%,100%{transform:translateY(100vh) rotate(0deg);opacity:0} 10%{opacity:0.4} 90%{opacity:0.4} 100%{transform:translateY(-100vh) rotate(720deg);opacity:0} }
+        .glow-orb { position: fixed; width: 400px; height: 400px; border-radius: 50%; filter: blur(120px); opacity: 0.25; pointer-events: none; z-index: 0; transition: all 2s ease; }
+        .orb-1 { top: -200px; left: -200px; background: #3b82f6; }
+        .orb-2 { bottom: -200px; right: -200px; background: #60a5fa; }
+        .concept-sidebar { width: 100%; height: 110px; background: rgba(0,0,0,0.45); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.08); padding: 0.8rem 1.5rem; position: fixed; left: 0; bottom: 0; z-index: 100; display: flex; align-items: center; justify-content: center; }
+        .concept-list { display: flex; gap: 0.8rem; justify-content: center; align-items: center; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .concept-list::-webkit-scrollbar { display: none; }
+        .concept-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 1rem; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; min-width: 160px; white-space: nowrap; flex-shrink: 0; position: relative; }
+        .concept-item:hover { background: rgba(255,255,255,0.05); }
+        .concept-item.active { background: rgba(255,255,255,0.1); }
+        .concept-item.active::before { content:''; position:absolute; left:50%; top:0; transform:translateX(-50%); width:60%; height:3px; background:linear-gradient(90deg,#3b82f6,#60a5fa); border-radius:0 0 2px 2px; }
+        .concept-icon { width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1rem; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.1); transition:all 0.3s; }
+        .concept-item.completed .concept-icon { background:linear-gradient(135deg,#10b981,#34d399); border-color:transparent; }
+        .concept-item.active .concept-icon { background:linear-gradient(135deg,#3b82f6,#60a5fa); border-color:transparent; }
+        .concept-info { flex:1; }
+        .concept-name { font-size:0.9rem; font-weight:500; color:#fff; margin-bottom:0.15rem; }
+        .concept-status { font-size:0.7rem; color:rgba(255,255,255,0.4); }
+        .concept-item.completed .concept-status { color:#10b981; }
+        .concept-item.active .concept-status { color:#bfdbfe; }
+        .concept-check { opacity:0; color:#10b981; font-size:1rem; }
+        .concept-item.completed .concept-check { opacity:1; }
+        .main-content { position: fixed; top: 0; left: 0; right: 0; bottom: 110px; overflow-y: auto; overflow-x: hidden; }
+        .screen { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:3rem 3rem 2rem 3rem; opacity:0; transition:none; position:absolute; top:0; left:0; width:100%; height:0; overflow:hidden; pointer-events:none; }
+        .screen.active { opacity:1; pointer-events:all; position:relative; top:auto; left:auto; height:auto; overflow:visible; min-height:100%; }
+        .label { font-size:0.85rem; font-weight:600; text-transform:uppercase; letter-spacing:0.15em; background:linear-gradient(90deg,#3b82f6,#60a5fa,#93c5fd); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:1.5rem; }
+        .title { font-family: 'Playfair Display', 'Noto Sans Devanagari', 'Noto Sans JP', 'Noto Sans Bengali', serif; font-size:clamp(2.2rem,5vw,4rem); font-weight:800; text-align:center; line-height: 1.35; padding-block: 0.15em; margin-bottom:1.5rem; background:linear-gradient(135deg,#ffffff 0%,#bfdbfe 50%,#60a5fa 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+        .subtitle { font-size:1.2rem; color:rgba(255,255,255,0.7); text-align:center; max-width:640px; line-height:1.7; }
+        .question { font-size:clamp(1.3rem,3vw,1.85rem); font-weight:500; text-align:center; max-width:720px; line-height:1.55; color:#fff; }
+        .btn { background:linear-gradient(135deg,#3b82f6 0%,#60a5fa 50%,#93c5fd 100%); color:#0a1428; border:none; padding:1rem 2.8rem; font-size:1.05rem; font-weight:700; border-radius:100px; cursor:pointer; transition:all 0.4s ease; margin-top:2.5rem; font-family:inherit; box-shadow:0 10px 40px rgba(59,130,246,0.35); }
+        .btn:hover { transform:translateY(-3px) scale(1.02); box-shadow:0 15px 50px rgba(59,130,246,0.45); }
+        .btn-secondary { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); box-shadow:none; margin-top:1rem; color:#fff; }
+        .btn-secondary:hover { background:rgba(255,255,255,0.15); }
+        .skip-row { display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap; margin-top:1.5rem; }
+        .skip-row .btn { margin-top:0; }
+        .canvas-container { width:100%; max-width:900px; aspect-ratio:16/10; margin:2rem 0; touch-action:manipulation; border-radius:24px; background:rgba(0,0,0,0.3); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.08); overflow:hidden; box-shadow:0 25px 80px rgba(0,0,0,0.4); position:relative; }
+        .next-step-btn { position:absolute; right:16px; top:14px; width:46px; height:46px; border-radius:50%; background:linear-gradient(135deg,#22a7e0,#4fc3f7); border:2px solid rgba(255,255,255,0.35); color:#fff; font-size:1.4rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 24px rgba(34,167,224,0.5); transition:transform 0.25s ease,box-shadow 0.25s ease,opacity 0.25s ease; z-index:5; font-family:inherit; }
+        .next-step-btn:hover { transform:scale(1.1); box-shadow:0 10px 32px rgba(34,167,224,0.7); }
+        .next-step-btn:disabled,.next-step-btn.hidden { opacity:0; pointer-events:none; }
+        @media(max-width:640px){.next-step-btn{width:38px;height:38px;right:10px;top:10px;font-size:1.1rem;}}
+        #canvas { width:100%; height:100%; display:block; opacity:0; }
+        .narration { font-size:1.2rem; color:rgba(255,255,255,0.9); text-align:center; max-width:740px; line-height:1.75; min-height:80px; }
+        .speaking-dot { display:inline-block; width:10px; height:10px; background:linear-gradient(135deg,#3b82f6,#60a5fa); border-radius:50%; margin-left:10px; opacity:0; transition:opacity 0.3s; box-shadow:0 0 20px #3b82f6; }
+        .speaking-dot.active { opacity:1; animation:pulse 1s ease-in-out infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.4)} }
+        .exercise-container { width:100%; max-width:560px; margin-top:2rem; }
+        .option { background:rgba(255,255,255,0.05); border:2px solid rgba(255,255,255,0.12); border-radius:16px; padding:1.2rem 1.6rem; margin-bottom:0.9rem; cursor:pointer; transition:all 0.3s ease; font-size:1.02rem; text-align:left; color:#fff; }
+        .option:hover { background:rgba(255,255,255,0.1); border-color:rgba(59,130,246,0.5); transform:translateX(5px); }
+        .option.correct { border-color:#10b981; background:rgba(16,185,129,0.2); box-shadow:0 0 30px rgba(16,185,129,0.3); }
+        .option.incorrect { border-color:#ef4444; background:rgba(239,68,68,0.2); }
+        .feedback { margin-top:2rem; padding:1.2rem 1.8rem; border-radius:16px; font-size:1.02rem; opacity:0; transform:translateY(10px); transition:all 0.4s ease; max-width:640px; text-align:left; line-height:1.6; }
+        .feedback.visible { opacity:1; transform:translateY(0); }
+        .feedback.success { background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.4); color:#6ee7b7; }
+        .feedback.error { background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.4); color:#fca5a5; }
+        .control-buttons { position:fixed; top:2rem; right:2rem; display:flex; gap:0.75rem; z-index:100; }
+        .audio-toggle,.pause-toggle { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15); color:#fff; width:48px; height:48px; border-radius:50%; cursor:pointer; font-size:1.2rem; transition:all 0.3s; backdrop-filter:blur(10px); }
+        .audio-toggle:hover,.pause-toggle:hover { background:rgba(255,255,255,0.2); transform:scale(1.1); }
+        .pause-toggle.paused { background:rgba(96,165,250,0.3); border-color:rgba(96,165,250,0.5); animation:pausePulse 1.5s ease-in-out infinite; }
+        @keyframes pausePulse { 0%,100%{box-shadow:0 0 0 0 rgba(96,165,250,0.4)} 50%{box-shadow:0 0 20px 5px rgba(96,165,250,0.2)} }
+        .icon-large { font-size:3.5rem; margin-bottom:1.5rem; }
+        .experiment-area { width:100%; max-width:880px; margin-top:1.5rem; display:none; }
+        .experiment-area.active { display:block; }
+        .experiment-controls-bar { background:linear-gradient(135deg,rgba(8,23,44,0.92),rgba(18,46,75,0.92)); backdrop-filter:blur(15px); border-radius:20px; padding:1.4rem 1.6rem; border:2px solid rgba(96,165,250,0.3); box-shadow:0 10px 40px rgba(0,0,0,0.3); }
+        .experiment-header { display:flex; align-items:center; justify-content:center; gap:10px; font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:#93c5fd; margin-bottom:1rem; padding-bottom:0.85rem; border-bottom:1px solid rgba(255,255,255,0.1); }
+        .experiment-controls { display:flex; flex-wrap:wrap; gap:1rem; align-items:stretch; justify-content:center; margin-bottom:1rem; }
+        .control-group { flex:1 1 220px; min-width:220px; max-width:340px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:0.9rem 1.1rem; }
+        .control-label { font-size:0.88rem; color:rgba(255,255,255,0.75); font-weight:500; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
+        .control-value { font-weight:700; color:#60a5fa; font-size:1rem; background:rgba(96,165,250,0.12); padding:2px 10px; border-radius:6px; }
+        .exp-slider { -webkit-appearance:none; appearance:none; width:100%; height:6px; background:rgba(255,255,255,0.15); border-radius:3px; outline:none; cursor:pointer; }
+        .exp-slider::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:20px; height:20px; border-radius:50%; background:linear-gradient(135deg,#3b82f6,#60a5fa); cursor:pointer; border:2px solid #fff; box-shadow:0 0 12px rgba(96,165,250,0.6); }
+        .exp-slider::-moz-range-thumb { width:20px; height:20px; border-radius:50%; border:2px solid #fff; background:linear-gradient(135deg,#3b82f6,#60a5fa); cursor:pointer; box-shadow:0 0 12px rgba(96,165,250,0.6); }
+        .effect-indicator { font-size:0.98rem; color:rgba(255,255,255,0.85); text-align:center; padding:0.95rem 1.2rem; background:rgba(255,255,255,0.04); border-radius:12px; border:1px solid rgba(255,255,255,0.08); margin-bottom:1.1rem; line-height:1.5; }
+        .effect-indicator strong { color:#93c5fd; }
+        .preset-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:0.7rem; width:100%; }
+        .preset-btn { background:rgba(255,255,255,0.05); border:1.5px solid rgba(255,255,255,0.12); border-radius:14px; padding:0.85rem 0.9rem; cursor:pointer; color:#fff; font-family:inherit; text-align:left; transition:all 0.25s ease; display:flex; flex-direction:column; gap:4px; }
+        .preset-btn:hover { background:rgba(255,255,255,0.09); border-color:rgba(96,165,250,0.45); transform:translateY(-2px); }
+        .preset-btn.selected { background:linear-gradient(135deg,rgba(59,130,246,0.22),rgba(96,165,250,0.18)); border-color:#60a5fa; box-shadow:0 0 22px rgba(96,165,250,0.32); }
+        .preset-title { font-size:0.95rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:6px; }
+        .preset-sub { font-size:0.78rem; color:rgba(255,255,255,0.65); line-height:1.35; }
+        .preset-formula { font-size:0.72rem; color:#93c5fd; font-weight:600; background:rgba(96,165,250,0.1); padding:2px 7px; border-radius:6px; display:inline-block; margin-top:2px; align-self:flex-start; }
+        .preset-btn.selected .preset-formula { background:rgba(96,165,250,0.22); color:#bfdbfe; }
+        .experiment-area .btn { margin-top:0; }
+        .experiment-buttons { display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap; margin-top:0.5rem; }
+        .btn-try { background:linear-gradient(135deg,#10b981 0%,#34d399 50%,#6ee7b7 100%); color:#052e1f; box-shadow:0 10px 40px rgba(16,185,129,0.4); }
+        .btn-try:hover { box-shadow:0 15px 50px rgba(16,185,129,0.55); }
+        @media(max-width:900px){.concept-sidebar{height:75px;padding:0.4rem 0.6rem}.concept-item{min-width:70px;padding:0.35rem 0.5rem;gap:0.3rem}.concept-icon{width:28px;height:28px;font-size:0.9rem}.concept-info{display:none}.main-content{bottom:75px}.screen{padding:2rem 1.5rem}.canvas-container{margin:1.5rem 0;border-radius:18px}.narration{font-size:1.05rem}}
+        @media(max-width:640px){.concept-sidebar{height:65px;padding:0.3rem 0.4rem}.concept-item{min-width:48px;padding:0.3rem 0.35rem;border-radius:10px}.concept-icon{width:24px;height:24px;font-size:0.8rem;border-radius:8px}.main-content{bottom:65px}.canvas-container{margin:0.5rem 0;border-radius:14px}.narration{font-size:0.98rem;min-height:50px;line-height:1.6}.screen{padding:1.2rem 0.8rem}.title{font-size:1.9rem}.question{font-size:1.05rem}.control-buttons{top:1rem;right:1rem;gap:0.5rem}.audio-toggle,.pause-toggle{width:40px;height:40px;font-size:1rem}.btn{padding:0.8rem 1.8rem;font-size:0.95rem}}
+    </style>
+    <script>
+    /* as-digits: on Assamese pages every visible number is shown in Assamese digits (০-৯), on the canvas and in the page.
+       Digits that belong to notation stay as written: a number touching a Latin letter (H2O, 2n², 2e⁻) or joined to a
+       symbol by a hyphen (U-235); an equation number such as (4.4a) is converted. Display only — lesson data, narration and audio lookup are unchanged. */
+    (function(){
+      var ld=window.__lessonData||{},p=new URLSearchParams(location.search);
+      var loc=window.__locale||p.get('language')||p.get('locale')||ld.defaultLocale||'en';
+      if(loc!=='as')return;
+      var AS='০১২৩৪৫৬৭৮৯',L=/[A-Za-z]/;
+      function asDigits(s){
+        return String(s).replace(/[0-9]+(?:[.,][0-9]+)*/g,function(m,i,str){
+          var a=str.charAt(i-1),b=str.charAt(i+m.length);
+          var eq=a==='('&&m.indexOf('.')>0&&/^[a-z]\)/.test(str.substr(i+m.length,2));
+          if(!eq&&(L.test(a)||L.test(b)||(a==='-'&&L.test(str.charAt(i-2)))))return m;
+          return m.replace(/[0-9]/g,function(d){return AS.charAt(+d);});
+        });
+      }
+      window.__asDigits=asDigits;
+      var P=CanvasRenderingContext2D.prototype;
+      ['fillText','strokeText'].forEach(function(k){
+        var o=P[k];
+        P[k]=function(t){var a=Array.prototype.slice.call(arguments);a[0]=asDigits(t);return o.apply(this,a);};
+      });
+      var mt=P.measureText;
+      P.measureText=function(t){return mt.call(this,asDigits(t));};
+      var SKIP=/^(SCRIPT|STYLE|SUB|SUP|TEXTAREA|INPUT|CODE)$/;
+      function walk(n){
+        if(n.nodeType===3){
+          if(n.parentNode&&SKIP.test(n.parentNode.nodeName))return;
+          var v=n.nodeValue,w=asDigits(v);if(w!==v)n.nodeValue=w;
+        }else if(n.nodeType===1&&!SKIP.test(n.nodeName)){
+          for(var c=n.firstChild;c;c=c.nextSibling)walk(c);
+        }
+      }
+      function start(){
+        walk(document.body);
+        new MutationObserver(function(ms){
+          ms.forEach(function(m){if(m.type==='characterData')walk(m.target);else m.addedNodes.forEach(walk);});
+        }).observe(document.body,{childList:true,subtree:true,characterData:true});
+      }
+      if(document.body)start();else document.addEventListener('DOMContentLoaded',start);
+    })();
+    </script>
+    <script>
+    /* ui-titles: the pause / mute / skip buttons are icons whose hover tooltips (title) are hard-coded English, also when the
+       code toggles them. On a non-English page each known English tooltip is replaced by the locale's _ui key below, now and
+       whenever the code sets it again; the browser-tab title becomes _ui.pageTitle. Display only; missing keys leave the English. */
+    (function(){
+      var ld=window.__lessonData||{},p=new URLSearchParams(location.search);
+      var loc=window.__locale||p.get('language')||p.get('locale')||ld.defaultLocale||'en';
+      if(loc==='en')return;
+      var K={'Pause':'pauseTitle','Resume':'resumeTitle','Pause/Resume':'pauseResumeTitle','Mute/Unmute':'muteUnmuteTitle','Skip to next slide':'skipSlideTitle'};
+      function ui(){var d=window.__lessonData||ld;return ((d.locales||{})[window.__locale||loc]||{})._ui||{};}
+      function fix(el){var t=el.getAttribute('title'),k=K[t],v=k&&ui()[k];if(v&&v!==t)el.setAttribute('title',v);}
+      function start(){
+        var pt=ui().pageTitle;if(pt)document.title=pt;
+        document.querySelectorAll('[title]').forEach(fix);
+        new MutationObserver(function(ms){
+          ms.forEach(function(m){
+            if(m.type==='attributes')fix(m.target);
+            else m.addedNodes.forEach(function(n){if(n.nodeType===1){if(n.hasAttribute('title'))fix(n);n.querySelectorAll('[title]').forEach(fix);}});
+          });
+        }).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['title']});
+      }
+      if(document.body)start();else document.addEventListener('DOMContentLoaded',start);
+    })();
+    </script>
+</head>
+<body class="bg-welcome">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="particles" id="particles"></div>
+    <aside class="concept-sidebar"><div class="concept-list" id="conceptList"></div></aside>
+    <main class="main-content">
+        <div class="control-buttons">
+            <button class="pause-toggle" id="pauseToggle" title="Pause/Resume">⏸️</button>
+            <button class="audio-toggle" id="audioToggle" title="Mute/Unmute">🔊</button>
+        </div>
+        <div class="screen active" id="screen-welcome">
+            <div class="icon-large">🚗</div>
+            <div class="label" id="welcomeLabel">Class 9 Physics • Chapter 4 • Section 4.1.4</div>
+            <h1 class="title" id="welcomeTitle">Average Acceleration</h1>
+            <p class="subtitle" id="welcomeSubtitle">That jolt when a vehicle starts or stops is a change in velocity. Average acceleration measures how fast velocity changes — and which way it points. Work through a bus on the highway and a freely falling body to find g.</p>
+            <button class="btn" id="beginBtn" onclick="handleButtonClick(startJourney)">Begin Section 4.1.4</button>
+        </div>
+        <div class="screen" id="screen-question">
+            <div class="icon-large" id="questionIcon">🤔</div>
+            <div class="label" id="sectionLabel"></div>
+            <p class="question" id="questionText"></p>
+            <button class="btn" id="revealBtn" onclick="handleButtonClick(revealExplanation)">Discover the Answer</button>
+        </div>
+        <div class="screen" id="screen-explanation">
+            <div class="canvas-container">
+                <canvas id="canvas"></canvas>
+            </div>
+            <p class="narration" id="narration">
+                <span id="narrationText"></span>
+                <span class="speaking-dot" id="speakingDot"></span>
+            </p>
+            <div class="skip-row" id="continueRow">
+                <button class="btn" id="continueToExpBtn" onclick="handleButtonClick(skipToExperiment)">Continue to Experiment →</button>
+            </div>
+            <div class="experiment-area" id="experimentArea">
+                <div class="experiment-controls-bar">
+                    <div class="experiment-header" id="experimentHeader">🧪 Experiment Mode — Try It Yourself</div>
+                    <div class="experiment-controls" id="controlsContent"></div>
+                    <div class="effect-indicator" id="effectIndicator">Adjust the controls to explore</div>
+                    <div class="experiment-buttons">
+                        <button class="btn btn-try" id="tryItBtn" onclick="handleTryClick()">▶ Try It</button>
+                        <button class="btn" id="expContinueBtn" onclick="handleButtonClick(loadExercise)">Continue to Exercise →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="screen" id="screen-exercise">
+            <div class="icon-large">✍️</div>
+            <div class="label" id="testYourUnderstandingLabel">Test Your Understanding</div>
+            <p class="question" id="exerciseQuestion" style="font-size:1.3rem;"></p>
+            <div class="exercise-container" id="exerciseContainer"></div>
+            <div class="feedback" id="feedback"></div>
+            <button class="btn" id="feedbackContinue" style="display:none" onclick="handleButtonClick(continueFromFeedback)">Continue →</button>
+        </div>
+        <div class="screen" id="screen-complete">
+            <div class="icon-large" id="completeIcon">🎉</div>
+            <div class="label" id="sectionCompleteLabel">Section Complete</div>
+            <h1 class="title" id="completeTitle" style="font-size:clamp(2rem,4vw,3rem);">Excellent Work!</h1>
+            <p class="subtitle" id="completeMessage"></p>
+            <button class="btn" id="nextBtn" onclick="handleButtonClick(nextSection)">Continue</button>
+            <button class="btn btn-secondary" id="reviewAgainBtn" onclick="handleButtonClick(restartSection)">Review Again</button>
+        </div>
+        <div class="screen" id="screen-final">
+            <div class="icon-large">🏆</div>
+            <div class="label" id="finalLabel">Section Complete</div>
+            <h1 class="title" id="finalTitle">Well Done!</h1>
+            <p class="subtitle" id="finalSubtitle">You can now find average acceleration as the change in velocity over time, give its direction with a + or − sign, tell uniform from non-uniform acceleration, and explain why a freely falling body has a constant acceleration g of about 9.8 m/s².</p>
+            <button class="btn" id="startAgainBtn" onclick="location.reload()">Start Again</button>
+        </div>
+    </main>
+    <script>
+        let __locale = window.__locale || 'en';
+        const _ld = window.__lessonData || {};
+        const _locales = _ld.locales || {};
+        const _localeData = _locales[__locale] || _locales['en'] || {};
+        const _ui = _localeData._ui || {};
+        const _les = _localeData._les || [];
+
+        (function wireUI(){
+            const set=(id,val)=>{const el=document.getElementById(id);if(el&&val)el.textContent=val;};
+            set('welcomeLabel',_ui.welcomeLabel);set('welcomeTitle',_ui.welcomeTitle);set('welcomeSubtitle',_ui.welcomeSubtitle);
+            if(_ui.beginBtn)document.getElementById('beginBtn').textContent=_ui.beginBtn;
+            if(_ui.discoverBtn)document.getElementById('revealBtn').textContent=_ui.discoverBtn;
+            set('experimentHeader','🧪 '+(_ui.experimentModeLabel||'Experiment Mode — Try It Yourself'));
+            if(_ui.tryItBtn)document.getElementById('tryItBtn').textContent=_ui.tryItBtn;
+            if(_ui.continueToExercise){var _eb=document.getElementById('expContinueBtn');if(_eb)_eb.textContent=_ui.continueToExercise;}
+            set('testYourUnderstandingLabel',_ui.testYourUnderstanding);
+            set('sectionCompleteLabel',_ui.sectionCompleteLabel);
+            set('finalLabel',_ui.finalLabel);set('finalTitle',_ui.finalTitle);set('finalSubtitle',_ui.finalSubtitle);
+            if(_ui.startAgainBtn)document.getElementById('startAgainBtn').textContent=_ui.startAgainBtn;
+            if(_ui.continueToExperiment)document.getElementById('continueToExpBtn').textContent=_ui.continueToExperiment;
+            if(_ui.reviewAgainBtn)document.getElementById('reviewAgainBtn').textContent=_ui.reviewAgainBtn;
+            if(_ui.continueBtn)document.getElementById('feedbackContinue').textContent=_ui.continueBtn;
+        })();
+
+        const _exp = _ui._exp || {};
+        const _e = (k, fallback) => _exp[k] || fallback;
+
+        const _vis = _ui._vis || {};
+        const _v = (k, fallback) => _vis[k] || fallback;
+
+
+        const state={currentSection:0,currentStep:0,isMuted:false,completedSections:[],isPaused:false};
+        let currentNarrator=null,currentDemoAborted=false,currentRunId=0,currentTaskId=null,animationTimeouts=[];
+
+        function stopCurrentDemo(){
+            currentDemoAborted=true;currentRunId++;currentTaskId=null;
+            if(animationId){cancelAnimationFrame(animationId);animationId=null;}
+            if(typeof experimentRAF!=='undefined'&&experimentRAF){cancelAnimationFrame(experimentRAF);experimentRAF=null;}
+            state.isPaused=false;
+            const pb=document.getElementById('pauseToggle');if(pb){pb.textContent='⏸️';pb.classList.remove('paused');pb.title='Pause';}
+            if(window.speechSynthesis){window.speechSynthesis.cancel();window.speechSynthesis.getVoices();}
+            if(currentNarrator){try{currentNarrator.destroy();}catch(e){}currentNarrator=null;}
+            if(speech){try{if(speech.audio){speech.audio.pause();speech.audio.currentTime=0;speech.audio.src='';speech.audio.load();speech.audio.onended=null;speech.audio.onerror=null;speech.audio=null;}speech.isDestroyed=true;speech.isPaused=false;if(speech.pauseResolve){speech.pauseResolve();speech.pauseResolve=null;}}catch(e){}speech=new SpeechManager();}else{speech=new SpeechManager();}
+            animationTimeouts.forEach(t=>{try{clearTimeout(t)}catch(e){}});animationTimeouts=[];isPlaying=false;
+        }
+        function createNewNarrator(taskId){
+            if(currentNarrator){try{currentNarrator.destroy()}catch(e){}currentNarrator=null;}
+            if(speech){try{if(speech.audio){speech.audio.pause();speech.audio.currentTime=0;speech.audio.src='';speech.audio.load();speech.audio.onended=null;speech.audio.onerror=null;speech.audio=null;}speech.isDestroyed=true;speech.isPaused=false;if(speech.pauseResolve){speech.pauseResolve();speech.pauseResolve=null;}}catch(e){}speech=new SpeechManager();}else{speech=new SpeechManager();}
+            currentDemoAborted=false;currentTaskId=taskId;return speech;
+        }
+        function createParticles(){const c=document.getElementById('particles');for(let i=0;i<25;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.animationDuration=(Math.random()*12+10)+'s';p.style.animationDelay=Math.random()*10+'s';c.appendChild(p);}}
+
+        class SpeechManager{
+            constructor(){this.audio=null;this.isDestroyed=false;this.isPaused=false;this.pauseResolve=null;this._speakId=0;this._audioResolve=null;}
+            destroy(){this.isDestroyed=true;this.isPaused=false;if(this.audio){try{this.audio.pause();this.audio.currentTime=0;this.audio.src='';this.audio.load();this.audio.onended=null;this.audio.onerror=null;}catch(e){}this.audio=null;}if(this.pauseResolve){this.pauseResolve();this.pauseResolve=null;}if(this._audioResolve){const r=this._audioResolve;this._audioResolve=null;r();}const d=document.getElementById('speakingDot');if(d)d.classList.remove('active');}
+            pause(){if(this.audio&&!this.isPaused){this.isPaused=true;this.audio.pause();const d=document.getElementById('speakingDot');if(d)d.classList.remove('active');}}
+            resume(){if(this.audio&&this.isPaused){this.isPaused=false;this.audio.play().catch(()=>{});const d=document.getElementById('speakingDot');if(d)d.classList.add('active');}}
+            stopAudioOnly(){const d=document.getElementById('speakingDot');if(d)d.classList.remove('active');if(this.audio){try{this.audio.pause();this.audio.src='';this.audio.load();}catch(e){}this.audio=null;}if(this._audioResolve){const r=this._audioResolve;this._audioResolve=null;r();}}
+            async speak(text){
+                if(this.isDestroyed||!text)return;
+                const myId=++this._speakId;const isActive=()=>!this.isDestroyed&&this._speakId===myId;
+                if(this.audio){try{this.audio.pause();this.audio.currentTime=0;this.audio.src='';this.audio.load();}catch(e){}this.audio=null;}
+                if(this._audioResolve){const r=this._audioResolve;this._audioResolve=null;r();}this.isPaused=false;
+                const idx=window.__lessonAudioIndex||{};const rel=idx[text];const hasAudio=!!rel;
+                const ms=hasAudio?Math.max(2500,text.length*38):800;
+                if(!hasAudio){
+                    if(text&&window.speechSynthesis){await this._speakTTS(text,isActive);return;}
+                    await new Promise(resolve=>{const startTime=Date.now();let elapsed=0;const check=()=>{if(!isActive()){resolve();return;}if(state.isPaused){this.pauseResolve=()=>{this.pauseResolve=null;check();};return;}elapsed=Date.now()-startTime;if(elapsed>=ms)resolve();else setTimeout(check,Math.min(100,ms-elapsed));};check();});
+                    return;
+                }
+                const dot=document.getElementById('speakingDot');if(dot)dot.classList.add('active');
+                try{
+                    this.audio=new Audio(rel+'?_='+(__locale||'en'));this.audio.muted=state.isMuted;this._audioResolve=null;
+                    await new Promise(resolve=>{if(this.isDestroyed){resolve();return;}this._audioResolve=resolve;const done=()=>{this._audioResolve=null;if(!this.isDestroyed&&this.audio)this.audio=null;resolve();};this.audio.onended=done;this.audio.onerror=done;if(state.isPaused){this.isPaused=true;const wr=()=>{if(this.isDestroyed||!this.audio){resolve();return;}if(!state.isPaused){this.isPaused=false;if(!this.isDestroyed&&this.audio)this.audio.play().catch(()=>resolve());else resolve();}else setTimeout(wr,100);};wr();}else{if(!this.isDestroyed&&this.audio)this.audio.play().catch(()=>resolve());else resolve();}});
+                }catch(e){if(isActive())await this.waitWithPause(ms);}
+                if(isActive()){const d=document.getElementById('speakingDot');if(d)d.classList.remove('active');}
+            }
+            _speakTTS(text,isActive){return new Promise(resolve=>{if(!isActive()||this.isDestroyed){resolve();return;}try{window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const langMap={hi:'hi-IN',en:'en-IN',ja:'ja-JP',as:'as-IN',bn:'bn-IN'};u.lang=langMap[window.__locale]||'en-US';let done=false;const finish=()=>{if(done)return;done=true;resolve();};u.onend=finish;u.onerror=finish;if(state.isPaused){this.isPaused=true;this.pauseResolve=()=>{this.pauseResolve=null;try{window.speechSynthesis.resume();}catch(e){}};}window.speechSynthesis.speak(u);const safety=Math.max(4000,text.length*140);setTimeout(finish,safety);}catch(e){resolve();}});}
+            waitWithPause(ms){return new Promise(resolve=>{const st=Date.now();let el=0;const ch=()=>{if(this.isDestroyed){resolve();return;}if(state.isPaused){this.pauseResolve=()=>{this.pauseResolve=null;ch();};return;}el=Date.now()-st;if(el>=ms)resolve();else setTimeout(ch,Math.min(100,ms-el));};ch();});}
+        }
+        let speech=new SpeechManager();
+        function handleButtonClick(cb){stopCurrentDemo();createNewNarrator('btn');cb();}
+
+        const canvas=document.getElementById('canvas');const ctx=canvas.getContext('2d');
+        let center={x:0,y:0},canvasW=0,canvasH=0,animationId=null,isPlaying=false;
+
+        function initCanvas(){
+            const c=canvas.parentElement;const r=c.getBoundingClientRect();const d=window.devicePixelRatio||1;
+            canvas.width=r.width*d;canvas.height=r.height*d;canvas.style.width=r.width+'px';canvas.style.height=r.height+'px';
+            const refW=900,refH=562;ctx.setTransform(d*r.width/refW,0,0,d*r.height/refH,0,0);
+            canvasW=refW;canvasH=refH;center={x:refW/2,y:refH/2};
+            canvas.style.opacity='1';window.__canvasDirty=true;try{if(window.__lastVis)window.__lastVis();}catch(e){}
+        }
+
+        const draw={
+            clear(){ctx.clearRect(0,0,canvasW,canvasH);},
+            text(str,x,y,{size=18,color='#fff',weight='500',align='center',glow=false}={}){if(glow){ctx.shadowColor=color;ctx.shadowBlur=20;}ctx.fillStyle=color;ctx.font=`${weight} ${size}px 'DM Sans',sans-serif`;ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillText(str,x,y);ctx.shadowBlur=0;},
+            wrapLines(str,maxW,size,weight='500'){
+                ctx.font=`${weight} ${size}px 'DM Sans',sans-serif`;
+                const raw=String(str||'').trim();if(!raw)return[''];
+                const words=raw.split(/\s+/);const lines=[];let cur='';
+                const tooWide=s=>ctx.measureText(s).width>maxW;
+                const flush=()=>{if(cur){lines.push(cur);cur='';}};
+                const breakWord=w=>{let chunk='';for(const ch of w){if(chunk&&tooWide(chunk+ch)){lines.push(chunk);chunk=ch;}else chunk+=ch;}return chunk;};
+                for(const w of words){const test=cur?cur+' '+w:w;if(!tooWide(test)){cur=test;continue;}flush();cur=tooWide(w)?breakWord(w):w;}
+                flush();return lines.length?lines:[''];
+            },
+            circle(x,y,r,{fill='#fff',stroke=null,lineWidth=2,glow=false,glowColor=null}={}){if(glow){ctx.shadowColor=glowColor||fill;ctx.shadowBlur=25;}ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lineWidth;ctx.stroke();}ctx.shadowBlur=0;},
+            line(x1,y1,x2,y2,{color='#444',width=2,dash=false}={}){ctx.beginPath();if(dash)ctx.setLineDash([8,4]);ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();ctx.setLineDash([]);},
+            arrow(x1,y1,x2,y2,{color='#fff',width=2,headSize=10}={}){const a=Math.atan2(y2-y1,x2-x1);const h=headSize;this.line(x1,y1,x2,y2,{color,width});ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-h*Math.cos(a-Math.PI/6),y2-h*Math.sin(a-Math.PI/6));ctx.moveTo(x2,y2);ctx.lineTo(x2-h*Math.cos(a+Math.PI/6),y2-h*Math.sin(a+Math.PI/6));ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();},
+            rect(x,y,w,h,{fill=null,stroke='#fff',lineWidth=2,radius=0}={}){ctx.beginPath();ctx.roundRect(x,y,w,h,radius);if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lineWidth;ctx.stroke();}},
+            shade(hex,percent){const f=parseInt(hex.slice(1),16),t=percent<0?0:255,p=Math.abs(percent)/100;const R=f>>16,G=(f>>8)&0xff,B=f&0xff;return '#'+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);},
+            car(cx,cy,scale,bodyColor,dir){
+                const s=scale,d=dir===undefined?1:dir;ctx.save();ctx.translate(cx,cy);if(d<0)ctx.scale(-1,1);
+                const bg=ctx.createLinearGradient(-35*s,-15*s,35*s,12*s);bg.addColorStop(0,bodyColor);bg.addColorStop(1,this.shade(bodyColor,-30));
+                ctx.fillStyle='rgba(0,0,0,0.28)';ctx.beginPath();ctx.ellipse(0,18*s,40*s,3.5*s,0,0,Math.PI*2);ctx.fill();
+                ctx.fillStyle=bg;ctx.beginPath();ctx.moveTo(-38*s,10*s);ctx.lineTo(-38*s,-2*s);ctx.quadraticCurveTo(-34*s,-6*s,-28*s,-8*s);ctx.lineTo(-14*s,-18*s);ctx.quadraticCurveTo(-10*s,-20*s,-2*s,-20*s);ctx.lineTo(2*s,-20*s);ctx.quadraticCurveTo(8*s,-20*s,10*s,-14*s);ctx.lineTo(28*s,-8*s);ctx.quadraticCurveTo(36*s,-6*s,38*s,-2*s);ctx.lineTo(38*s,10*s);ctx.closePath();ctx.fill();
+                ctx.strokeStyle='rgba(0,0,0,0.4)';ctx.lineWidth=1.2;ctx.stroke();
+                ctx.fillStyle='#1e293b';ctx.beginPath();ctx.moveTo(-26*s,-10*s);ctx.lineTo(-14*s,-18*s);ctx.lineTo(-6*s,-18*s);ctx.lineTo(-6*s,-10*s);ctx.closePath();ctx.fill();ctx.beginPath();ctx.moveTo(-2*s,-18*s);ctx.lineTo(2*s,-18*s);ctx.lineTo(9*s,-14*s);ctx.lineTo(-2*s,-10*s);ctx.closePath();ctx.fill();
+                ctx.fillStyle='rgba(255,255,255,0.18)';ctx.fillRect(-4*s,-18*s,1*s,8*s);
+                const wheelR=8*s;ctx.fillStyle='#0f172a';ctx.beginPath();ctx.arc(-22*s,12*s,wheelR,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(22*s,12*s,wheelR,0,Math.PI*2);ctx.fill();ctx.fillStyle='#64748b';ctx.beginPath();ctx.arc(-22*s,12*s,wheelR*0.45,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(22*s,12*s,wheelR*0.45,0,Math.PI*2);ctx.fill();
+                ctx.shadowColor='#fde047';ctx.shadowBlur=6;ctx.fillStyle='#fde047';ctx.beginPath();ctx.arc(35*s,1*s,2.2*s,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#dc2626';ctx.beginPath();ctx.arc(-35*s,1*s,1.6*s,0,Math.PI*2);ctx.fill();ctx.restore();
+            },
+            road(x1,x2,y,height){ctx.fillStyle='#334155';ctx.fillRect(x1,y,x2-x1,height);ctx.fillStyle='rgba(255,255,255,0.15)';ctx.fillRect(x1,y,x2-x1,2);ctx.fillRect(x1,y+height-2,x2-x1,2);ctx.strokeStyle='#fbbf24';ctx.lineWidth=3;ctx.setLineDash([20,15]);ctx.beginPath();ctx.moveTo(x1+10,y+height/2);ctx.lineTo(x2-10,y+height/2);ctx.stroke();ctx.setLineDash([]);},
+            stopwatch(cx,cy,r,elapsed,total,running=false){
+                ctx.save();const frac=total>0?Math.max(0,Math.min(elapsed/total,1)):0;
+                ctx.strokeStyle='#94a3b8';ctx.lineWidth=4;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(cx,cy-r-3);ctx.lineTo(cx,cy-r-13);ctx.stroke();ctx.beginPath();ctx.moveTo(cx-10,cy-r-13);ctx.lineTo(cx+10,cy-r-13);ctx.stroke();ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx+r*0.72,cy-r*0.72);ctx.lineTo(cx+r*0.86,cy-r*0.86);ctx.stroke();
+                const bez=ctx.createLinearGradient(cx-r,cy-r,cx+r,cy+r);bez.addColorStop(0,'#e2e8f0');bez.addColorStop(0.45,'#64748b');bez.addColorStop(1,'#cbd5e1');ctx.beginPath();ctx.arc(cx,cy,r+5,0,Math.PI*2);ctx.fillStyle=bez;ctx.fill();
+                const face=ctx.createRadialGradient(cx-r*0.35,cy-r*0.45,2,cx,cy,r);face.addColorStop(0,'#1e293b');face.addColorStop(1,'#0a1120');ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle=face;ctx.fill();
+                for(let i=0;i<60;i++){const ang=-Math.PI/2+i*Math.PI/30,maj=(i%5===0);const r1=r-(maj?9:4),r2=r-2;ctx.strokeStyle=maj?'rgba(226,232,240,0.85)':'rgba(148,163,184,0.38)';ctx.lineWidth=maj?2:1;ctx.beginPath();ctx.moveTo(cx+Math.cos(ang)*r1,cy+Math.sin(ang)*r1);ctx.lineTo(cx+Math.cos(ang)*r2,cy+Math.sin(ang)*r2);ctx.stroke();}
+                if(frac>0.001){ctx.strokeStyle='#34d399';ctx.lineWidth=4.5;ctx.lineCap='butt';ctx.shadowColor='#34d399';ctx.shadowBlur=running?9:4;ctx.beginPath();ctx.arc(cx,cy,r-16,-Math.PI/2,-Math.PI/2+frac*Math.PI*2);ctx.stroke();ctx.shadowBlur=0;}
+                const ang=-Math.PI/2+frac*Math.PI*2;ctx.strokeStyle='#f87171';ctx.lineWidth=2.5;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(cx-Math.cos(ang)*9,cy-Math.sin(ang)*9);ctx.lineTo(cx+Math.cos(ang)*(r-13),cy+Math.sin(ang)*(r-13));ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,3.5,0,Math.PI*2);ctx.fillStyle='#f87171';ctx.fill();ctx.restore();
+            },
+            speedometer(cx,cy,radius,needleFrac,{color='#60a5fa',label=''}={}){
+                ctx.fillStyle='rgba(15,23,42,0.9)';ctx.strokeStyle='rgba(226,232,240,0.35)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,radius,Math.PI,2*Math.PI);ctx.closePath();ctx.fill();ctx.stroke();
+                ctx.strokeStyle='rgba(203,213,225,0.7)';ctx.lineWidth=1.5;for(let i=0;i<=10;i++){const a=Math.PI+(i/10)*Math.PI,r1=radius-4,r2=radius-14;ctx.beginPath();ctx.moveTo(cx+r1*Math.cos(a),cy+r1*Math.sin(a));ctx.lineTo(cx+r2*Math.cos(a),cy+r2*Math.sin(a));ctx.stroke();}
+                ctx.strokeStyle='#dc2626';ctx.lineWidth=4;ctx.beginPath();ctx.arc(cx,cy,radius-2,Math.PI+0.82*Math.PI,2*Math.PI);ctx.stroke();
+                const needleAng=Math.PI+Math.max(0,Math.min(1,needleFrac))*Math.PI;ctx.save();ctx.shadowColor=color;ctx.shadowBlur=14;ctx.strokeStyle=color;ctx.lineWidth=3;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+(radius-10)*Math.cos(needleAng),cy+(radius-10)*Math.sin(needleAng));ctx.stroke();ctx.shadowBlur=0;ctx.lineCap='butt';ctx.restore();ctx.fillStyle=color;ctx.beginPath();ctx.arc(cx,cy,5,0,Math.PI*2);ctx.fill();
+                if(label){ctx.fillStyle=color;ctx.font=`700 17px 'DM Sans'`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(label,cx,cy+22);}
+            },
+            apple(cx,cy,radius){
+                ctx.shadowColor='rgba(239,68,68,0.6)';ctx.shadowBlur=15;const g=ctx.createRadialGradient(cx-radius*0.3,cy-radius*0.3,radius*0.2,cx,cy,radius);g.addColorStop(0,'#fca5a5');g.addColorStop(1,'#991b1b');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,radius,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+                ctx.fillStyle='#22c55e';ctx.beginPath();ctx.ellipse(cx+radius*0.3,cy-radius*0.9,radius*0.35,radius*0.15,-0.5,0,Math.PI*2);ctx.fill();
+                ctx.strokeStyle='#78350f';ctx.lineWidth=radius*0.12;ctx.beginPath();ctx.moveTo(cx,cy-radius*0.9);ctx.lineTo(cx,cy-radius*1.2);ctx.stroke();
+            },
+            velocityPill(cx,cy,w,h,value,color){draw.rect(cx-w/2,cy-h/2,w,h,{fill:color+'2a',stroke:color,lineWidth:1.3,radius:6});draw.text(value,cx,cy,{size:11,color:color,weight:'700'});}
+        };
+
+        let experimentRAF=null,currentExpIdx=-1;
+        function handleTryClick(){if(currentExpIdx>=0&&experiments[currentExpIdx])experiments[currentExpIdx].try();}
+
+        const experiments=[
+            {
+                modes:[
+                    {id:0,icon:'⤴️',label:_e('exp0_mode0_label','Speeding up'),sub:_e('exp0_mode0_sub','velocity 10 → 30 m/s in 4 s'),u:10,v:30,t:4},
+                    {id:1,icon:'⤵️',label:_e('exp0_mode1_label','Slowing down'),sub:_e('exp0_mode1_sub','velocity 30 → 10 m/s in 4 s'),u:30,v:10,t:4},
+                    {id:2,icon:'🛑',label:_e('exp0_mode2_label','Braking to stop'),sub:_e('exp0_mode2_sub','velocity 20 → 0 m/s in 5 s'),u:20,v:0,t:5}
+                ],
+                state:null,
+                get controlsHtml(){const grid=this.modes.map(m=>`<button class="preset-btn" id="aa-${m.id}" onclick="experiments[0].selectMode(${m.id})"><div class="preset-title">${m.icon} ${m.label}</div><div class="preset-sub">${m.sub}</div><span class="preset-formula">a = ${((m.v-m.u)/m.t).toFixed(1)} m/s²</span></button>`).join('');return`<div style="width:100%"><div style="font-size:0.85rem;color:rgba(255,255,255,0.7);margin-bottom:10px;text-align:center">${_e('exp0_instruction','a = (final − initial velocity) ÷ time. Pick a case, then ▶ Try It.')}</div><div class="preset-grid">${grid}</div></div>`;},
+                init(){this.state={mode:0,t:0,v:0,x:0,running:false,last:0};this.selectMode(0);},
+                selectMode(i){const m=this.modes[i];this.state={mode:i,t:0,v:m.u,x:0,running:false,last:0};this.modes.forEach(mm=>{const el=document.getElementById('aa-'+mm.id);if(el)el.classList.toggle('selected',mm.id===i);});const a=(m.v-m.u)/m.t;document.getElementById('effectIndicator').innerHTML=`🔬 ${m.label}: a = (${m.v} − ${m.u}) / ${m.t} = <strong>${a.toFixed(1)} m/s²</strong> — ${a>0?_e('exp0_dir_along','in the direction of motion'):_e('exp0_dir_opposite','opposite to the motion')}${_e('exp_stop','.')} ${_e('exp0_click_try','Click ▶ Try It.')}`;},
+                try(){const m=this.modes[this.state.mode];this.state={mode:this.state.mode,t:0,v:m.u,x:0,running:true,last:performance.now()};},
+                render(){
+                    const s=this.state,m=this.modes[s.mode];const a=(m.v-m.u)/m.t;const totalX=3.2*((m.u+m.v)/2)*m.t;
+                    if(s.running){const now=performance.now();let dt=(now-s.last)/1000;if(dt>0.1)dt=0.1;s.last=now;s.t+=dt;if(s.t>=m.t){s.t=m.t;s.v=m.v;s.running=false;}else{s.v=m.u+a*s.t;}s.x+=s.v*dt*3.2;if(s.x>totalX)s.x=totalX;}
+                    draw.clear();draw.text(_e('exp0_canvas_title','🧪 Acceleration = Change in Velocity ÷ Time'),center.x,28,{size:18,color:'#93c5fd',weight:'700'});
+                    const roadY=240,x0=center.x-310;draw.road(x0,x0+620,roadY,30);const carX=x0+30+Math.min(s.x/totalX,1)*560;const a_dir=a>=0?1:-1;draw.car(carX,roadY-2,0.9,a>=0?'#3b82f6':'#e23b2e',1);
+                    const vlen=(s.v/30)*82;if(s.v>0.3){draw.arrow(carX,roadY-96,carX+vlen,roadY-96,{color:'#34d399',width:3.5,headSize:11});draw.text(_e('exp0_velocity_lbl','velocity'),carX+vlen/2,roadY-114,{size:12,color:'#6ee7b7',weight:'700'});}
+                    draw.arrow(carX,roadY-56,carX+a_dir*48,roadY-56,{color:'#f87171',width:3.5,headSize:11});draw.text(_e('exp0_accel_lbl','acceleration'),carX+a_dir*24,roadY-74,{size:12,color:'#fca5a5',weight:'700'});
+                    draw.text(_e('exp0_time_elapsed','time elapsed'),center.x-300,336,{size:12,color:'rgba(255,255,255,0.7)',weight:'600'});draw.stopwatch(center.x-300,404,40,s.t,m.t,s.running);draw.text(s.t.toFixed(1)+' s  /  '+m.t.toFixed(0)+' s',center.x-300,464,{size:15,color:s.running?'#fde047':'#e2e8f0',weight:'800'});
+                    draw.speedometer(center.x-90,430,56,s.v/40,{color:'#60a5fa',label:s.v.toFixed(0)+' m/s'});draw.text(_e('exp0_current_vel','current velocity'),center.x-90,336,{size:12,color:'rgba(255,255,255,0.7)',weight:'600'});
+                    draw.rect(center.x+50,392,300,64,{fill:a>=0?'rgba(52,211,153,0.16)':'rgba(239,68,68,0.16)',stroke:a>=0?'#34d399':'#f87171',lineWidth:1.8,radius:12});draw.text(_e('exp0_avg_accel_lbl','average acceleration'),center.x+200,412,{size:12,color:'rgba(255,255,255,0.72)'});draw.text(`(${m.v} − ${m.u}) / ${m.t} s = ${a.toFixed(1)} m/s²`,center.x+200,436,{size:16,color:a>=0?'#6ee7b7':'#fca5a5',weight:'800'});
+                }
+            },
+            {
+                phases:[
+                    {id:0,icon:'⤴️',label:_e('exp1_phase0_label','Accelerator (i)'),sub:_e('exp1_phase0_sub','36 → 54 km/h in 10 s'),u:10,v:15,t:10},
+                    {id:1,icon:'🛑',label:_e('exp1_phase1_label','Brake (ii)'),sub:_e('exp1_phase1_sub','54 → 0 km/h in 5 s'),u:15,v:0,t:5}
+                ],
+                state:null,
+                get controlsHtml(){const grid=this.phases.map(p=>`<button class="preset-btn" id="bs-${p.id}" onclick="experiments[1].selectPhase(${p.id})"><div class="preset-title">${p.icon} ${p.label}</div><div class="preset-sub">${p.sub}</div><span class="preset-formula">a = ${((p.v-p.u)/p.t).toFixed(1)} m/s²</span></button>`).join('');return`<div style="width:100%"><div style="font-size:0.85rem;color:rgba(255,255,255,0.7);margin-bottom:10px;text-align:center">${_e('exp1_instruction','Example 4.3 — convert km/h to m/s, then a = Δv ÷ t. Pick a phase, then ▶ Try It.')}</div><div class="preset-grid">${grid}</div></div>`;},
+                init(){this.state={ph:0,t:0,v:0,x:60,running:false,last:0};this.selectPhase(0);},
+                selectPhase(i){const p=this.phases[i];this.state={ph:i,t:0,v:p.u,x:i===0?60:300,running:false,last:0};this.phases.forEach(pp=>{const el=document.getElementById('bs-'+pp.id);if(el)el.classList.toggle('selected',pp.id===i);});const a=(p.v-p.u)/p.t;document.getElementById('effectIndicator').innerHTML=`🔬 ${p.label}: u = ${p.u} m/s, v = ${p.v} m/s, t = ${p.t} s → a = <strong>${a.toFixed(1)} m/s²</strong>${a<0?' '+_e('exp1_braking_note','(opposite to motion — braking)'):' '+_e('exp1_along_note','(along the motion)')}${_e('exp_stop','.')} ${_e('exp1_click_try','Click ▶ Try It.')}`;},
+                try(){const p=this.phases[this.state.ph];this.state={ph:this.state.ph,t:0,v:p.u,x:this.state.ph===0?60:300,running:true,last:performance.now()};},
+                render(){
+                    const s=this.state,p=this.phases[s.ph];const a=(p.v-p.u)/p.t;
+                    if(s.running){const now=performance.now();let dt=(now-s.last)/1000;if(dt>0.12)dt=0.12;s.last=now;const simRate=p.t/4.5,dT=dt*simRate;s.t+=dT;if(s.t>=p.t){s.t=p.t;s.v=p.v;s.running=false;}else{s.v=p.u+a*s.t;}}
+                    draw.clear();draw.text(_e('exp1_canvas_title','🧪 Example 4.3 — A Bus on the Highway  (Fig. 4.9)'),center.x,26,{size:17,color:'#93c5fd',weight:'700'});
+                    const roadY=196;draw.road(50,850,roadY,34);const totalDist=((p.u+p.v)/2)*p.t,distNow=p.u*s.t+0.5*a*s.t*s.t,carFrac=totalDist>0?Math.min(distNow/totalDist,1):0,cx=110+carFrac*(790-110);
+                    draw.car(cx,roadY-4,1.25,'#fbbf24',1);const vlen=(s.v/15)*82;if(s.v>0.3){draw.arrow(cx,roadY-96,cx+vlen,roadY-96,{color:'#34d399',width:3.5,headSize:12});draw.text(_e('exp1_velocity_lbl','velocity'),cx+vlen/2,roadY-114,{size:12,color:'#6ee7b7',weight:'700'});}
+                    if(Math.abs(a)>0.01){const ad=a>=0?1:-1;draw.arrow(cx,roadY-56,cx+ad*52,roadY-56,{color:'#f87171',width:3.5,headSize:11});draw.text(_e('exp1_accel_lbl','acceleration'),cx+ad*26,roadY-74,{size:12,color:'#fca5a5',weight:'700'});}
+                    draw.rect(center.x-300,300,600,70,{fill:'rgba(59,130,246,0.13)',stroke:'#3b82f6',lineWidth:1.8,radius:14});draw.text(p.label+'   u = '+p.u+' m/s,  v = '+p.v+' m/s,  t = '+p.t+' s',center.x,322,{size:14,color:'#bfdbfe',weight:'700'});draw.text(`a = (v − u) / t = (${p.v} − ${p.u}) / ${p.t} = ${a.toFixed(1)} m/s²`,center.x,350,{size:16,color:a>=0?'#6ee7b7':'#fca5a5',weight:'800'});
+                    draw.rect(center.x-300,380,290,70,{fill:'rgba(255,255,255,0.05)',stroke:'rgba(255,255,255,0.15)',lineWidth:1.4,radius:12});draw.text(_e('exp1_current_vel','current velocity'),center.x-155,404,{size:12,color:'rgba(255,255,255,0.7)'});draw.text(s.v.toFixed(1)+' m/s ('+(s.v*3.6).toFixed(0)+' km/h)',center.x-155,430,{size:15,color:'#bfdbfe',weight:'800'});
+                    draw.rect(center.x+10,380,290,70,{fill:'rgba(255,255,255,0.05)',stroke:'rgba(255,255,255,0.15)',lineWidth:1.4,radius:12});draw.stopwatch(center.x+62,418,23,s.t,p.t,s.running);draw.text(_e('exp1_time_elapsed','time elapsed'),center.x+180,404,{size:12,color:'rgba(255,255,255,0.7)'});draw.text(s.t.toFixed(1)+' s  /  '+p.t.toFixed(0)+' s',center.x+180,430,{size:15,color:s.running?'#fde047':'#bfdbfe',weight:'800'});
+                    if(!s.running&&s.t>=p.t-0.01){const col=a>=0?'#10b981':'#f87171';draw.rect(center.x-300,456,600,40,{fill:col+'22',stroke:col,lineWidth:1.6,radius:11});draw.text(a>=0?_e('exp1_conclusion_pos','✓ +0.5 m/s² — acceleration in the direction of velocity'):_e('exp1_conclusion_neg','✓ −3 m/s² — minus sign: acceleration opposite to velocity'),center.x,476,{size:14,color:a>=0?'#a7f3d0':'#fca5a5',weight:'700'});}
+                }
+            },
+            {
+                rows:[{iv:'0 s → 1 s',v0:0,v1:9.8},{iv:'1 s → 2 s',v0:9.8,v1:19.6},{iv:'2 s → 3 s',v0:19.6,v1:29.4},{iv:'3 s → 4 s',v0:29.4,v1:39.2}],
+                state:null,
+                get controlsHtml(){return`<div style="width:100%"><div style="font-size:0.85rem;color:rgba(255,255,255,0.7);margin-bottom:10px;text-align:center">${_e('exp2_instruction','A body is dropped from rest. Step through each second and watch the velocity grow — and the per-second acceleration stay the same.')}</div><div class="experiment-buttons" style="margin-bottom:0.4rem"><button class="btn btn-try" onclick="experiments[2].step()">▶ ${_e('exp2_next_second_btn','Next Second')}</button><button class="btn btn-secondary" style="margin-top:0" onclick="experiments[2].reset()">↺ ${_e('exp2_reset_btn','Reset')}</button></div><div style="font-size:0.8rem;color:rgba(255,255,255,0.55);text-align:center">${_e('exp2_hint','(or press ▶ Try It below to drop it and play the whole fall)')}</div></div>`;},
+                init(){this.state={stage:0,anim:false,last:0,auto:false,p:0,from:0,to:0};this.show(0);},
+                show(stage){this.state.stage=stage;document.getElementById('effectIndicator').innerHTML=stage===0?`📊 ${_e('exp2_released','Released from rest at the top. Click ▶ Next Second to advance one second at a time.')}`:`📊 ${_e('exp2_after','After')} ${stage} s ${_e('exp2_vel_is','the velocity is')} <strong>${(9.8*stage).toFixed(1)} m/s</strong> ${_e('exp2_downward','downward')}${_e('exp_stop','.')} ${_e('exp2_constant_g','Each second it grows by 9.8 m/s — constant acceleration g.')}`;},
+                step(){const s=this.state;if(s.anim||s.stage>=4){if(s.stage>=4)this.reset();return;}s.anim=true;s.from=s.stage;s.to=s.stage+1;s.p=0;s.last=performance.now();s.auto=false;},
+                reset(){this.state={stage:0,anim:false,last:0,auto:false,p:0,from:0,to:0};this.show(0);},
+                try(){this.reset();const s=this.state;s.anim=true;s.from=0;s.to=1;s.p=0;s.last=performance.now();s.auto=true;},
+                render(){
+                    const s=this.state;if(s.anim){const now=performance.now();let dt=(now-s.last)/1000;if(dt>0.1)dt=0.1;s.last=now;s.p+=dt*1.1;if(s.p>=1){s.p=1;s.stage=s.to;s.anim=false;this.show(s.stage);if(s.auto&&s.stage<4){s.from=s.stage;s.to=s.stage+1;s.p=0;s.anim=true;s.last=performance.now();}}}
+                    draw.clear();draw.text(_e('exp2_canvas_title','🧪 Example 4.4 — A Freely Falling Body  (Fig. 4.10)'),center.x,26,{size:17,color:'#93c5fd',weight:'700'});
+                    const axX=150,topY=70,botY=470;const frac=(s.anim?(s.from+(s.to-s.from)*s.p):s.stage)/4;
+                    ctx.strokeStyle='#fbbf24';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(axX-20,topY);ctx.lineTo(axX+20,topY);ctx.stroke();draw.text(_e('exp2_drop_point','O (drop point)'),axX+70,topY,{size:12,color:'#fcd34d',weight:'700',align:'left'});draw.text(_e('exp2_plus_down','+ down'),axX-40,topY+24,{size:11,color:'rgba(255,255,255,0.6)',align:'left'});
+                    ctx.setLineDash([6,6]);ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(axX,topY);ctx.lineTo(axX,botY);ctx.stroke();ctx.setLineDash([]);
+                    for(let k=1;k<=4;k++){const py=topY+(k/4)*(botY-topY);const shown=(s.stage>=k)||(s.anim&&s.to>=k&&s.p>0.5)||frac>=k/4-0.02;if(shown){draw.velocityPill(axX+74,py,96,22,(9.8*k).toFixed(1)+' m/s','#60a5fa');draw.text(k+' s',axX-30,py,{size:11,color:'rgba(255,255,255,0.55)'});}}
+                    const by=topY+frac*(botY-topY);draw.apple(axX,by,13);draw.arrow(axX-30,by-6,axX-30,by+22,{color:'#34d399',width:3,headSize:9});
+                    const tx=center.x,tw=400,ty=66,headH=44,rowH=46;draw.text(_e('exp2_table_heading','Average acceleration each second'),tx+tw/2,48,{size:14,color:'#bfdbfe',weight:'700'});
+                    draw.rect(tx,ty,tw,headH,{fill:'rgba(59,130,246,0.18)',stroke:'#3b82f6',lineWidth:1.5,radius:8});draw.text(_e('exp2_col_interval','Interval'),tx+70,ty+headH/2,{size:13,color:'#dbeafe',weight:'700'});draw.text(_v('v_dv_symbol','Δv'),tx+200,ty+headH/2,{size:13,color:'#dbeafe',weight:'700'});draw.text(_v('v_dv_over_dt','a = Δv/Δt'),tx+320,ty+headH/2,{size:13,color:'#dbeafe',weight:'700'});
+                    for(let i=0;i<this.rows.length;i++){const r=this.rows[i],ry=ty+headH+i*rowH;const shown=s.stage>=i+1||(s.anim&&s.to>=i+1);const cur=(s.stage===i+1&&!s.anim);draw.rect(tx,ry,tw,rowH,{fill:cur?'rgba(52,211,153,0.16)':(shown?'rgba(255,255,255,0.05)':'rgba(255,255,255,0.02)'),stroke:cur?'#34d399':'rgba(255,255,255,0.12)',lineWidth:cur?1.8:1,radius:6});draw.text(r.iv,tx+70,ry+rowH/2,{size:13,color:shown?'#fff':'rgba(255,255,255,0.25)',weight:'600'});draw.text(shown?'9.8 m/s':'—',tx+200,ry+rowH/2,{size:13,color:shown?'#bfdbfe':'rgba(255,255,255,0.25)',weight:shown?'700':'400'});draw.text(shown?'9.8 m/s²':'—',tx+320,ry+rowH/2,{size:13,color:shown?'#a7f3d0':'rgba(255,255,255,0.25)',weight:shown?'700':'400'});}
+                    if(s.stage>=4&&!s.anim){draw.rect(tx,ty+headH+4*rowH+8,tw,40,{fill:'rgba(16,185,129,0.14)',stroke:'#10b981',lineWidth:1.6,radius:9});draw.text(_e('exp2_conclusion','Constant a = 9.8 m/s² = g, in the direction of motion'),tx+tw/2,ty+headH+4*rowH+28,{size:13,color:'#a7f3d0',weight:'700'});}
+                }
+            }
+        ];
+
+        function showExperimentPanel(idx,runId){const exp=experiments[idx];if(!exp)return;currentExpIdx=idx;document.getElementById('controlsContent').innerHTML=exp.controlsHtml;document.getElementById('experimentArea').classList.add('active');const cr=document.getElementById('continueRow');if(cr)cr.style.display='none';exp.init();setTimeout(()=>{const el=document.getElementById('experimentArea');if(el&&el.scrollIntoView)el.scrollIntoView({behavior:'smooth',block:'center'});},200);const animate=()=>{if(currentRunId!==runId){experimentRAF=null;return;}if(state.isPaused){if(window.__canvasDirty){window.__canvasDirty=false;try{exp.render(Date.now());}catch(e){}}experimentRAF=requestAnimationFrame(animate);return;}exp.render(Date.now());experimentRAF=requestAnimationFrame(animate);};animate();}
+        function hideExperimentPanel(){const ea=document.getElementById('experimentArea');if(ea)ea.classList.remove('active');const cr=document.getElementById('continueRow');if(cr)cr.style.display='';if(experimentRAF){cancelAnimationFrame(experimentRAF);experimentRAF=null;}currentExpIdx=-1;}
+
+        function buildLessons(){
+            const visuals=[
+                [
+                    (t,phase,pt,bt)=>{
+                        draw.clear();draw.text(_v('v_title_l0s0','Velocity changes — but how fast?'),center.x,36,{size:21,color:'#93c5fd',weight:'700'});
+                        if(phase===0){const a=appear(pt,0.05,0.3);ctx.globalAlpha=a;draw.road(140,740,258,32);const lurch=appear(pt,0.3,0.8);const cxx=270+lurch*230;draw.car(cxx,256,1.1,'#3b82f6',1);ctx.globalAlpha=a*appear(pt,0.45,0.7);draw.text(_v('v_jolt','⚡ JOLT!'),cxx,204,{size:18,color:'#fde047',weight:'800'});draw.text(_v('v_jolt_sub','a sudden change in velocity — that is what you feel'),center.x,336,{size:13,color:'rgba(255,255,255,0.78)',weight:'600'});ctx.globalAlpha=1;}
+                        const pW=370,pH=270,pGap=40,totalW=2*pW+pGap,startX=(canvasW-totalW)/2,pY=78;
+                        if(phase>=1){const a=(phase===1)?appear(pt,0.05,0.4):1;ctx.globalAlpha=a;draw.rect(startX,pY,pW,pH,{fill:'rgba(96,165,250,0.1)',stroke:'#60a5fa',lineWidth:1.8,radius:14});draw.text(_v('v_scooter_label','🛵 Scooter'),startX+pW/2,pY+24,{size:14,color:'#bfdbfe',weight:'700'});draw.text(_v('v_scooter_sub','Reaches 60 km/h in 30 seconds'),startX+pW/2,pY+44,{size:11,color:'rgba(255,255,255,0.65)'});ctx.globalAlpha=1;const a2=(phase===1)?appear(pt,0.35,0.75):1;ctx.globalAlpha=a2;draw.rect(startX+pW+pGap,pY,pW,pH,{fill:'rgba(251,146,60,0.1)',stroke:'#fb923c',lineWidth:1.8,radius:14});draw.text(_v('v_sportscar_label','🏎️ Sports Car'),startX+pW+pGap+pW/2,pY+24,{size:14,color:'#fdba74',weight:'700'});draw.text(_v('v_sportscar_sub','Reaches 60 km/h in just 3 seconds'),startX+pW+pGap+pW/2,pY+44,{size:11,color:'rgba(255,255,255,0.65)'});ctx.globalAlpha=1;}
+                        if(phase>=2){const sFrac=(phase===2)?0.6*appear(pt,0.05,1):0.6;const cFrac=(phase===2)?0.6*appear(pt,0.05,0.28):0.6;draw.speedometer(startX+pW/2,pY+168,78,sFrac,{color:'#60a5fa',label:(sFrac*100).toFixed(0)+' '+_v('v_unit_kmh','km/h')});draw.text(_v('v_slow_climb','slow climb — gentle acceleration'),startX+pW/2,pY+248,{size:11,color:'#93c5fd',weight:'500'});draw.speedometer(startX+pW+pGap+pW/2,pY+168,78,cFrac,{color:'#fb923c',label:(cFrac*100).toFixed(0)+' '+_v('v_unit_kmh','km/h')});draw.text(_v('v_rapid_climb','rapid climb — strong acceleration'),startX+pW+pGap+pW/2,pY+248,{size:11,color:'#fb923c',weight:'500'});}
+                        if(phase>=3){const a=(phase===3)?appear(pt,0.05,0.5):1;ctx.globalAlpha=a;draw.rect(center.x-330,392,660,64,{fill:'rgba(59,130,246,0.14)',stroke:'#3b82f6',lineWidth:1.8,radius:13});draw.text(_v('v_both_same_v','Both reach the same final velocity — but one gets there much faster.'),center.x,416,{size:14,color:'#bfdbfe',weight:'700'});draw.text(_v('v_how_fast_intro','That "how fast velocity changes" is the average acceleration:'),center.x,440,{size:12,color:'rgba(255,255,255,0.78)'});ctx.globalAlpha=1;}
+                        if(phase>=4){const a=appear(pt,0.05,0.5);ctx.globalAlpha=a;ctx.shadowColor='#fde047';ctx.shadowBlur=16;draw.rect(center.x-150,464,300,36,{fill:'rgba(253,224,71,0.22)',stroke:'#fde047',lineWidth:2.2,radius:11});ctx.shadowBlur=0;draw.text(_v('v_accel_formula','⚡ a = change in velocity ÷ time'),center.x,482,{size:14,color:'#fde047',weight:'700'});ctx.globalAlpha=1;}
+                    },
+                    (t,phase,pt,bt)=>{
+                        draw.clear();draw.text(_v('v_formula_title','a = (v − u) ÷ (t₂ − t₁)'),center.x,34,{size:22,color:'#93c5fd',weight:'700'});
+                        if(phase>=0){const al=(phase===0)?appear(pt,0.1,0.6):1;ctx.globalAlpha=al;draw.rect(center.x-230,90,460,96,{fill:'rgba(16,185,129,0.12)',stroke:'#10b981',lineWidth:2,radius:14});draw.text(_v('v_avg_accel_label','average acceleration'),center.x,116,{size:13,color:'#6ee7b7',weight:'700'});draw.text('a  =  ( v − u ) / ( t₂ − t₁ )',center.x,150,{size:24,color:'#bfdbfe',weight:'800'});ctx.globalAlpha=1;}
+                        const chips=[{ph:1,sym:'u',name:_v('v_chip_u_name','initial velocity'),note:_v('v_chip_u_note','velocity at time t₁'),col:'#60a5fa'},{ph:2,sym:'v',name:_v('v_chip_v_name','final velocity'),note:_v('v_chip_v_note','velocity at time t₂'),col:'#34d399'},{ph:3,sym:'t',name:_v('v_chip_t_name','time interval'),note:_v('v_chip_t_note','t₂ − t₁'),col:'#fbbf24'}];
+                        const cw=230,ch=104,gap=20,total=chips.length*cw+(chips.length-1)*gap,sx=(canvasW-total)/2;
+                        chips.forEach((c,i)=>{if(phase<c.ph)return;const a=(phase===c.ph)?appear(pt,0.1,0.55):1;ctx.globalAlpha=a;const x=sx+i*(cw+gap);draw.rect(x,230,cw,ch,{fill:c.col+'1f',stroke:c.col,lineWidth:1.8,radius:13});draw.text(c.sym,x+34,230+ch/2,{size:30,color:c.col,weight:'800'});draw.text(c.name,x+cw/2+18,230+38,{size:14,color:'#fff',weight:'700'});draw.text(c.note,x+cw/2+18,230+64,{size:12,color:'rgba(255,255,255,0.7)'});ctx.globalAlpha=1;});
+                        if(phase>=4){const a=appear(pt,0.1,0.55);ctx.globalAlpha=a;draw.rect(center.x-300,376,600,46,{fill:'rgba(59,130,246,0.12)',stroke:'#3b82f6',lineWidth:1.6,radius:12});draw.text(_v('v_si_unit','SI unit of acceleration = metre per second squared (m/s²)'),center.x,399,{size:15,color:'#bfdbfe',weight:'700'});ctx.globalAlpha=1;}
+                    }
+                ],
+                [
+                    (t,phase,pt,bt)=>{
+                        draw.clear();draw.text(_v('v_dir_title','Direction of Acceleration  (Fig. 4.8)'),center.x,32,{size:20,color:'#93c5fd',weight:'700'});
+                        const introA=(phase===0)?appear(pt,0.05,0.4):1;const easeIn=(p)=>p*p,easeOut=(p)=>1-(1-p)*(1-p);
+                        const pW=400,pH=232,pGap=36,pStartX=(canvasW-(2*pW+pGap))/2,pY=58;
+                        const drawScene=(px,accent,title,sub,frac,vFrac,aDir,showA,tag,alpha)=>{ctx.globalAlpha=alpha*introA;draw.rect(px,pY,pW,pH,{fill:accent+'14',stroke:accent,lineWidth:1.8,radius:14});draw.text(title,px+pW/2,pY+24,{size:15,color:accent,weight:'800'});draw.text(sub,px+pW/2,pY+44,{size:11,color:'rgba(255,255,255,0.68)',weight:'600'});const rY=pY+132,rH=30,rx1=px+16,rx2=px+pW-16;draw.road(rx1,rx2,rY,rH);const cx=px+72+frac*(pW-136);draw.car(cx,rY+rH/2-4,0.8,'#3b82f6',1);if(vFrac>0.03){const vLen=26+vFrac*70;draw.arrow(cx-vLen/2,rY-26,cx+vLen/2,rY-26,{color:'#93c5fd',width:3,headSize:10});draw.text('v',cx,rY-44,{size:11,color:'#93c5fd',weight:'800'});}if(showA){if(aDir>0)draw.arrow(cx-16,rY-62,cx+26,rY-62,{color:accent,width:3,headSize:11});else draw.arrow(cx+16,rY-62,cx-26,rY-62,{color:accent,width:3,headSize:11});draw.text('a',cx+(aDir>0?38:-38),rY-62,{size:12,color:accent,weight:'800',align:aDir>0?'left':'right'});}draw.text(tag,px+pW/2,rY+rH+26,{size:12.5,color:accent,weight:'700'});ctx.globalAlpha=1;};
+                        let aFrac,aV,aShowA,aTag;if(phase<=0){aFrac=0;aV=0.15;aShowA=false;aTag=_v('v_tag_ready','ready on a straight road');}else if(phase===1){const p=appear(pt,0.05,0.95);aFrac=easeIn(p);aV=0.2+p*0.8;aShowA=true;aTag=_v('v_tag_speeding_up','speeding up  →  + a, same way as v');}else{aFrac=1;aV=1;aShowA=false;aTag=_v('v_tag_reached','reached a higher velocity');}
+                        drawScene(pStartX,'#34d399',_v('v_speedup_title','⤴️  Speeding up  ( + a )'),_v('v_speedup_sub','the accelerator is pressed'),aFrac,aV,+1,aShowA,aTag,phase===2?0.4:1);
+                        let bFrac,bV,bShowA,bTag;if(phase<=1){bFrac=0;bV=1;bShowA=false;bTag=_v('v_tag_cruising','cruising, brakes not applied yet');}else if(phase===2){const p=appear(pt,0.05,0.95);bFrac=easeOut(p);bV=1-p;bShowA=true;bTag=_v('v_tag_braking','braking  →  − a, opposite to v');}else{bFrac=1;bV=0;bShowA=false;bTag=_v('v_tag_stopped','stopped');}
+                        drawScene(pStartX+pW+pGap,'#ef4444',_v('v_slowdown_title','⤵️  Slowing down  ( − a )'),_v('v_slowdown_sub','the brake is pressed'),bFrac,bV,-1,bShowA,bTag,phase<=1?0.4:1);
+                        const cY=320,cW=330,cH=150,cGap=40,cStart=(canvasW-(2*cW+cGap))/2;
+                        if(phase>=1){const a=(phase===1)?appear(pt,0.2,0.7):1;ctx.globalAlpha=a;draw.rect(cStart,cY,cW,cH,{fill:'rgba(52,211,153,0.12)',stroke:'#34d399',lineWidth:1.8,radius:13});draw.text(_v('v_pos_a_label','✅ Speeding up → POSITIVE a'),cStart+cW/2,cY+26,{size:14,color:'#6ee7b7',weight:'700'});const ax=cStart+70,ay=cY+62;draw.arrow(ax,ay,ax+110,ay,{color:'#60a5fa',width:2.5,headSize:9});draw.text('v',ax-12,ay,{size:13,color:'#60a5fa',weight:'700',align:'right'});draw.arrow(ax,ay+30,ax+110,ay+30,{color:'#34d399',width:2.5,headSize:9});draw.text('a',ax-12,ay+30,{size:13,color:'#34d399',weight:'700',align:'right'});draw.text(_v('v_a_same_as_v','a is the SAME way as v'),cStart+cW/2,cY+120,{size:11,color:'#6ee7b7',weight:'600'});ctx.globalAlpha=1;}
+                        if(phase>=2){const a=(phase===2)?appear(pt,0.2,0.7):1;ctx.globalAlpha=a;const rX=cStart+cW+cGap;draw.rect(rX,cY,cW,cH,{fill:'rgba(239,68,68,0.12)',stroke:'#ef4444',lineWidth:1.8,radius:13});draw.text(_v('v_neg_a_label','⚠️ Slowing down → NEGATIVE a'),rX+cW/2,cY+26,{size:14,color:'#fca5a5',weight:'700'});const bx=rX+70,by=cY+62;draw.arrow(bx,by,bx+110,by,{color:'#60a5fa',width:2.5,headSize:9});draw.text('v',bx-12,by,{size:13,color:'#60a5fa',weight:'700',align:'right'});draw.arrow(bx+110,by+30,bx,by+30,{color:'#ef4444',width:2.5,headSize:9});draw.text('a',bx+122,by+30,{size:13,color:'#ef4444',weight:'700',align:'left'});draw.text(_v('v_a_opposite_v','a is OPPOSITE to v'),rX+cW/2,cY+120,{size:11,color:'#fca5a5',weight:'600'});ctx.globalAlpha=1;}
+                        if(phase>=3){const a=appear(pt,0.1,0.55);ctx.globalAlpha=a;draw.rect(center.x-300,486,600,38,{fill:'rgba(59,130,246,0.12)',stroke:'#3b82f6',lineWidth:1.6,radius:11});draw.text(_v('v_straight_line_summary','Straight-line motion:  + a while speeding up   ·   − a while braking'),center.x,505,{size:13,color:'#bfdbfe',weight:'700'});ctx.globalAlpha=1;}
+                    },
+                    (t,phase,pt,bt)=>{
+                        draw.clear();draw.text(_v('v_ex43i_title','Example 4.3 (i) — Pressing the Accelerator'),center.x,28,{size:18,color:'#93c5fd',weight:'700'});
+                        const introA=(phase===0)?appear(pt,0.05,0.4):1;ctx.globalAlpha=introA;const roadY=176;draw.road(60,820,roadY,32);
+                        let simT=0;if(phase<1){simT=0;}else if(phase===1){simT=appear(pt,0.05,0.95)*10;}else{simT=10;}
+                        const v=10+0.5*simT;let pos=0;const dt2=0.1;for(let tt=0;tt<simT;tt+=dt2){pos+=(10+0.5*tt)*dt2;}const posMax=10*10+0.5*0.5*100;const bx=90+Math.min(pos/posMax,1)*640;draw.car(bx,roadY-4,1.15,'#fbbf24',1);
+                        const vLen=26+((v-10)/5)*64;draw.arrow(bx-vLen/2,roadY-58,bx+vLen/2,roadY-58,{color:'#93c5fd',width:3,headSize:10});draw.text(_v('v_velocity_word','velocity'),bx,roadY-78,{size:10,color:'#93c5fd',weight:'700'});
+                        if(phase===1){draw.arrow(bx-14,roadY-34,bx+30,roadY-34,{color:'#34d399',width:3,headSize:10});draw.text('a',bx+38,roadY-34,{size:12,color:'#6ee7b7',weight:'800',align:'left'});}
+                        draw.speedometer(center.x-250,300,52,v/20,{color:'#60a5fa',label:v.toFixed(1)+' m/s'});draw.text(_v('v_velocity_word','velocity'),center.x-250,234,{size:11,color:'rgba(255,255,255,0.7)',weight:'600'});draw.text(_v('v_time_prefix','t = ')+simT.toFixed(1)+' s',center.x-250,350,{size:12,color:'#bfdbfe',weight:'700'});
+                        draw.rect(center.x-110,236,420,120,{fill:'rgba(16,185,129,0.10)',stroke:'#10b981',lineWidth:1.8,radius:14});draw.text(_v('v_u_eq_line1','u = 36 km/h = 10 m/s'),center.x+100,262,{size:14,color:'#bfdbfe',weight:'700'});ctx.globalAlpha=1;
+                        if(phase>=1){const a=(phase===1)?appear(pt,0.1,0.4):1;ctx.globalAlpha=a;draw.text(_v('v_v_t_eq_line1','v = 54 km/h = 15 m/s,   t = 10 s'),center.x+100,288,{size:14,color:'#bfdbfe',weight:'700'});ctx.globalAlpha=1;}
+                        if(phase>=2){const a=(phase===2)?appear(pt,0.1,0.5):1;ctx.globalAlpha=a;draw.text(_v('v_a_calc_line1','a = (15 − 10) / 10 = 5 / 10'),center.x+100,314,{size:15,color:'#6ee7b7',weight:'800'});ctx.globalAlpha=1;}
+                        if(phase>=3){const a=(phase===3)?appear(pt,0.1,0.5):1;ctx.globalAlpha=a;draw.text(_v('v_a_result_line1','a = +0.5 m/s²'),center.x+100,340,{size:18,color:'#6ee7b7',weight:'800'});ctx.globalAlpha=1;}
+                        if(phase>=4){const a=appear(pt,0.1,0.55);ctx.globalAlpha=a;draw.rect(center.x-300,392,600,40,{fill:'rgba(52,211,153,0.14)',stroke:'#10b981',lineWidth:1.6,radius:11});draw.text(_v('v_accel_dir_motion','Velocity increasing → acceleration is in the direction of motion'),center.x,412,{size:14,color:'#a7f3d0',weight:'700'});ctx.globalAlpha=1;}
+                    },
+                    (t,phase,pt,bt)=>{
+                        draw.clear();draw.text(_v('v_ex43ii_title','Example 4.3 (ii) — Pressing the Brake'),center.x,28,{size:18,color:'#93c5fd',weight:'700'});
+                        const introA=(phase===0)?appear(pt,0.05,0.4):1;ctx.globalAlpha=introA;const roadY=176;draw.road(60,820,roadY,32);
+                        let simT=0;if(phase<1){simT=0;}else if(phase===1){simT=appear(pt,0.05,0.95)*5;}else{simT=5;}
+                        const v=Math.max(0,15-3*simT);let pos=0;const dt2=0.1;for(let tt=0;tt<simT;tt+=dt2){pos+=Math.max(0,15-3*tt)*dt2;}const posMax=15*5-0.5*3*25;const bx=110+Math.min(pos/posMax,1)*560;
+                        if(phase>=0){const a=(phase===0)?appear(pt,0.5,0.9):1;ctx.globalAlpha=a;draw.rect(700,roadY-28,16,28,{fill:'#dc2626',stroke:'#fff',lineWidth:1.5,radius:3});draw.text('⚠',708,roadY-38,{size:16});ctx.globalAlpha=1;}
+                        draw.car(bx,roadY-4,1.15,'#fbbf24',1);
+                        if(v>0.3){const vLen=20+(v/15)*64;draw.arrow(bx-vLen/2,roadY-58,bx+vLen/2,roadY-58,{color:'#93c5fd',width:3,headSize:10});draw.text(_v('v_velocity_word','velocity'),bx,roadY-78,{size:10,color:'#93c5fd',weight:'700'});if(phase===1){draw.arrow(bx+16,roadY-34,bx-30,roadY-34,{color:'#ef4444',width:3,headSize:10});draw.text('a',bx+24,roadY-34,{size:12,color:'#fca5a5',weight:'800',align:'left'});}}else{draw.text(_v('v_stopped_word','stopped'),bx,roadY-54,{size:12,color:'#fca5a5',weight:'700'});}
+                        draw.speedometer(center.x-250,300,52,v/20,{color:'#f87171',label:v.toFixed(1)+' m/s'});draw.text(_v('v_velocity_word','velocity'),center.x-250,234,{size:11,color:'rgba(255,255,255,0.7)',weight:'600'});draw.text(_v('v_time_prefix','t = ')+simT.toFixed(1)+' s',center.x-250,350,{size:12,color:'#bfdbfe',weight:'700'});
+                        draw.rect(center.x-110,236,420,120,{fill:'rgba(239,68,68,0.10)',stroke:'#f87171',lineWidth:1.8,radius:14});draw.text(_v('v_u_eq_line2','u = 54 km/h = 15 m/s'),center.x+100,262,{size:14,color:'#bfdbfe',weight:'700'});ctx.globalAlpha=1;
+                        if(phase>=1){const a=(phase===1)?appear(pt,0.1,0.4):1;ctx.globalAlpha=a;draw.text(_v('v_v_t_eq_line2','v = 0 m/s,   t = 5 s'),center.x+100,288,{size:14,color:'#bfdbfe',weight:'700'});ctx.globalAlpha=1;}
+                        if(phase>=2){const a=(phase===2)?appear(pt,0.1,0.5):1;ctx.globalAlpha=a;draw.text(_v('v_a_calc_line2','a = (0 − 15) / 5 = −15 / 5'),center.x+100,314,{size:15,color:'#fca5a5',weight:'800'});ctx.globalAlpha=1;}
+                        if(phase>=3){const a=(phase===3)?appear(pt,0.1,0.5):1;ctx.globalAlpha=a;draw.text(_v('v_a_result_line2','a = −3 m/s²'),center.x+100,340,{size:18,color:'#fca5a5',weight:'800'});ctx.globalAlpha=1;}
+                        if(phase>=4){const a=appear(pt,0.1,0.55);ctx.globalAlpha=a;draw.rect(center.x-300,392,600,40,{fill:'rgba(239,68,68,0.12)',stroke:'#ef4444',lineWidth:1.6,radius:11});draw.text(_v('v_minus_sign','Minus sign → acceleration is OPPOSITE to the velocity (braking)'),center.x,412,{size:14,color:'#fca5a5',weight:'700'});ctx.globalAlpha=1;}
+                    }
+                ],
+                [
+                    (t,phase,pt,bt)=>{
+                        draw.clear();draw.text(_v('v_uniform_title','Uniform Acceleration — A Freely Falling Body'),center.x,32,{size:19,color:'#93c5fd',weight:'700'});
+                        const pX=center.x-230,pY=66,pW=460,pH=424;const pa=(phase===0)?appear(pt,0.1,0.6):1;ctx.globalAlpha=pa;draw.rect(pX,pY,pW,pH,{fill:'rgba(16,185,129,0.08)',stroke:'#10b981',lineWidth:1.8,radius:14});ctx.globalAlpha=1;
+                        if(phase>=1){const a=(phase===1)?appear(pt,0.15,0.6):1;ctx.globalAlpha=a;draw.text(_v('v_equal_step','🍎 Velocity grows by an equal step each second'),center.x,pY+26,{size:14,color:'#6ee7b7',weight:'700'});ctx.globalAlpha=1;}
+                        if(phase>=2){
+                            const prog=(phase===2)?appear(pt,0.05,0.95):1;const fallTopY=pY+74,fallBotY=pY+pH-150;const appleX=pX+150;const appleY=fallTopY+prog*prog*(fallBotY-fallTopY);
+                            ctx.strokeStyle='rgba(16,185,129,0.25)';ctx.lineWidth=1.5;ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(appleX,fallTopY);ctx.lineTo(appleX,fallBotY);ctx.stroke();ctx.setLineDash([]);
+                            const pillsX=pX+270;for(let k=1;k<=4;k++){if(prog>=k/4-0.02){const fade=(phase===2)?Math.min((prog-(k/4-0.02))/0.08,1):1;ctx.globalAlpha=fade;const py=fallTopY+(k/4)*(k/4)*(fallBotY-fallTopY);ctx.strokeStyle='#10b981';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(appleX+22,py);ctx.lineTo(pillsX-8,py);ctx.stroke();draw.rect(pillsX,py-13,112,26,{fill:'rgba(16,185,129,0.22)',stroke:'#10b981',lineWidth:1.3,radius:7});draw.text('t='+k+'s: '+(9.8*k).toFixed(1)+' m/s',pillsX+56,py,{size:12,color:'#d1fae5',weight:'700'});ctx.globalAlpha=1;}}
+                            draw.apple(appleX,appleY,14);const vArrowH=14+Math.max(0.1,prog*2)*34;draw.arrow(appleX-34,appleY-vArrowH/2,appleX-34,appleY+vArrowH/2,{color:'#34d399',width:3,headSize:10});draw.text('v',appleX-50,appleY,{size:14,color:'#6ee7b7',weight:'800',align:'right'});
+                        }
+                        if(phase>=3){
+                            const a=appear(pt,0.1,0.55);ctx.globalAlpha=a;
+                            const padX=22,padY=12,lh1=18,lh2=16;
+                            const boxW=pW-48,boxX=pX+(pW-boxW)/2,maxTw=boxW-padX*2;
+                            const lines1=draw.wrapLines(_v('v_equal_gain','+9.8 m/s every 1 s  (equal gain)'),maxTw,14,'700');
+                            const lines2=draw.wrapLines(_v('v_uniform_label','→ acceleration is UNIFORM'),maxTw,12,'500');
+                            const boxH=padY*2+lines1.length*lh1+4+lines2.length*lh2;
+                            const boxY=pY+pH-12-boxH;
+                            draw.rect(boxX,boxY,boxW,boxH,{fill:'rgba(16,185,129,0.22)',stroke:'#10b981',lineWidth:1.5,radius:10});
+                            let ty=boxY+padY+lh1/2;
+                            lines1.forEach(ln=>{draw.text(ln,center.x,ty,{size:14,color:'#6ee7b7',weight:'700'});ty+=lh1;});
+                            ty+=4;
+                            lines2.forEach(ln=>{draw.text(ln,center.x,ty,{size:12,color:'rgba(255,255,255,0.82)'});ty+=lh2;});
+                            ctx.globalAlpha=1;
+                        }
+                    },
+                    (t,phase,pt,bt)=>{
+                        draw.clear();draw.text(_v('v_ex44_title','Example 4.4 — Acceleration Each Second'),center.x,28,{size:18,color:'#93c5fd',weight:'700'});
+                        const rows=[['0 → 1 s','9.8 − 0','9.8 m/s²'],['1 → 2 s','19.6 − 9.8','9.8 m/s²'],['2 → 3 s','29.4 − 19.6','9.8 m/s²'],['3 → 4 s','39.2 − 29.4','9.8 m/s²']];
+                        const tx=center.x-300,tw=600,ty=80,headH=46,rowH=58;const ha=(phase===0)?appear(pt,0.1,0.5):1;ctx.globalAlpha=ha;draw.rect(tx,ty,tw,headH,{fill:'rgba(59,130,246,0.18)',stroke:'#3b82f6',lineWidth:1.5,radius:8});draw.text(_v('v_col_interval','Interval'),tx+90,ty+headH/2,{size:14,color:'#dbeafe',weight:'700'});draw.text(_v('v_col_dv','Δv (m/s)'),tx+300,ty+headH/2,{size:14,color:'#dbeafe',weight:'700'});draw.text(_v('v_col_acol','a = Δv / 1 s'),tx+490,ty+headH/2,{size:14,color:'#dbeafe',weight:'700'});ctx.globalAlpha=1;
+                        const reveal=Math.min(phase,4);for(let i=0;i<rows.length;i++){const ry=ty+headH+i*rowH,shown=i<reveal;const justNow=(i===reveal-1);const a=(justNow&&phase>=1&&phase<=4)?appear(pt,0.05,0.4):1;draw.rect(tx,ry,tw,rowH,{fill:shown?'rgba(255,255,255,0.05)':'rgba(255,255,255,0.02)',stroke:'rgba(255,255,255,0.12)',lineWidth:1,radius:6});ctx.globalAlpha=shown?a:1;draw.text(rows[i][0],tx+90,ry+rowH/2,{size:14,color:shown?'#fff':'rgba(255,255,255,0.25)',weight:'700'});draw.text(shown?rows[i][1]:'—',tx+300,ry+rowH/2,{size:14,color:shown?'#bfdbfe':'rgba(255,255,255,0.25)',weight:shown?'700':'400'});draw.text(shown?rows[i][2]:'—',tx+490,ry+rowH/2,{size:14,color:shown?'#a7f3d0':'rgba(255,255,255,0.25)',weight:shown?'800':'400'});ctx.globalAlpha=1;}
+                        if(phase>=5){const a=appear(pt,0.1,0.55);ctx.globalAlpha=a;draw.text(_v('v_constant_accel','Same value every interval → the acceleration is CONSTANT'),center.x,ty+headH+4*rowH+24,{size:15,color:'#6ee7b7',weight:'700'});ctx.globalAlpha=1;}
+                    },
+                    (t,phase,pt,bt)=>{
+                        draw.clear();draw.text(_v('v_gravity_title','Acceleration Due to Gravity, g'),center.x,32,{size:21,color:'#93c5fd',weight:'700'});
+                        const introA=(phase===0)?appear(pt,0.05,0.4):1;ctx.globalAlpha=introA;
+                        const axX=center.x-280,topY=70,botY=525;const period=4000,frac=(t%period)/period;
+                        ctx.setLineDash([6,6]);ctx.strokeStyle='rgba(255,255,255,0.25)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(axX,topY);ctx.lineTo(axX,botY);ctx.stroke();ctx.setLineDash([]);
+                        const ay=topY+frac*frac*(botY-topY);ctx.strokeStyle='rgba(96,165,250,0.4)';ctx.lineWidth=2;for(let i=0;i<3;i++){const ly=ay-20-i*8*(0.5+frac);ctx.beginPath();ctx.moveTo(axX-6+i*2,ly);ctx.lineTo(axX-6+i*2,ly-6*(0.4+frac));ctx.stroke();}draw.apple(axX,ay,15);ctx.globalAlpha=1;
+                        if(phase>=1){const a=(phase===1)?appear(pt,0.15,0.6):1;ctx.globalAlpha=a;draw.arrow(axX+34,ay-10,axX+34,ay+34,{color:'#f87171',width:4,headSize:12});draw.text('g',axX+50,ay+12,{size:18,color:'#fca5a5',weight:'800',align:'left'});ctx.globalAlpha=1;}
+                        const bxL=290,bxW=560,bxC=bxL+bxW/2;if(phase>=0){const a=(phase===0)?appear(pt,0.2,0.7):1;ctx.globalAlpha=a;draw.text(_v('v_g_constant','a = 9.8 m/s² in every interval — constant'),bxC,150,{size:15,color:'#6ee7b7',weight:'700'});ctx.globalAlpha=1;}
+                        if(phase>=2){const a=(phase===2)?appear(pt,0.1,0.55):1;ctx.globalAlpha=a;draw.rect(bxL,196,bxW,72,{fill:'rgba(16,185,129,0.13)',stroke:'#10b981',lineWidth:1.8,radius:14});draw.text(_v('v_g_value','g ≈ 9.8 m/s², constant, directed downward'),bxC,224,{size:17,color:'#6ee7b7',weight:'800'});draw.text(_v('v_g_meaning','the acceleration due to gravitational force of the Earth'),bxC,248,{size:14,color:'rgba(255,255,255,0.78)'});ctx.globalAlpha=1;}
+                        if(phase>=3){
+                            const a=appear(pt,0.1,0.55);ctx.globalAlpha=a;
+                            const downW=_v('v_down_word','DOWN');
+                            const signChoice=String(_v('v_sign_choice','Here we chose DOWN as positive — choose your origin and sign,')).replace(/DOWNক/g,downW).replace(/DOWN/g,downW);
+                            const bxW2=Math.min(bxW+80,canvasW-bxL-20),bxL2=bxL,bxC2=bxL2+bxW2/2;
+                            draw.rect(bxL2,308,bxW2,68,{fill:'rgba(59,130,246,0.12)',stroke:'#3b82f6',lineWidth:1.6,radius:12});
+                            draw.text(signChoice,bxC2,332,{size:12.5,color:'#bfdbfe',weight:'600'});
+                            draw.text(_v('v_sign_fixed','then keep it fixed for the whole problem'),bxC2,354,{size:12.5,color:'rgba(255,255,255,0.82)'});
+                            ctx.globalAlpha=1;
+                        }
+                    }
+                ]
+            ];
+
+            const lessonDefs=(_les&&_les.length>0)?_les:(_locales['en']._les||[]);
+            return lessonDefs.map((ld,li)=>{
+                const localVisuals=visuals[li]||[];
+                const steps=(ld.steps||[]).map((step,si)=>{
+                    const vis=localVisuals[si]||(()=>{});
+                    if(step.beats)return{beats:step.beats,visual:vis};
+                    return{text:step.text,visual:vis};
+                });
+                return{name:ld.name,icon:ld.icon,bgClass:ld.bgClass,question:ld.question,steps,exercise:ld.exercise};
+            });
+        }
+        const lessons=buildLessons();
+
+        function updateSidebar(){
+            const c=document.getElementById('conceptList');const notStarted=_ui.notStarted||'Not started',inProgress=_ui.inProgress||'In progress',completed=_ui.completed||'Completed';
+            c.innerHTML=lessons.map((l,i)=>{let status=notStarted,cls='concept-item';if(state.completedSections.includes(i)){status=completed;cls+=' completed';}else if(i===state.currentSection){status=inProgress;cls+=' active';}return`<div class="${cls}" onclick="handleButtonClick(()=>goToSection(${i}))"><div class="concept-icon">${l.icon}</div><div class="concept-info"><div class="concept-name">${l.name}</div><div class="concept-status">${status}</div></div><div class="concept-check">✓</div></div>`;}).join('');
+        }
+        function setBackground(c){document.body.className=c;}
+        function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='screen-explanation')setTimeout(initCanvas,100);}
+        async function startJourney(){stopCurrentDemo();createNewNarrator('start');state.currentSection=0;updateSidebar();await loadQuestion();}
+        let stepSkipRequested=false;
+        function skipCurrentStep(){stepSkipRequested=true;if(speech&&!speech.isDestroyed){try{speech._speakId++;}catch(e){}try{speech.stopAudioOnly();}catch(e){}}}
+        function updateNextStepBtn(currentIdx,totalSteps){const b=document.getElementById('nextStepBtn');if(!b)return;if(currentIdx<totalSteps-1)b.classList.remove('hidden');else b.classList.add('hidden');}
+        function hideNextStepBtn(){const b=document.getElementById('nextStepBtn');if(b)b.classList.add('hidden');}
+        async function loadQuestion(){const l=lessons[state.currentSection];setBackground(l.bgClass);hideExperimentPanel();document.getElementById('sectionLabel').textContent=l.name;document.getElementById('questionIcon').textContent=l.icon;document.getElementById('questionText').textContent=l.question;updateSidebar();showScreen('screen-question');if(speech&&!speech.isDestroyed)await speech.speak(l.question);}
+        function appear(p,start,end){if(p<=start)return 0;if(p>=end)return 1;const u=(p-start)/(end-start);return u*u*(3-2*u);}
+        async function revealExplanation(){
+            stopCurrentDemo();const myRunId=currentRunId;createNewNarrator('reveal');showScreen('screen-explanation');hideNextStepBtn();hideExperimentPanel();setTimeout(initCanvas,50);
+            const l=lessons[state.currentSection];
+            for(let i=0;i<l.steps.length;i++){
+                if(currentRunId!==myRunId)return;state.currentStep=i;const step=l.steps[i];updateNextStepBtn(i,l.steps.length);stepSkipRequested=false;
+                const beats=(step.beats&&step.beats.length)?step.beats:[{say:step.text||''}];
+                let phase=0,animStart=Date.now(),accPause=0,pauseStart=0,beatStart=Date.now(),beatEst=4000,beatPt=0;
+                const animate=()=>{if(currentRunId!==myRunId){cancelAnimationFrame(animationId);return;}if(state.isPaused){if(window.__canvasDirty&&window.__lastVis){window.__canvasDirty=false;try{window.__lastVis();}catch(e){}}if(pauseStart===0)pauseStart=Date.now();if(state.currentStep===i)animationId=requestAnimationFrame(animate);return;}else if(pauseStart>0){const d=Date.now()-pauseStart;accPause+=d;beatStart+=d;pauseStart=0;}const et=Date.now()-animStart-accPause;const bt=Date.now()-beatStart;let sp=Math.min(1,bt/beatEst);if(sp>beatPt)beatPt=sp;const pt=beatPt;try{window.__lastVis=()=>step.visual(et,phase,pt,bt);window.__lastVis();}catch(e){ctx.fillStyle='#f87171';ctx.font='14px DM Sans';ctx.fillText('render error: '+e.message,20,30);}if(state.currentStep===i)animationId=requestAnimationFrame(animate);};animate();
+                for(let b=0;b<beats.length;b++){if(currentRunId!==myRunId){cancelAnimationFrame(animationId);return;}if(stepSkipRequested)break;phase=b;beatStart=Date.now();beatPt=0;beatEst=Math.max(2600,(beats[b].say||'').length*60);document.getElementById('narrationText').textContent=beats[b].say||'';await speech.speak(beats[b].say||'');if(currentRunId!==myRunId){cancelAnimationFrame(animationId);return;}if(stepSkipRequested)break;const _visualLeft=(beatStart+beatEst+400)-Date.now();await pauseAwareWait(Math.max(600,_visualLeft));if(currentRunId!==myRunId){cancelAnimationFrame(animationId);return;}}
+                cancelAnimationFrame(animationId);if(!stepSkipRequested){await pauseAwareWait(1000);}if(currentRunId!==myRunId)return;
+            }
+            hideNextStepBtn();if(currentRunId!==myRunId)return;
+            if(experiments[state.currentSection]){const expText=_ui.experimentText||"Now you can experiment with the controls below.";const expNar=_ui.experimentNarration||"Now you can experiment with the controls below.";document.getElementById('narrationText').textContent=expText;showExperimentPanel(state.currentSection,myRunId);await speech.speak(expNar);}else{await loadExercise();}
+        }
+        async function skipToExperiment(){stopCurrentDemo();const myRunId=currentRunId;createNewNarrator('skipExp');const l=lessons[state.currentSection];setBackground(l.bgClass);showScreen('screen-explanation');hideNextStepBtn();hideExperimentPanel();setTimeout(initCanvas,50);setTimeout(()=>{if(currentRunId===myRunId)draw.clear();},80);if(experiments[state.currentSection]){const skipText=_ui.experimentSkipText||'Experiment time!';document.getElementById('narrationText').textContent=skipText;showExperimentPanel(state.currentSection,myRunId);}else{await loadExercise();}}
+        async function skipToExercise(){stopCurrentDemo();createNewNarrator('skipEx');await loadExercise();}
+        function pauseAwareWait(ms){return new Promise(r=>{let el=0,lt=Date.now();const ch=()=>{if(state.isPaused){setTimeout(ch,50);lt=Date.now();return;}const n=Date.now();el+=n-lt;lt=n;if(el>=ms)r();else setTimeout(ch,Math.min(50,ms-el));};ch();});}
+        async function loadExercise(){stopCurrentDemo();createNewNarrator('exercise');hideExperimentPanel();const l=lessons[state.currentSection];const ex=l.exercise;setBackground('bg-exercise');document.getElementById('exerciseQuestion').textContent=ex.question;document.getElementById('feedback').classList.remove('visible');const _fc=document.getElementById('feedbackContinue');if(_fc){_fc.style.display='none';_fc.dataset.success='';}const c=document.getElementById('exerciseContainer');c.innerHTML=ex.options.map((o,i)=>`<div class="option" data-index="${i}" onclick="checkMCQ(this,${ex.correct})">${o}</div>`).join('');showScreen('screen-exercise');const _rid_ex=currentRunId;await speech.speak(_ui.nowTestNarration||'Now test your understanding.');if(currentRunId!==_rid_ex)return;await pauseAwareWait(600);if(currentRunId!==_rid_ex)return;await speech.speak(ex.question);}
+        function checkMCQ(el,correct){stopCurrentDemo();createNewNarrator('mcq');const idx=parseInt(el.dataset.index);document.querySelectorAll('.option').forEach((o,i)=>{o.style.pointerEvents='none';if(i===correct)o.classList.add('correct');else if(i===idx)o.classList.add('incorrect');});showFeedback(idx===correct);}
+        async function showFeedback(success){
+            const myRunId=currentRunId;
+            const fb=document.getElementById('feedback');const ex=lessons[state.currentSection].exercise;
+            const correctPrefix=_ui.correctPrefix||'✓ Correct! ';
+            const incorrectPrefix=_ui.incorrectPrefix||'✗ Not quite. ';
+            fb.textContent=success?correctPrefix+ex.explanation:incorrectPrefix+ex.explanation;
+            fb.className=`feedback visible ${success?'success':'error'}`;
+            if(success&&!state.completedSections.includes(state.currentSection))state.completedSections.push(state.currentSection);
+            updateSidebar();
+            const cont=document.getElementById('feedbackContinue');
+            if(cont){cont.style.display='none';cont.dataset.success=success?'1':'';}
+            await speech.speak(success?correctPrefix:incorrectPrefix);
+            if(currentRunId!==myRunId)return;
+            await speech.speak(ex.explanation);
+            if(currentRunId!==myRunId)return;
+            await pauseAwareWait(1500);
+            if(currentRunId!==myRunId)return;
+            showComplete(success);
+        }
+        function continueFromFeedback(){const cont=document.getElementById('feedbackContinue');const success=!!(cont&&cont.dataset.success);if(cont)cont.style.display='none';showComplete(success);}
+        async function showComplete(success){
+            stopCurrentDemo();createNewNarrator('complete');setBackground('bg-complete');
+            const myRunId=currentRunId;
+            const isLast=state.currentSection>=lessons.length-1;
+            document.getElementById('completeIcon').textContent=success?'🎉':'📚';
+            const titleText=success?(_ui.excellentWork||'Excellent Work!'):(_ui.keepPracticing||'Keep Practicing!');
+            document.getElementById('completeTitle').textContent=titleText;
+            const messageText=lessons[state.currentSection].exercise.explanation;
+            document.getElementById('completeMessage').textContent=messageText;
+            const nextBtnText=isLast?(_ui.finishBtn||'Finish Section 4.1.4'):(_ui.continueBtn||'Continue →');
+            document.getElementById('nextBtn').textContent=nextBtnText;
+            const reviewAgainBtnText=_ui.reviewAgainBtn||'Review Again';
+            showScreen('screen-complete');
+            await speech.speak(titleText);
+            if(currentRunId!==myRunId)return;
+            if(messageText)await speech.speak(messageText);
+            if(currentRunId!==myRunId)return;
+            if(nextBtnText)await speech.speak(nextBtnText);
+            if(currentRunId!==myRunId)return;
+            if(reviewAgainBtnText)await speech.speak(reviewAgainBtnText);
+        }
+        async function nextSection(){stopCurrentDemo();createNewNarrator('next');if(state.currentSection<lessons.length-1){state.currentSection++;state.currentStep=0;updateSidebar();await loadQuestion();}else{showScreen('screen-final');setBackground('bg-welcome');await speech.speak(_ui.congratulations||"Congratulations! You've completed Average Acceleration.");}}
+        async function restartSection(){stopCurrentDemo();createNewNarrator('restart');state.currentStep=0;await loadQuestion();}
+        async function goToSection(idx){stopCurrentDemo();createNewNarrator('goto');await new Promise(r=>setTimeout(r,50));state.currentSection=idx;state.currentStep=0;updateSidebar();await loadQuestion();}
+        document.getElementById('pauseToggle').addEventListener('click',()=>{state.isPaused=!state.isPaused;const pb=document.getElementById('pauseToggle');if(state.isPaused){pb.textContent='▶️';pb.classList.add('paused');pb.title='Resume';if(speech)speech.pause();}else{pb.textContent='⏸️';pb.classList.remove('paused');pb.title='Pause';if(speech)speech.resume();}});
+        document.getElementById('audioToggle').addEventListener('click',()=>{state.isMuted=!state.isMuted;document.getElementById('audioToggle').textContent=state.isMuted?'🔇':'🔊';const d=document.getElementById('speakingDot');if(state.isMuted){if(speech&&speech.audio)speech.audio.muted=true;if(d)d.classList.remove('active');}else{if(speech&&speech.audio){speech.audio.muted=false;if(d)d.classList.add('active');}}});
+        window.addEventListener('resize',()=>{if(document.getElementById('screen-explanation').classList.contains('active'))initCanvas();});
+        document.addEventListener('visibilitychange',()=>{if(!document.hidden&&document.getElementById('screen-explanation').classList.contains('active'))initCanvas();});
+        createParticles();updateSidebar();
+    </script>
+<script>window.addEventListener('keydown',e=>{if(e.key===' '||e.keyCode===32){e.preventDefault();e.stopPropagation();}},true);window.addEventListener('keyup',e=>{if(e.key===' '||e.keyCode===32){e.preventDefault();e.stopPropagation();}},true);</script>
+<script src="../language-button.js"></script>
+</body>
+</html>
