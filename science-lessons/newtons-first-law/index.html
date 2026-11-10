@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+(function(){
+  var ok=['as','en','hi','ja'],p=new URLSearchParams(location.search),l=p.get('language');
+  if(ok.indexOf(l)<0){
+    l=null;try{l=localStorage.getItem('siteLanguage');}catch(e){}
+    if(ok.indexOf(l)<0)l='as';
+    p.set('language',l);
+    history.replaceState(null,'',location.pathname+'?'+p.toString()+location.hash);
+  }
+  try{localStorage.setItem('siteLanguage',l);}catch(e){}
+  document.documentElement.lang=l;
+})();
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newton's First Law of Motion — Class 9 Physics</title>
+    <script src="lesson_data_nfl.js"></script>
+    <script>
+    (function(){
+      var ld=window.__lessonData||{};var loc=ld.defaultLocale||'en';var supported=ld.supportedLocales||['en'];var urlParam=null;
+      try{urlParam=new URLSearchParams(location.search).get('language');}catch(e){}
+      if(urlParam&&supported.indexOf(urlParam)>=0){loc=urlParam;}
+      else{try{var stored=localStorage.getItem('__locale');if(stored&&supported.indexOf(stored)>=0)loc=stored;}catch(e){}}
+      try{localStorage.setItem('__locale',loc);}catch(e){}
+      window.__locale=loc;window.__localeData=(ld.locales||{})[loc]||(ld.locales||{})['en']||{};
+      var s=document.createElement('script');s.src='audio_index_'+loc+'.js';document.head.appendChild(s);
+    })();
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body { height: 100%; overflow: hidden; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: background 1s ease;
+        }
+
+        .bg-welcome { background: linear-gradient(135deg, #0a1428 0%, #112347 50%, #1a3568 100%); }
+        .bg-section-0 { background: linear-gradient(135deg, #0a1428 0%, #15305c 50%, #1f4485 100%); }
+        .bg-section-1 { background: linear-gradient(135deg, #0c172e 0%, #18386a 50%, #234f95 100%); }
+        .bg-section-2 { background: linear-gradient(135deg, #081020 0%, #122a52 50%, #1c3c75 100%); }
+        .bg-exercise { background: linear-gradient(135deg, #060d1c 0%, #0e2244 50%, #163363 100%); }
+        .bg-complete { background: linear-gradient(135deg, #1a3568 0%, #2a55a5 50%, #3a78d8 100%); }
+
+        .particles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; overflow: hidden; z-index: 0;
+        }
+
+        .particle {
+            position: absolute; width: 3px; height: 3px;
+            background: rgba(255, 255, 255, 0.2); border-radius: 50%;
+            animation: float 18s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .glow-orb {
+            position: fixed; width: 400px; height: 400px; border-radius: 50%;
+            filter: blur(120px); opacity: 0.25; pointer-events: none; z-index: 0;
+            transition: all 2s ease;
+        }
+        .orb-1 { top: -200px; left: -200px; background: #3b82f6; }
+        .orb-2 { bottom: -200px; right: -200px; background: #60a5fa; }
+
+        .concept-sidebar {
+            width: 100%; height: 110px;
+            background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 0.8rem 1.5rem; position: fixed; left: 0; bottom: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .concept-list {
+            display: flex; gap: 0.8rem; justify-content: center; align-items: center;
+            overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        }
+        .concept-list::-webkit-scrollbar { display: none; }
+
+        .concept-item {
+            display: flex; align-items: center; gap: 0.6rem;
+            padding: 0.6rem 1rem; border-radius: 12px; cursor: pointer;
+            transition: all 0.3s ease; min-width: 160px; white-space: nowrap; flex-shrink: 0;
+        }
+        .concept-item:hover { background: rgba(255,255,255,0.05); }
+        .concept-item.active { background: rgba(255,255,255,0.1); }
+        .concept-item.active::before {
+            content: ''; position: absolute; left: 50%; top: 0;
+            transform: translateX(-50%); width: 60%; height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa); border-radius: 0 0 2px 2px;
+        }
+        .concept-item { position: relative; }
+
+        .concept-icon {
+            width: 34px; height: 34px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 1rem;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+        .concept-item.completed .concept-icon { background: linear-gradient(135deg, #10b981, #34d399); border-color: transparent; }
+        .concept-item.active .concept-icon { background: linear-gradient(135deg, #3b82f6, #60a5fa); border-color: transparent; }
+
+        .concept-info { flex: 1; }
+        .concept-name { font-size: 0.9rem; font-weight: 500; color: #fff; margin-bottom: 0.15rem; }
+        .concept-status { font-size: 0.7rem; color: rgba(255,255,255,0.4); }
+        .concept-item.completed .concept-status { color: #10b981; }
+        .concept-item.active .concept-status { color: #bfdbfe; }
+        .concept-check { opacity: 0; color: #10b981; font-size: 1rem; }
+        .concept-item.completed .concept-check { opacity: 1; }
+
+        .main-content { position: fixed; top: 0; left: 0; right: 0; bottom: 110px; overflow-y: auto; overflow-x: hidden; }
+
+        .screen {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 3rem 3rem 2rem 3rem;
+            opacity: 0; transform: translateY(20px);
+            position: absolute; top: 0; left: 0; width: 100%; height: 0; overflow: hidden; pointer-events: none;
+        }
+        .screen.active { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease; pointer-events: all; position: relative; top: auto; left: auto; height: auto; overflow: visible; min-height: 100%; }
+
+        .label {
+            font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd);
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; text-align: center;
+            line-height: 1.25; padding-bottom: 0.08em; margin-bottom: 1.4rem;
+            background: linear-gradient(135deg, #ffffff 0%, #bfdbfe 50%, #60a5fa 100%);
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem; color: rgba(255,255,255,0.7);
+            text-align: center; max-width: 620px; line-height: 1.7;
+        }
+
+        .question {
+            font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 500;
+            text-align: center; max-width: 700px; line-height: 1.5; color: #fff;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #93c5fd 100%);
+            color: #0a1428; border: none; padding: 1rem 2.8rem; font-size: 1.05rem;
+            font-weight: 700; border-radius: 100px; cursor: pointer;
+            transition: all 0.4s ease; margin-top: 2.5rem; font-family: inherit;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.35);
+        }
+        .btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 50px rgba(59,130,246,0.45); }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: none; margin-top: 1rem; color: #fff;
+        }
+        .btn-secondary:hover { background: rgba(255,255,255,0.15); box-shadow: 0 10px 30px rgba(255,255,255,0.08); }
+
+        .skip-row {
+            display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+        .skip-row .btn { margin-top: 0; }
+
+        .canvas-container {
+            width: 100%; max-width: 880px; aspect-ratio: 16/10; margin: 2rem 0; touch-action: manipulation;
+            border-radius: 24px; background: rgba(0,0,0,0.3); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.08); overflow: hidden;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+        }
+        .canvas-container { position: relative; }
+        .next-step-btn {
+            position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+            width: 46px; height: 46px; border-radius: 50%;
+            background: linear-gradient(135deg, #22a7e0, #4fc3f7);
+            border: 2px solid rgba(255,255,255,0.35); color: #fff;
+            font-size: 1.4rem; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 6px 24px rgba(34,167,224,0.5);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+            z-index: 5; font-family: inherit;
+        }
+        .next-step-btn:hover { transform: translateY(-50%) scale(1.1); box-shadow: 0 10px 32px rgba(34,167,224,0.7); }
+        .next-step-btn:disabled, .next-step-btn.hidden { opacity: 0; pointer-events: none; }
+        @media (max-width: 640px) { .next-step-btn { width: 38px; height: 38px; right: 8px; font-size: 1.1rem; } }
+        #canvas { width: 100%; height: 100%; display: block; }
+
+        .narration {
+            font-size: 1.25rem; color: rgba(255,255,255,0.9);
+            text-align: center; max-width: 720px; line-height: 1.8; min-height: 80px;
+        }
+
+        .speaking-dot {
+            display: inline-block; width: 10px; height: 10px;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa); border-radius: 50%;
+            margin-left: 10px; opacity: 0; transition: opacity 0.3s;
+            box-shadow: 0 0 20px #3b82f6;
+        }
+        .speaking-dot.active { opacity: 1; animation: pulse 1s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.4); } }
+
+        .exercise-container { width: 100%; max-width: 560px; margin-top: 2rem; }
+
+        .option {
+            background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.12);
+            border-radius: 16px; padding: 1.2rem 1.6rem; margin-bottom: 0.9rem;
+            cursor: pointer; transition: all 0.3s ease; font-size: 1.02rem;
+            text-align: left; color: #fff;
+        }
+        .option:hover { background: rgba(255,255,255,0.1); border-color: rgba(59,130,246,0.5); transform: translateX(5px); }
+        .option.correct { border-color: #10b981; background: rgba(16,185,129,0.2); box-shadow: 0 0 30px rgba(16,185,129,0.3); }
+        .option.incorrect { border-color: #ef4444; background: rgba(239,68,68,0.2); }
+
+        .feedback {
+            margin-top: 2rem; padding: 1.2rem 1.8rem; border-radius: 16px;
+            font-size: 1.02rem; opacity: 0; transform: translateY(10px);
+            transition: all 0.4s ease; max-width: 560px; text-align: left; line-height: 1.6;
+        }
+        .feedback.visible { opacity: 1; transform: translateY(0); }
+        .feedback.success { background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); color: #6ee7b7; }
+        .feedback.error { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); color: #fca5a5; }
+
+        .control-buttons { position: fixed; top: 2rem; right: 2rem; display: flex; gap: 0.75rem; z-index: 100; }
+
+        .audio-toggle, .pause-toggle {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+            color: #fff; width: 48px; height: 48px; border-radius: 50%; cursor: pointer;
+            font-size: 1.2rem; transition: all 0.3s; backdrop-filter: blur(10px);
+        }
+        .audio-toggle:hover, .pause-toggle:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
+        .pause-toggle.paused { background: rgba(96,165,250,0.3); border-color: rgba(96,165,250,0.5); animation: pausePulse 1.5s ease-in-out infinite; }
+        @keyframes pausePulse { 0%,100%{box-shadow:0 0 0 0 rgba(96,165,250,0.4)} 50%{box-shadow:0 0 20px 5px rgba(96,165,250,0.2)} }
+
+        .icon-large { font-size: 3.5rem; margin-bottom: 1.5rem; }
+
+        .experiment-area {
+            width: 100%; max-width: 880px; margin-top: 1.5rem; display: none;
+        }
+        .experiment-area.active { display: block; }
+        .experiment-controls-bar {
+            background: linear-gradient(135deg, rgba(15,23,42,0.92), rgba(30,41,59,0.92));
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 1.4rem 1.6rem;
+            border: 2px solid rgba(96,165,250,0.3);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .experiment-header {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+            color: #93c5fd; margin-bottom: 1rem;
+            padding-bottom: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .experiment-controls {
+            display: flex; flex-wrap: wrap; gap: 1rem; align-items: stretch;
+            justify-content: center; margin-bottom: 1rem;
+        }
+        .control-group {
+            flex: 1 1 220px; min-width: 220px; max-width: 320px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px; padding: 0.9rem 1.1rem;
+        }
+        .control-label {
+            font-size: 0.88rem; color: rgba(255,255,255,0.75); font-weight: 500;
+            margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .control-value {
+            font-weight: 700; color: #60a5fa; font-size: 1rem;
+            background: rgba(96,165,250,0.12);
+            padding: 2px 10px; border-radius: 6px;
+        }
+        .exp-slider {
+            -webkit-appearance: none; appearance: none;
+            width: 100%; height: 6px;
+            background: rgba(255,255,255,0.15); border-radius: 3px;
+            outline: none; cursor: pointer;
+        }
+        .exp-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none;
+            width: 20px; height: 20px; border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            cursor: pointer; border: 2px solid #fff;
+            box-shadow: 0 0 12px rgba(96,165,250,0.6);
+        }
+        .exp-slider::-moz-range-thumb {
+            width: 20px; height: 20px; border-radius: 50%; border: 2px solid #fff;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(96,165,250,0.6);
+        }
+        .effect-indicator {
+            font-size: 0.98rem; color: rgba(255,255,255,0.85); text-align: center;
+            padding: 0.95rem 1.2rem;
+            background: rgba(255,255,255,0.04);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 1.1rem; line-height: 1.5;
+        }
+        .effect-indicator strong { color: #93c5fd; }
+
+        .preset-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.7rem; width: 100%;
+        }
+        .preset-btn {
+            background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.12);
+            border-radius: 14px; padding: 0.85rem 0.9rem; cursor: pointer;
+            color: #fff; font-family: inherit; text-align: left;
+            transition: all 0.25s ease; display: flex; flex-direction: column; gap: 4px;
+        }
+        .preset-btn:hover { background: rgba(255,255,255,0.09); border-color: rgba(96,165,250,0.45); transform: translateY(-2px); }
+        .preset-btn.selected {
+            background: linear-gradient(135deg, rgba(59,130,246,0.22), rgba(96,165,250,0.18));
+            border-color: #60a5fa;
+            box-shadow: 0 0 22px rgba(96,165,250,0.32);
+        }
+        .preset-title {
+            font-size: 0.95rem; font-weight: 700; color: #fff;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .preset-sub {
+            font-size: 0.78rem; color: rgba(255,255,255,0.65); line-height: 1.35;
+        }
+        .preset-formula {
+            font-size: 0.72rem; color: #93c5fd; font-weight: 600;
+            background: rgba(96,165,250,0.1); padding: 2px 7px; border-radius: 6px;
+            display: inline-block; margin-top: 2px; align-self: flex-start;
+        }
+        .preset-btn.selected .preset-formula { background: rgba(96,165,250,0.22); color: #bfdbfe; }
+        .experiment-area .btn { margin-top: 0; }
+        .experiment-buttons {
+            display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; margin-top: 0.5rem;
+        }
+        .btn-try {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
+            color: #052e1f;
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4);
+        }
+        .btn-try:hover {
+            box-shadow: 0 15px 50px rgba(16, 185, 129, 0.55);
+        }
+
+        @media (max-width: 900px) {
+            .concept-sidebar { height: 75px; padding: 0.4rem 0.6rem; }
+            .concept-item { min-width: 70px; padding: 0.35rem 0.5rem; gap: 0.3rem; }
+            .concept-icon { width: 28px; height: 28px; font-size: 0.9rem; }
+            .concept-info { display: none; }
+            .main-content { bottom: 75px; }
+            .screen { padding: 2rem 1.5rem; }
+            .canvas-container { margin: 1.5rem 0; border-radius: 18px; }
+            .narration { font-size: 1.1rem; }
+        }
+        @media (max-width: 640px) {
+            .concept-sidebar { height: 65px; padding: 0.3rem 0.4rem; }
+            .concept-item { min-width: 48px; padding: 0.3rem 0.35rem; border-radius: 10px; }
+            .concept-icon { width: 24px; height: 24px; font-size: 0.8rem; border-radius: 8px; }
+            .main-content { bottom: 65px; }
+            .canvas-container { margin: 0.5rem 0; border-radius: 14px; }
+            .narration { font-size: 1rem; min-height: 50px; line-height: 1.6; }
+            .screen { padding: 1.2rem 0.8rem; }
+            .title { font-size: 2rem; }
+            .question { font-size: 1.1rem; }
+        }
+    /* hide skip-to-next-step arrow */#nextStepBtn{display:none !important}</style>
+    <script>
+    /* as-digits: on Assamese pages every visible number is shown in Assamese digits (০-৯), on the canvas and in the page.
+       Digits that belong to notation stay as written: a number touching a Latin letter (H2O, 2n², 2e⁻) or joined to a
+       symbol by a hyphen (U-235); an equation number such as (4.4a) is converted. Display only — lesson data, narration and audio lookup are unchanged. */
+    (function(){
+      var ld=window.__lessonData||{},p=new URLSearchParams(location.search);
+      var loc=window.__locale||p.get('language')||p.get('locale')||ld.defaultLocale||'en';
+      if(loc!=='as')return;
+      var AS='০১২৩৪৫৬৭৮৯',L=/[A-Za-z]/;
+      function asDigits(s){
+        return String(s).replace(/[0-9]+(?:[.,][0-9]+)*/g,function(m,i,str){
+          var a=str.charAt(i-1),b=str.charAt(i+m.length);
+          var eq=a==='('&&m.indexOf('.')>0&&/^[a-z]\)/.test(str.substr(i+m.length,2));
+          if(!eq&&(L.test(a)||L.test(b)||(a==='-'&&L.test(str.charAt(i-2)))))return m;
+          return m.replace(/[0-9]/g,function(d){return AS.charAt(+d);});
+        });
+      }
+      window.__asDigits=asDigits;
+      var P=CanvasRenderingContext2D.prototype;
+      ['fillText','strokeText'].forEach(function(k){
+        var o=P[k];
+        P[k]=function(t){var a=Array.prototype.slice.call(arguments);a[0]=asDigits(t);return o.apply(this,a);};
+      });
+      var mt=P.measureText;
+      P.measureText=function(t){return mt.call(this,asDigits(t));};
+      var SKIP=/^(SCRIPT|STYLE|SUB|SUP|TEXTAREA|INPUT|CODE)$/;
+      function walk(n){
+        if(n.nodeType===3){
+          if(n.parentNode&&SKIP.test(n.parentNode.nodeName))return;
+          var v=n.nodeValue,w=asDigits(v);if(w!==v)n.nodeValue=w;
+        }else if(n.nodeType===1&&!SKIP.test(n.nodeName)){
+          for(var c=n.firstChild;c;c=c.nextSibling)walk(c);
+        }
+      }
+      function start(){
+        walk(document.body);
+        new MutationObserver(function(ms){
+          ms.forEach(function(m){if(m.type==='characterData')walk(m.target);else m.addedNodes.forEach(walk);});
+        }).observe(document.body,{childList:true,subtree:true,characterData:true});
+      }
+      if(document.body)start();else document.addEventListener('DOMContentLoaded',start);
+    })();
+    </script>
+    <script>
+    /* ui-titles: the pause / mute / skip buttons are icons whose hover tooltips (title) are hard-coded English, also when the
+       code toggles them. On a non-English page each known English tooltip is replaced by the locale's _ui key below, now and
+       whenever the code sets it again; the browser-tab title becomes _ui.pageTitle. Display only; missing keys leave the English. */
+    (function(){
+      var ld=window.__lessonData||{},p=new URLSearchParams(location.search);
+      var loc=window.__locale||p.get('language')||p.get('locale')||ld.defaultLocale||'en';
+      if(loc==='en')return;
+      var K={'Pause':'pauseTitle','Resume':'resumeTitle','Pause/Resume':'pauseResumeTitle','Mute/Unmute':'muteUnmuteTitle','Skip to next slide':'skipSlideTitle'};
+      function ui(){var d=window.__lessonData||ld;return ((d.locales||{})[window.__locale||loc]||{})._ui||{};}
+      function fix(el){var t=el.getAttribute('title'),k=K[t],v=k&&ui()[k];if(v&&v!==t)el.setAttribute('title',v);}
+      function start(){
+        var pt=ui().pageTitle;if(pt)document.title=pt;
+        document.querySelectorAll('[title]').forEach(fix);
+        new MutationObserver(function(ms){
+          ms.forEach(function(m){
+            if(m.type==='attributes')fix(m.target);
+            else m.addedNodes.forEach(function(n){if(n.nodeType===1){if(n.hasAttribute('title'))fix(n);n.querySelectorAll('[title]').forEach(fix);}});
+          });
+        }).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['title']});
+      }
+      if(document.body)start();else document.addEventListener('DOMContentLoaded',start);
+    })();
+    </script>
+</head>
+<body class="bg-welcome">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="particles" id="particles"></div>
+
+    <aside class="concept-sidebar">
+        <div class="concept-list" id="conceptList"></div>
+    </aside>
+
+    <main class="main-content">
+        <div class="control-buttons">
+            <button class="pause-toggle" id="pauseToggle" title="Pause/Resume">⏸️</button>
+            <button class="audio-toggle" id="audioToggle" title="Mute/Unmute">🔊</button>
+        </div>
+
+        <div class="screen active" id="screen-welcome">
+            <div class="icon-large">🛷</div>
+            <div class="label" id="welcomeLabel">Class 9 Physics • Chapter 6 • Section 6.4</div>
+            <h1 class="title" id="welcomeTitle">Newton's First Law of Motion</h1>
+            <p class="subtitle" id="welcomeSubtitle">An object stays at rest, or keeps moving at constant velocity, until a net force acts on it. Explore what "no net force" really means — through a gliding box and the graphs that describe it.</p>
+            <button class="btn" id="beginBtn" onclick="handleButtonClick(startJourney)">Begin Chapter</button>
+        </div>
+
+        <div class="screen" id="screen-question">
+            <div class="icon-large" id="questionIcon">🤔</div>
+            <div class="label" id="sectionLabel">Introduction</div>
+            <p class="question" id="questionText"></p>
+            <button class="btn" id="revealBtn" onclick="handleButtonClick(revealExplanation)">Discover the Answer</button>
+        </div>
+
+        <div class="screen" id="screen-explanation">
+            <div class="canvas-container">
+                <canvas id="canvas"></canvas>
+                <button class="next-step-btn hidden" id="nextStepBtn" title="Skip to next slide" onclick="skipCurrentStep()">→</button>
+            </div>
+            <p class="narration" id="narration">
+                <span id="narrationText"></span>
+                <span class="speaking-dot" id="speakingDot"></span>
+            </p>
+            <div class="experiment-area" id="experimentArea">
+                <div class="experiment-controls-bar">
+                    <div class="experiment-header" id="experimentHeader">🧪 Experiment Mode — Try It Yourself</div>
+                    <div class="experiment-controls" id="controlsContent"></div>
+                    <div class="effect-indicator" id="effectIndicator">Adjust the controls to explore</div>
+                    <div class="experiment-buttons">
+                        <button class="btn btn-try" id="tryItBtn" onclick="handleTryClick()">▶ Try It</button>
+                        <button class="btn" id="expContinueBtn" onclick="handleButtonClick(loadExercise)">Continue to Exercise →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen" id="screen-exercise">
+            <div class="icon-large">✍️</div>
+            <div class="label" id="testYourUnderstandingLabel">Test Your Understanding</div>
+            <p class="question" id="exerciseQuestion" style="font-size: 1.3rem;"></p>
+            <div class="exercise-container" id="exerciseContainer"></div>
+            <div class="feedback" id="feedback"></div>
+        </div>
+
+        <div class="screen" id="screen-complete">
+            <div class="icon-large" id="completeIcon">🎉</div>
+            <div class="label" id="sectionCompleteLabel">Section Complete</div>
+            <h1 class="title" id="completeTitle" style="font-size: clamp(2rem, 4vw, 3rem);">Excellent Work!</h1>
+            <p class="subtitle" id="completeMessage"></p>
+            <button class="btn" id="nextBtn" onclick="handleButtonClick(nextSection)">Continue</button>
+            <button class="btn btn-secondary" id="reviewAgainBtn" onclick="handleButtonClick(restartSection)">Review Again</button>
+        </div>
+
+        <div class="screen" id="screen-final">
+            <div class="icon-large">🏆</div>
+            <div class="label" id="finalLabel">Chapter Complete</div>
+            <h1 class="title" id="finalTitle">Well Done!</h1>
+            <p class="subtitle" id="finalSubtitle">You now understand Newton's first law: with zero net force, an object at rest stays at rest and a moving object keeps a constant velocity, with zero acceleration. A push equal to friction keeps motion steady, and with no net force the position-time graph is flat (at rest) or a rising straight line (constant velocity), while the velocity-time graph is horizontal.</p>
+            <button class="btn" id="startAgainBtn" onclick="location.reload()">Start Again</button>
+        </div>
+    </main>
+
+    <script>
+        // ── Locale setup — no TTS key, no live API calls ──────────────────────
+        var __locale = window.__locale || 'en';
+        var _ld = window.__lessonData || {};
+        var _locales = _ld.locales || {};
+        var _localeData = _locales[__locale] || _locales['en'] || {};
+        var _ui = _localeData._ui || {};
+        var _sec = _localeData._sec || [];
+        var _les = _localeData._les || [];
+
+        // helper: get a visual string key from locale data
+        function _v(key, fallback) {
+            var vis = (_localeData._ui && _localeData._ui._vis) ? _localeData._ui._vis : {};
+            return vis[key] || fallback || key;
+        }
+
+        // ── Wire UI strings from locale data ──────────────────────────────────
+        (function wireUI(){
+            var set = function(id, val){ var el = document.getElementById(id); if(el && val) el.textContent = val; };
+            set('welcomeLabel',    _ui.welcomeLabel);
+            set('welcomeTitle',    _ui.welcomeTitle);
+            set('welcomeSubtitle', _ui.welcomeSubtitle);
+            var beginBtn = document.getElementById('beginBtn');
+            if(beginBtn) beginBtn.textContent = _ui.beginBtn || 'Begin Chapter';
+            var revealBtn = document.getElementById('revealBtn');
+            if(revealBtn) revealBtn.textContent = _ui.discoverBtn || 'Discover the Answer';
+            set('experimentHeader', '🧪 ' + (_ui.experimentModeLabel || 'Experiment Mode — Try It Yourself'));
+            set('effectIndicator',  _ui.adjustControls || 'Adjust the controls to explore');
+            var tryItBtn = document.getElementById('tryItBtn');
+            if(tryItBtn) tryItBtn.textContent = _ui.tryItBtn || '▶ Try It';
+            set('testYourUnderstandingLabel', _ui.testYourUnderstanding);
+            set('sectionCompleteLabel', _ui.sectionCompleteLabel);
+            set('finalLabel',    _ui.finalLabel);
+            set('finalTitle',    _ui.finalTitle);
+            set('finalSubtitle', _ui.finalSubtitle);
+            var startAgainBtn = document.getElementById('startAgainBtn');
+            if(startAgainBtn) startAgainBtn.textContent = _ui.startAgainBtn || 'Start Again';
+            var continueToExBtn = document.getElementById('continueToExBtn');
+            if(continueToExBtn) continueToExBtn.textContent = _ui.continueToExercise || 'Continue to Exercise →';
+            var expContinueBtn = document.getElementById('expContinueBtn');
+            if(expContinueBtn) expContinueBtn.textContent = _ui.continueToExercise || 'Continue to Exercise →';
+            var reviewAgainBtn = document.getElementById('reviewAgainBtn');
+            if(reviewAgainBtn) reviewAgainBtn.textContent = _ui.reviewAgainBtn || 'Review Again';
+        })();
+
+        // ── Build lessons from locale data ────────────────────────────────────
+        var lessonVisuals = [
+            // SECTION 0 — Newton's First Law
+            [
+                {
+                    visual: function(t, phase, pt, bt) {
+                        draw.clear();
+                        draw.text(_v('v_title_s0_st0','An object at rest stays at rest'), center.x, 34, {size:23, color:'#93c5fd', weight:'700'});
+                        draw.text(_v('v_sub_s0_st0','…unless a net force acts on it'), center.x, 60, {size:14, color:'rgba(255,255,255,0.55)'});
+                        { var a=(phase===0)?appear(pt,0.3,0.7):1; ctx.globalAlpha=a; draw.roughFloor(80, 360, 720); draw.woodBlock(390, 302, 110, 56); ctx.globalAlpha=1; }
+                        if(phase>=1){ var a2=(phase===1)?appear(pt,0.15,0.6):1; ctx.globalAlpha=a2;
+                            draw.rect(center.x-150, 148, 300, 36, {fill:'rgba(96,165,250,0.14)', stroke:'#60a5fa', lineWidth:1.8, radius:10});
+                            draw.text(_v('v_net_force_zero','Net force = 0'), center.x, 166, {size:16, color:'#bfdbfe', weight:'800'});
+                            ctx.globalAlpha=1;
+                        }
+                        if(phase>=2){
+                            ctx.globalAlpha=(phase===2)?appear(pt,0.1,0.3):1;
+                            draw.rect(center.x-210, 210, 132, 34, {fill:'rgba(255,255,255,0.06)', stroke:'#64748b', lineWidth:1.5, radius:9});
+                            draw.fitText(_v('v_velocity_zero_badge','velocity = 0'), center.x-144, 227, 132-14, {size:13, color:'#e5e7eb', weight:'700'});
+                            ctx.globalAlpha=(phase===2)?appear(pt,0.4,0.6):1;
+                            draw.rect(center.x-66, 210, 132, 34, {fill:'rgba(255,255,255,0.06)', stroke:'#64748b', lineWidth:1.5, radius:9});
+                            draw.fitText(_v('v_accel_zero_badge','acceleration = 0'), center.x, 227, 132-14, {size:13, color:'#e5e7eb', weight:'700'});
+                            ctx.globalAlpha=(phase===2)?appear(pt,0.7,0.9):1;
+                            draw.rect(center.x+78, 210, 132, 34, {fill:'rgba(255,255,255,0.06)', stroke:'#64748b', lineWidth:1.5, radius:9});
+                            draw.fitText(_v('v_stays_rest_badge','stays at rest'), center.x+144, 227, 132-14, {size:13, color:'#e5e7eb', weight:'700'});
+                            ctx.globalAlpha=1;
+                        }
+                        if(phase>=3){ var a3=appear(pt,0.1,0.55); ctx.globalAlpha=a3;
+                            draw.rect(center.x-315, 470, 630, 50, {fill:'rgba(59,130,246,0.13)', stroke:'#3b82f6', lineWidth:1.8, radius:13});
+                            draw.text(_v('v_conclusion_s0_st0','With no net force, a resting object cannot start moving on its own (a = 0)'), center.x, 495, {size:13.5, color:'#bfdbfe', weight:'700'});
+                            ctx.globalAlpha=1;
+                        }
+                    }
+                },
+                {
+                    visual: function(t, phase, pt, bt) {
+                        draw.clear();
+                        draw.text(_v('v_title_s0_st1','Example 6.2 — push equal to friction'), center.x, 34, {size:22, color:'#93c5fd', weight:'700'});
+                        draw.text(_v('v_sub_s0_st1','A moving box, pushed forward with force = friction'), center.x, 60, {size:13.5, color:'rgba(255,255,255,0.55)'});
+                        var scA=(phase===0)?appear(pt,0.1,0.4):1;
+                        ctx.globalAlpha=scA;
+                        draw.roughFloor(80, 360, 720);
+                        ctx.globalAlpha=1;
+                        var bx = 250;
+                        if(phase===2){ bx = 250 + appear(pt,0.1,0.95)*300; }
+                        else if(phase>2){ bx = 550; }
+                        ctx.globalAlpha=scA;
+                        draw.childPush(bx-62, 323, 1.4, 1, '#ec407a');
+                        draw.rect(bx, 302, 110, 56, {fill:'#c8965a', stroke:'#7c4a1e', lineWidth:2, radius:6});
+                        draw.line(bx, 318, bx+110, 318, {color:'#7c4a1e', width:1.4});
+                        ctx.globalAlpha=1;
+                        if(phase>=0){ var a=(phase===0)?appear(pt,0.5,0.85):1; ctx.globalAlpha=a;
+                            draw.arrow(bx+10, 290, bx+72, 290, {color:'#34d399', width:4.5, headSize:13});
+                            draw.text(_v('v_applied_force','Applied force →'), bx+50, 274, {size:13, color:'#6ee7b7', weight:'700'});
+                            draw.arrow(bx+10, 366, bx-52, 366, {color:'#f87171', width:4.5, headSize:13});
+                            draw.text(_v('v_force_friction','← Force of friction'), bx-16, 384, {size:12.5, color:'#fca5a5', weight:'700'});
+                            ctx.globalAlpha=1;
+                        }
+                        if(phase>=1){ var a1=(phase===1)?appear(pt,0.15,0.6):1; ctx.globalAlpha=a1;
+                            draw.rect(center.x-160, 138, 320, 36, {fill:'rgba(52,211,153,0.16)', stroke:'#34d399', lineWidth:1.8, radius:10});
+                            draw.text(_v('v_net_force_zero_const_vel','Net force = 0  →  constant velocity'), center.x, 156, {size:15, color:'#a7f3d0', weight:'800'});
+                            ctx.globalAlpha=1;
+                        }
+                        if(phase>=2){ var a2=(phase===2)?appear(pt,0.05,0.25):1; ctx.globalAlpha=a2;
+                            draw.arrow(bx+118, 322, bx+170, 322, {color:'#60a5fa', width:4, headSize:12});
+                            draw.text(_v('v_constant_velocity_label','constant velocity'), bx+150, 308, {size:12.5, color:'#bfdbfe', weight:'700', align:'left'});
+                            ctx.globalAlpha=1;
+                        }
+                        if(phase>=3){ var a3=appear(pt,0.1,0.55); ctx.globalAlpha=a3;
+                            draw.rect(center.x-322, 470, 644, 50, {fill:'rgba(59,130,246,0.13)', stroke:'#3b82f6', lineWidth:1.8, radius:13});
+                            draw.text(_v('v_conclusion_s0_st1',"Balanced push & friction → no net force → the box keeps moving (Newton's 1st law)"), center.x, 495, {size:12.5, color:'#bfdbfe', weight:'700'});
+                            ctx.globalAlpha=1;
+                        }
+                    }
+                }
+            ],
+            // SECTION 1 — Graphs
+            [
+                {
+                    visual: function(t, phase, pt, bt) {
+                        draw.clear();
+                        draw.text(_v('v_title_s1_graphs','Example 6.3 — graphs when no net force acts'), center.x, 34, {size:21, color:'#93c5fd', weight:'700'});
+                        draw.text(_v('v_object_at_rest_fig615','Object at REST  (Fig. 6.15)'), center.x, 60, {size:14, color:'rgba(255,255,255,0.55)'});
+                        draw.text(_v('v_axis_label_position_time','Position–time'), 275, 102, {size:14, color:'#cbd5e1', weight:'700'});
+                        draw.text(_v('v_axis_label_velocity_time','Velocity–time'), 645, 102, {size:14, color:'#cbd5e1', weight:'700'});
+                        { var a=(phase===0)?appear(pt,0.4,0.8):1; ctx.globalAlpha=a;
+                            gAxes(150, 360, 250, 210, _v('v_axis_position','Position')); gAxes(520, 360, 250, 210, _v('v_axis_velocity','Velocity'));
+                            draw.text(_v('case_a','(a)'), 275, 410, {size:14, color:'rgba(255,255,255,0.6)', weight:'700'});
+                            draw.text(_v('case_b','(b)'), 645, 410, {size:14, color:'rgba(255,255,255,0.6)', weight:'700'});
+                            ctx.globalAlpha=1;
+                        }
+                        if(phase>=1){ var p=(phase===1)?appear(pt,0.2,0.85):1;
+                            draw.line(150, 308, 150+238*p, 308, {color:'#3b82f6', width:4});
+                            if(p>0.6){ ctx.globalAlpha=(phase===1)?appear(pt,0.7,0.95):1; draw.text(_v('v_position_constant_label','position constant'), 272, 295, {size:12.5, color:'#93c5fd', weight:'700'}); ctx.globalAlpha=1; }
+                        }
+                        if(phase>=2){ var p2=(phase===2)?appear(pt,0.2,0.85):1;
+                            draw.line(520, 360, 520+238*p2, 360, {color:'#3b82f6', width:4});
+                            if(p2>0.6){ ctx.globalAlpha=(phase===2)?appear(pt,0.7,0.95):1; draw.text(_v('v_velocity_zero_graph','velocity = 0'), 640, 347, {size:12.5, color:'#93c5fd', weight:'700'}); ctx.globalAlpha=1; }
+                        }
+                        if(phase>=3){ var a2=appear(pt,0.1,0.55); ctx.globalAlpha=a2;
+                            draw.rect(center.x-300, 470, 600, 50, {fill:'rgba(59,130,246,0.13)', stroke:'#3b82f6', lineWidth:1.8, radius:13});
+                            draw.text(_v('v_conclusion_s1_st0','At rest → position does not change, and velocity stays zero'), center.x, 495, {size:13.5, color:'#bfdbfe', weight:'700'});
+                            ctx.globalAlpha=1;
+                        }
+                    }
+                },
+                {
+                    visual: function(t, phase, pt, bt) {
+                        draw.clear();
+                        draw.text(_v('v_title_s1_graphs','Example 6.3 — graphs when no net force acts'), center.x, 34, {size:21, color:'#93c5fd', weight:'700'});
+                        draw.text(_v('v_object_const_vel_fig616','Object moving at CONSTANT VELOCITY  (Fig. 6.16)'), center.x, 60, {size:13.5, color:'rgba(255,255,255,0.55)'});
+                        draw.text(_v('v_axis_label_position_time','Position–time'), 275, 102, {size:14, color:'#cbd5e1', weight:'700'});
+                        draw.text(_v('v_axis_label_velocity_time','Velocity–time'), 645, 102, {size:14, color:'#cbd5e1', weight:'700'});
+                        { var a=(phase===0)?appear(pt,0.3,0.7):1; ctx.globalAlpha=a;
+                            gAxes(150, 360, 250, 210, _v('v_axis_position','Position')); gAxes(520, 360, 250, 210, _v('v_axis_velocity','Velocity'));
+                            draw.text(_v('case_a','(a)'), 275, 410, {size:14, color:'rgba(255,255,255,0.6)', weight:'700'});
+                            draw.text(_v('case_b','(b)'), 645, 410, {size:14, color:'rgba(255,255,255,0.6)', weight:'700'});
+                            ctx.globalAlpha=1;
+                        }
+                        if(phase>=1){ var p=(phase===1)?appear(pt,0.2,0.85):1;
+                            draw.line(150, 360, 150+232*p, 360-193*p, {color:'#3b82f6', width:4});
+                            if(p>0.6){ ctx.globalAlpha=(phase===1)?appear(pt,0.7,0.95):1; draw.text(_v('v_rising_constant_slope','rising — constant slope'), 262, 205, {size:12.5, color:'#93c5fd', weight:'700'}); ctx.globalAlpha=1; }
+                        }
+                        if(phase>=2){ var p2=(phase===2)?appear(pt,0.2,0.85):1;
+                            draw.line(520, 246, 520+238*p2, 246, {color:'#3b82f6', width:4});
+                            if(p2>0.6){ ctx.globalAlpha=(phase===2)?appear(pt,0.7,0.95):1; draw.text(_v('v_velocity_constant_label','velocity constant'), 645, 233, {size:12.5, color:'#93c5fd', weight:'700'}); ctx.globalAlpha=1; }
+                        }
+                        if(phase>=3){ var a2=appear(pt,0.1,0.55); ctx.globalAlpha=a2;
+                            draw.rect(center.x-312, 470, 624, 50, {fill:'rgba(59,130,246,0.13)', stroke:'#3b82f6', lineWidth:1.8, radius:13});
+                            draw.text(_v('v_conclusion_s1_st1','Constant velocity → position rises steadily (constant slope); velocity stays the same'), center.x, 495, {size:12.5, color:'#bfdbfe', weight:'700'});
+                            ctx.globalAlpha=1;
+                        }
+                    }
+                }
+            ]
+        ];
+
+        // Build the lessons array from locale data + visuals
+        var lessons = _les.map(function(lesData, lesIdx) {
+            var vis = lessonVisuals[lesIdx] || [];
+            return {
+                name:     lesData.name,
+                icon:     lesData.icon,
+                bgClass:  lesData.bgClass,
+                question: lesData.question,
+                steps: (lesData.steps || []).map(function(step, stepIdx) {
+                    return {
+                        beats: (step.beats || []).map(function(b) {
+                            return { say: b };
+                        }),
+                        visual: (vis[stepIdx] && vis[stepIdx].visual) ? vis[stepIdx].visual : function(){ draw.clear(); }
+                    };
+                }),
+                exercise: lesData.exercise
+            };
+        });
+
+        // ── State ─────────────────────────────────────────────────────────────
+        var state = { currentSection: 0, currentStep: 0, isMuted: false, completedSections: [], isPaused: false };
+        var currentNarrator = null, currentDemoAborted = false, currentRunId = 0, currentTaskId = null, animationTimeouts = [];
+
+        function stopCurrentDemo() {
+            currentDemoAborted = true; currentRunId++; currentTaskId = null;
+            if (animationId) { cancelAnimationFrame(animationId); animationId = null; }
+            if (typeof experimentRAF !== 'undefined' && experimentRAF) { cancelAnimationFrame(experimentRAF); experimentRAF = null; }
+            state.isPaused = false;
+            var pauseBtn = document.getElementById('pauseToggle');
+            if (pauseBtn) { pauseBtn.textContent = '⏸️'; pauseBtn.classList.remove('paused'); pauseBtn.title = 'Pause'; }
+            if (window.speechSynthesis) { window.speechSynthesis.cancel(); window.speechSynthesis.getVoices(); }
+            if (currentNarrator) { try { currentNarrator.destroy(); } catch(e){} currentNarrator = null; }
+            if (speech) {
+                try {
+                    if(speech.audio){ speech.audio.pause(); speech.audio.currentTime=0; speech.audio.src=''; speech.audio.load(); speech.audio.onended=null; speech.audio.onerror=null; speech.audio.onpause=null; speech.audio.onplay=null; speech.audio=null; }
+                    speech.isDestroyed=true; speech.isPaused=false;
+                    if(speech.pauseResolve){ speech.pauseResolve(); speech.pauseResolve=null; }
+                } catch(e){}
+                speech = new SpeechManager();
+            } else { speech = new SpeechManager(); }
+            animationTimeouts.forEach(function(t){try{clearTimeout(t)}catch(e){}});
+            animationTimeouts = []; isPlaying = false;
+        }
+
+        function shouldContinue(taskId) {
+            if(taskId && currentTaskId && taskId !== currentTaskId) return false;
+            return !currentDemoAborted;
+        }
+
+        function createNewNarrator(taskId) {
+            if(currentNarrator){try{currentNarrator.destroy()}catch(e){}currentNarrator=null}
+            if(speech){try{if(speech.audio){speech.audio.pause();speech.audio.currentTime=0;speech.audio.src='';speech.audio.load();speech.audio.onended=null;speech.audio.onerror=null;speech.audio=null;}speech.isDestroyed=true;speech.isPaused=false;if(speech.pauseResolve){speech.pauseResolve();speech.pauseResolve=null;}}catch(e){}speech=new SpeechManager();}else{speech=new SpeechManager();}
+            currentDemoAborted=false;currentTaskId=taskId;return speech;
+        }
+
+        function wait(ms){return new Promise(function(r){var t=setTimeout(r,ms);animationTimeouts.push(t);});}
+
+        function createParticles(){var c=document.getElementById('particles');for(var i=0;i<25;i++){var p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.animationDuration=(Math.random()*12+10)+'s';p.style.animationDelay=Math.random()*10+'s';c.appendChild(p);}}
+
+        // ── File-path SpeechManager — no TTS API, no base64 ──────────────────
+        function preprocessTextForTTS(text, locale) {
+            if (!text || locale === 'en') return text;
+            var t = text;
+            if (locale === 'hi') { t = t.replace(/→/g, ', ').replace(/←/g, ', ').replace(/≈/g, 'लगभग'); }
+            if (locale === 'ja') { t = t.replace(/→/g, '。').replace(/←/g, '。'); }
+            if (locale === 'as') { t = t.replace(/→/g, ', ').replace(/←/g, ', '); }
+            return t;
+        }
+
+        class SpeechManager {
+            constructor(){this.audio=null;this.isDestroyed=false;this.isPaused=false;this.pauseResolve=null;this._speakId=0;this._audioResolve=null;this._ttsResolve=null;}
+            destroy(){this.isDestroyed=true;this.isPaused=false;if(this.audio){try{this.audio.pause();this.audio.currentTime=0;this.audio.src='';this.audio.load();this.audio.onended=null;this.audio.onerror=null;}catch(e){}this.audio=null;}if(window.speechSynthesis){try{window.speechSynthesis.cancel();}catch(e){}}if(this.pauseResolve){this.pauseResolve();this.pauseResolve=null;}if(this._audioResolve){const r=this._audioResolve;this._audioResolve=null;r();}if(this._ttsResolve){const r=this._ttsResolve;this._ttsResolve=null;r();}const d=document.getElementById('speakingDot');if(d)d.classList.remove('active');}
+            stopAudioOnly(){if(this.audio){try{this.audio.pause();this.audio.currentTime=0;this.audio.src='';this.audio.load();this.audio.onended=null;this.audio.onerror=null;}catch(e){}this.audio=null;}if(window.speechSynthesis){try{window.speechSynthesis.cancel();}catch(e){}}if(this._audioResolve){const r=this._audioResolve;this._audioResolve=null;r();}if(this._ttsResolve){const r=this._ttsResolve;this._ttsResolve=null;r();}}
+            pause(){if(this.isPaused)return;this.isPaused=true;if(this.audio){try{this.audio.pause();}catch(e){}}if(window.speechSynthesis&&window.speechSynthesis.speaking){try{window.speechSynthesis.pause();}catch(e){}}const d=document.getElementById('speakingDot');if(d)d.classList.remove('active');}
+            resume(){if(!this.isPaused)return;this.isPaused=false;if(this.pauseResolve){const r=this.pauseResolve;this.pauseResolve=null;r();}if(this.audio){this.audio.play().catch(()=>{});}else if(window.speechSynthesis){try{window.speechSynthesis.resume();}catch(e){}}const d=document.getElementById('speakingDot');if(d)d.classList.add('active');}
+            async speak(text){
+                if(this.isDestroyed)return;const myId=++this._speakId;const isActive=()=>!this.isDestroyed&&this._speakId===myId;
+                if(this.audio){try{this.audio.pause();this.audio.currentTime=0;this.audio.src='';this.audio.load();}catch(e){}this.audio=null;}
+                if(this._audioResolve){const r=this._audioResolve;this._audioResolve=null;r();}
+                this.isPaused=false;
+                const dot=document.getElementById('speakingDot');if(dot)dot.classList.add('active');
+                const idx=window.__lessonAudioIndex||{};const rel=idx[text];
+                if(rel&&isActive()){await this._playFile(rel,isActive);}
+                else if(text&&window.speechSynthesis){await this._speakTTS(text,isActive);}
+                else{await this.waitWithPause(Math.max(800,text.length*38),isActive);}
+                if(isActive()){const dot=document.getElementById('speakingDot');if(dot)dot.classList.remove('active');}
+            }
+            async _playFile(rel,isActive){return new Promise(resolve=>{if(!isActive()||this.isDestroyed){resolve();return;}const audio=new Audio(rel);audio.muted=!!state.isMuted;this.audio=audio;this._audioResolve=resolve;const done=()=>{this._audioResolve=null;this.audio=null;resolve();};audio.onended=done;audio.onerror=done;if(state.isPaused){this.isPaused=true;return;}audio.play().catch(()=>resolve());});}
+            _speakTTS(text,isActive){return new Promise(resolve=>{if(!isActive()||this.isDestroyed){resolve();return;}try{window.speechSynthesis.cancel();var processedText=preprocessTextForTTS(text,window.__locale);const u=new SpeechSynthesisUtterance(processedText);u.volume=state.isMuted?0:1;const langMap={hi:'hi-IN',en:'en-IN',ja:'ja-JP',as:'as-IN',bn:'bn-IN'};u.lang=langMap[window.__locale]||'en-US';let done=false;const finish=()=>{if(done)return;done=true;this._ttsResolve=null;resolve();};this._ttsResolve=finish;u.onend=finish;u.onerror=finish;if(state.isPaused){this.isPaused=true;this.pauseResolve=()=>{this.pauseResolve=null;try{window.speechSynthesis.resume();}catch(e){};};}window.speechSynthesis.speak(u);if(this.isPaused){try{window.speechSynthesis.pause();}catch(e){}}const safety=Math.max(4000,text.length*140);setTimeout(finish,safety);}catch(e){resolve();}});}
+            waitWithPause(ms,isActive){return new Promise(resolve=>{const st=Date.now();let el=0;const ch=()=>{if(this.isDestroyed||(isActive&&!isActive())){resolve();return;}if(state.isPaused){this.pauseResolve=()=>{this.pauseResolve=null;ch();};return;}el=Date.now()-st;if(el>=ms)resolve();else setTimeout(ch,Math.min(100,ms-el));};ch();});}
+        }
+
+        var speech = new SpeechManager();
+        function handleButtonClick(cb){stopCurrentDemo();createNewNarrator('btn');cb();}
+
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        var center={x:0,y:0}, canvasW=0, canvasH=0, animationId=null, isPlaying=false;
+
+        function initCanvas(){
+            var c=canvas.parentElement;var r=c.getBoundingClientRect();var d=window.devicePixelRatio||1;
+            canvas.width=r.width*d;canvas.height=r.height*d;canvas.style.width=r.width+'px';canvas.style.height=r.height+'px';
+            var refW=880,refH=550;ctx.setTransform(d*r.width/refW,0,0,d*r.height/refH,0,0);
+            canvasW=refW;canvasH=refH;center={x:refW/2,y:refH/2};
+        }
+
+        var draw = {
+            clear(){ctx.clearRect(0,0,canvasW,canvasH);},
+            text(str,x,y,{size=18,color='#fff',weight='500',align='center',glow=false}={}){
+                if(glow){ctx.shadowColor=color;ctx.shadowBlur=20;}
+                ctx.fillStyle=color;ctx.font=`${weight} ${size}px 'DM Sans',sans-serif`;ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillText(str,x,y);ctx.shadowBlur=0;
+            },
+            // Like text(), but shrinks the font (down to a floor) until the string
+            // fits within maxWidth — keeps longer localized labels inside their box
+            // instead of spilling past its border.
+            fitText(str,x,y,maxWidth,{size=18,color='#fff',weight='500',align='center',minSize=9}={}){
+                var s=size;
+                ctx.font=`${weight} ${s}px 'DM Sans',sans-serif`;
+                while(s>minSize&&ctx.measureText(str).width>maxWidth){s-=1;ctx.font=`${weight} ${s}px 'DM Sans',sans-serif`;}
+                ctx.fillStyle=color;ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillText(str,x,y);
+            },
+            circle(x,y,r,{fill='#fff',stroke=null,lineWidth=2,glow=false,glowColor=null}={}){
+                if(glow){ctx.shadowColor=glowColor||fill;ctx.shadowBlur=25;}
+                ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=fill;ctx.fill();
+                if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lineWidth;ctx.stroke();}ctx.shadowBlur=0;
+            },
+            line(x1,y1,x2,y2,{color='#444',width=2,dash=false}={}){
+                ctx.beginPath();if(dash)ctx.setLineDash([8,4]);ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();ctx.setLineDash([]);
+            },
+            arrow(x1,y1,x2,y2,{color='#fff',width=2,headSize=10}={}){
+                const a=Math.atan2(y2-y1,x2-x1);const h=headSize;
+                this.line(x1,y1,x2,y2,{color,width});
+                ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-h*Math.cos(a-Math.PI/6),y2-h*Math.sin(a-Math.PI/6));ctx.moveTo(x2,y2);ctx.lineTo(x2-h*Math.cos(a+Math.PI/6),y2-h*Math.sin(a+Math.PI/6));ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();
+            },
+            rect(x,y,w,h,{fill=null,stroke='#fff',lineWidth=2,radius=0}={}){
+                ctx.beginPath();ctx.roundRect(x,y,w,h,radius);if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lineWidth;ctx.stroke();}
+            },
+            badge(x,y,text,{color='#3b82f6',bg=null,size=13,padX=0}={}){
+                const w=Math.max(80, text.length*8+30)+padX;
+                this.rect(x-w/2,y-16,w,32,{fill:bg||(color+'22'),stroke:color,lineWidth:1.5,radius:10});
+                this.text(text,x,y,{size,color,weight:'600'});
+            },
+            shadow(cx,cy,rx,ry,alpha=0.35){
+                ctx.save();ctx.fillStyle=`rgba(0,0,0,${alpha})`;
+                ctx.beginPath();ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI*2);ctx.fill();ctx.restore();
+            },
+            woodBlock(x,y,w,h){
+                this.shadow(x+w/2, y+h+4, w/2-4, 6, 0.32);
+                const grad=ctx.createLinearGradient(x,y,x,y+h);
+                grad.addColorStop(0,'#c8a07a');grad.addColorStop(0.45,'#a87a4f');grad.addColorStop(1,'#6f4a28');
+                ctx.fillStyle=grad;ctx.beginPath();ctx.roundRect(x,y,w,h,6);ctx.fill();
+                const topGrad=ctx.createLinearGradient(x,y,x,y+10);
+                topGrad.addColorStop(0,'rgba(255,240,210,0.55)');topGrad.addColorStop(1,'rgba(255,240,210,0)');
+                ctx.fillStyle=topGrad;ctx.beginPath();ctx.roundRect(x+2,y+2,w-4,10,4);ctx.fill();
+                ctx.strokeStyle='rgba(74,42,18,0.45)';ctx.lineWidth=1.2;
+                for(let i=0;i<5;i++){const gy=y+10+i*((h-14)/4);ctx.beginPath();ctx.moveTo(x+6,gy);ctx.bezierCurveTo(x+w*0.3,gy+(i%2?2:-2), x+w*0.7,gy+(i%2?-2:2), x+w-6,gy);ctx.stroke();}
+                ctx.fillStyle='rgba(74,42,18,0.5)';ctx.beginPath();ctx.ellipse(x+w*0.72,y+h*0.55,3,2,0,0,Math.PI*2);ctx.fill();
+                ctx.strokeStyle='#3e2410';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(x,y,w,h,6);ctx.stroke();
+            },
+            shade(hex, percent){
+                const f=parseInt(hex.slice(1),16),t=percent<0?0:255,p=Math.abs(percent)/100;
+                const R=f>>16,G=(f>>8)&0x00FF,B=f&0x0000FF;
+                return '#'+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+            },
+            roughFloor(x,y,w){
+                const fg=ctx.createLinearGradient(0,y,0,y+30);fg.addColorStop(0,'#5b6470');fg.addColorStop(1,'#2e3440');
+                ctx.fillStyle=fg;ctx.fillRect(x,y,w,30);
+                ctx.fillStyle='rgba(255,255,255,0.18)';ctx.fillRect(x,y,w,2);
+                ctx.strokeStyle='rgba(255,255,255,0.18)';ctx.lineWidth=1.2;
+                for(let i=0;i<w;i+=18){ctx.beginPath();ctx.moveTo(x+i,y+4);ctx.lineTo(x+i+9,y+13);ctx.stroke();}
+                ctx.fillStyle='rgba(255,255,255,0.25)';
+                for(let i=0;i<w;i+=22){ctx.beginPath();ctx.arc(x+i+11,y+20,1.4,0,Math.PI*2);ctx.fill();}
+            },
+            childPush(x,y,scale,dir,shirtColor='#ec407a'){
+                const s=scale, d=dir;
+                this.shadow(x, y+24*s, 14*s, 3*s, 0.3);
+                ctx.fillStyle='#1e3a5f';
+                ctx.beginPath();ctx.roundRect(x-8*s, y+2*s, 7*s, 22*s, 3);ctx.fill();
+                ctx.beginPath();ctx.roundRect(x+2*s, y+2*s, 7*s, 22*s, 3);ctx.fill();
+                ctx.fillStyle='#0f172a';
+                ctx.beginPath();ctx.ellipse(x-4*s+d*2*s,y+25*s,5*s,2.5*s,0,0,Math.PI*2);ctx.fill();
+                ctx.beginPath();ctx.ellipse(x+6*s+d*2*s,y+25*s,5*s,2.5*s,0,0,Math.PI*2);ctx.fill();
+                const bodyGrad=ctx.createLinearGradient(x-12*s,y-22*s,x+12*s,y+5*s);
+                bodyGrad.addColorStop(0,shirtColor);bodyGrad.addColorStop(1,this.shade(shirtColor,-25));
+                ctx.fillStyle=bodyGrad;
+                ctx.beginPath();ctx.moveTo(x-11*s, y-22*s);ctx.quadraticCurveTo(x-13*s, y-5*s, x-10*s, y+4*s);ctx.lineTo(x+10*s, y+4*s);ctx.quadraticCurveTo(x+13*s, y-5*s, x+11*s, y-22*s);ctx.quadraticCurveTo(x, y-26*s, x-11*s, y-22*s);ctx.closePath();ctx.fill();
+                ctx.strokeStyle='rgba(0,0,0,0.35)';ctx.lineWidth=1.2;ctx.stroke();
+                ctx.fillStyle=bodyGrad;ctx.strokeStyle='rgba(0,0,0,0.3)';ctx.lineWidth=1;
+                ctx.beginPath();ctx.roundRect(x+(d>0?2:-22)*s, y-18*s, 20*s, 6*s, 3);ctx.fill();ctx.stroke();
+                ctx.fillStyle='#f4c79c';ctx.beginPath();ctx.arc(x+d*24*s, y-15*s, 4*s, 0, Math.PI*2);ctx.fill();
+                ctx.strokeStyle='#a67849';ctx.lineWidth=1;ctx.stroke();
+                ctx.fillStyle='#f4c79c';ctx.beginPath();ctx.arc(x, y-32*s, 9*s, 0, Math.PI*2);ctx.fill();
+                ctx.strokeStyle='#8a5e35';ctx.lineWidth=1.2;ctx.stroke();
+                ctx.fillStyle='#3a2516';ctx.beginPath();ctx.arc(x, y-34*s, 9*s, Math.PI, 0);ctx.lineTo(x+9*s, y-32*s);ctx.lineTo(x-9*s, y-32*s);ctx.closePath();ctx.fill();
+                ctx.fillStyle='#1e293b';ctx.beginPath();ctx.arc(x+d*2*s, y-32*s, 1.2*s, 0, Math.PI*2);ctx.fill();
+            }
+        };
+
+        var experimentRAF = null;
+        var currentExpIdx = -1;
+
+        function handleTryClick() {
+            if (currentExpIdx >= 0 && experiments[currentExpIdx]) {
+                experiments[currentExpIdx].try();
+            }
+        }
+
+        var experiments = [];
+
+        function showExperimentPanel(idx, runId) {
+            var exp = experiments[idx];
+            if (!exp) return;
+            currentExpIdx = idx;
+            document.getElementById('controlsContent').innerHTML = exp.controlsHtml;
+            document.getElementById('experimentArea').classList.add('active');
+            var cr = document.getElementById('continueRow'); if (cr) cr.style.display = 'none';
+            exp.init();
+            setTimeout(function() {
+                var el = document.getElementById('experimentArea');
+                if (el && el.scrollIntoView) el.scrollIntoView({behavior:'smooth', block:'center'});
+            }, 200);
+            var animate = function() {
+                if (currentRunId !== runId) { experimentRAF = null; return; }
+                if (state.isPaused) { if(window.__needsRedraw){window.__needsRedraw=false;try{exp.render(Date.now());}catch(e){}} experimentRAF = requestAnimationFrame(animate); return; }
+                exp.render(Date.now());
+                experimentRAF = requestAnimationFrame(animate);
+            };
+            animate();
+        }
+
+        function hideExperimentPanel() {
+            document.getElementById('experimentArea').classList.remove('active');
+            var cr = document.getElementById('continueRow'); if (cr) cr.style.display = '';
+            if (experimentRAF) { cancelAnimationFrame(experimentRAF); experimentRAF = null; }
+            currentExpIdx = -1;
+        }
+
+        function gAxes(ox, oy, W, H, yLabel){
+            draw.arrow(ox, oy, ox, oy-H, {color:'#e5e7eb', width:2.5, headSize:10});
+            draw.arrow(ox, oy, ox+W, oy, {color:'#e5e7eb', width:2.5, headSize:10});
+            draw.text("0", ox-13, oy+15, {size:13, color:'#cbd5e1', weight:'700'});
+            draw.text(_v('v_axis_time','Time'), ox+W/2, oy+24, {size:14, color:'#cbd5e1', weight:'700'});
+            ctx.save();
+            ctx.translate(ox-26, oy-H/2);ctx.rotate(-Math.PI/2);
+            ctx.font="700 14px 'DM Sans',sans-serif";ctx.fillStyle='#cbd5e1';ctx.textAlign='center';ctx.textBaseline='middle';
+            ctx.fillText(yLabel, 0, 0);ctx.restore();
+        }
+
+        function updateSidebar(){
+            var c=document.getElementById('conceptList');
+            var notStarted = _ui.notStartedLabel || 'Not started';
+            var inProgress = _ui.inProgressLabel  || 'In progress';
+            var completed  = _ui.completedLabel   || 'Completed';
+            c.innerHTML=lessons.map(function(l,i){
+                var status=notStarted, cls='concept-item';
+                if(state.completedSections.indexOf(i)>=0){status=completed;cls+=' completed';}
+                else if(i===state.currentSection){status=inProgress;cls+=' active';}
+                return '<div class="'+cls+'" onclick="handleButtonClick(function(){goToSection('+i+')})"><div class="concept-icon">'+l.icon+'</div><div class="concept-info"><div class="concept-name">'+l.name+'</div><div class="concept-status">'+status+'</div></div><div class="concept-check">✓</div></div>';
+            }).join('');
+        }
+
+        function setBackground(c){document.body.className=c;}
+        function showScreen(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});document.getElementById(id).classList.add('active');if(id==='screen-explanation')setTimeout(initCanvas,100);}
+
+        async function startJourney(){stopCurrentDemo();createNewNarrator('start');state.currentSection=0;updateSidebar();await loadQuestion();}
+
+        var stepSkipRequested=false;
+        function skipCurrentStep(){
+            stepSkipRequested=true;
+            if(speech&&!speech.isDestroyed){try{speech._speakId++;}catch(e){}try{speech.stopAudioOnly();}catch(e){}}
+        }
+        function updateNextStepBtn(currentIdx,totalSteps){
+            var b=document.getElementById('nextStepBtn');if(!b)return;
+            if(currentIdx<totalSteps-1)b.classList.remove('hidden');else b.classList.add('hidden');
+        }
+        function hideNextStepBtn(){var b=document.getElementById('nextStepBtn');if(b)b.classList.add('hidden');}
+
+        function appear(p, start, end){ if(p<=start) return 0; if(p>=end) return 1; var u=(p-start)/(end-start); return u*u*(3-2*u); }
+
+        async function loadQuestion(){
+            var l=lessons[state.currentSection];setBackground(l.bgClass);
+            hideExperimentPanel();hideNextStepBtn();
+            document.getElementById('sectionLabel').textContent=l.name;
+            document.getElementById('questionIcon').textContent=l.icon;
+            document.getElementById('questionText').textContent=l.question;
+            updateSidebar();showScreen('screen-question');
+            if(speech&&!speech.isDestroyed)await speech.speak(l.question);
+        }
+
+        async function revealExplanation(){
+            stopCurrentDemo();var myRunId=currentRunId;createNewNarrator('reveal');showScreen('screen-explanation');hideExperimentPanel();hideNextStepBtn();setTimeout(initCanvas,50);
+            var l=lessons[state.currentSection];
+            for(var i=0;i<l.steps.length;i++){
+                if(currentRunId!==myRunId)return;
+                state.currentStep=i;var step=l.steps[i];
+                updateNextStepBtn(i,l.steps.length);stepSkipRequested=false;
+                var beats=(step.beats&&step.beats.length)?step.beats:[{say:step.text||''}];
+                var phase=0,animStart=Date.now(),accPause=0,pauseStart=0;
+                var beatStart=Date.now(),beatEst=4000,beatPt=0;
+                var myStepIdx=i;
+                var animate=function(){
+                    if(currentRunId!==myRunId){cancelAnimationFrame(animationId);return;}
+                    if(state.isPaused){if(pauseStart===0)pauseStart=Date.now();if(window.__needsRedraw){window.__needsRedraw=false;try{step.visual(pauseStart-animStart-accPause,phase,beatPt,pauseStart-beatStart);}catch(e){}}if(state.currentStep===myStepIdx)animationId=requestAnimationFrame(animate);return;}
+                    else if(pauseStart>0){var dd=Date.now()-pauseStart;accPause+=dd;beatStart+=dd;pauseStart=0;}
+                    var et=Date.now()-animStart-accPause;
+                    var bt=Date.now()-beatStart;
+                    var sp=Math.min(1, bt/beatEst);
+                    if(sp>beatPt)beatPt=sp;
+                    var pt=beatPt;
+                    try{step.visual(et,phase,pt,bt);}
+                    catch(e){ctx.fillStyle='#f87171';ctx.font='14px DM Sans';ctx.fillText('render error: '+e.message,20,30);}
+                    if(state.currentStep===myStepIdx)animationId=requestAnimationFrame(animate);
+                };animate();
+                for(var b=0;b<beats.length;b++){
+                    if(currentRunId!==myRunId){cancelAnimationFrame(animationId);return;}
+                    if(stepSkipRequested)break;
+                    phase=b;beatStart=Date.now();beatPt=0;beatEst=Math.max(2600,(beats[b].say||'').length*60);
+                    document.getElementById('narrationText').textContent=beats[b].say||'';
+                    await speech.speak(beats[b].say||'');if(currentRunId!==myRunId){cancelAnimationFrame(animationId);return;}
+                    if(stepSkipRequested)break;
+                    var _visualLeft=(beatStart+beatEst+250)-Date.now();
+                    await pauseAwareWait(Math.max(readingHold(beats[b].say||''),_visualLeft));
+                    if(currentRunId!==myRunId){cancelAnimationFrame(animationId);return;}
+                }
+                cancelAnimationFrame(animationId);
+                if(!stepSkipRequested){await pauseAwareWait(150);}if(currentRunId!==myRunId)return;
+            }
+            hideNextStepBtn();
+            if(currentRunId!==myRunId)return;
+            if(experiments[state.currentSection]) {
+                var expNarration = (_les[state.currentSection] && _les[state.currentSection].experimentNarration) || "Now you can experiment with the controls below. Adjust the values and observe what happens. When you're ready, click Continue to Exercise.";
+                document.getElementById('narrationText').textContent = expNarration;
+                showExperimentPanel(state.currentSection, myRunId);
+                await speech.speak(expNarration);
+            } else {
+                await loadExercise();
+            }
+        }
+
+        async function skipToExercise(){
+            stopCurrentDemo();createNewNarrator('skipEx');await loadExercise();
+        }
+
+        function readingHold(text){
+            var words=(text||'').trim().split(/\s+/).filter(Boolean).length;
+            return Math.min(400, Math.max(150, words*20));
+        }
+
+        function pauseAwareWait(ms){return new Promise(function(r){var el=0,lt=Date.now();var ch=function(){if(state.isPaused){setTimeout(ch,50);lt=Date.now();return;}var n=Date.now();el+=n-lt;lt=n;if(el>=ms)r();else setTimeout(ch,Math.min(50,ms-el));};ch();});}
+
+        async function loadExercise(){
+            stopCurrentDemo();createNewNarrator('exercise');hideExperimentPanel();var l=lessons[state.currentSection];var ex=l.exercise;
+            setBackground('bg-exercise');document.getElementById('exerciseQuestion').textContent=ex.question;
+            document.getElementById('feedback').classList.remove('visible');
+            var c=document.getElementById('exerciseContainer');
+            if(ex.type==='mcq'){c.innerHTML=ex.options.map(function(o,i){return '<div class="option" data-index="'+i+'" onclick="checkMCQ(this,'+ex.correct+')">'+o+'</div>';}).join('');}
+            showScreen('screen-exercise');
+            var _rid_ex=currentRunId;
+            if(_ui.testYourUnderstanding){await speech.speak(_ui.testYourUnderstanding);if(currentRunId!==_rid_ex)return;}
+            await speech.speak(ex.question);
+        }
+
+        function checkMCQ(el,correct){
+            stopCurrentDemo();createNewNarrator('mcq');var idx=parseInt(el.dataset.index);
+            document.querySelectorAll('.option').forEach(function(o,i){o.style.pointerEvents='none';if(i===correct)o.classList.add('correct');else if(i===idx)o.classList.add('incorrect');});
+            showFeedback(idx===correct);
+        }
+
+        async function showFeedback(success){
+            var myRunId=currentRunId;
+            var fb=document.getElementById('feedback');var ex=lessons[state.currentSection].exercise;
+            var prefix = success ? (_ui.correctPrefix || '✓ Correct! ') : (_ui.incorrectPrefix || '✗ Not quite. ');
+            fb.textContent=prefix+ex.explanation;
+            fb.className='feedback visible '+(success?'success':'error');
+            if(success&&state.completedSections.indexOf(state.currentSection)<0)state.completedSections.push(state.currentSection);
+            updateSidebar();
+            await pauseAwareWait(80);if(currentRunId!==myRunId)return;
+            var spk = success ? (_ui.feedbackCorrectAlt || "Excellent, that's correct.") : (_ui.feedbackWrongAlt || "Not quite right.");
+            await speech.speak(spk);
+            if(currentRunId!==myRunId)return;
+            await speech.speak(ex.explanation);
+            if(currentRunId!==myRunId)return;
+            await pauseAwareWait(1200);
+            if(currentRunId!==myRunId)return;
+            showComplete(success);
+        }
+
+        async function showComplete(success){
+            stopCurrentDemo();createNewNarrator('complete');setBackground('bg-complete');
+            var isLast=state.currentSection>=lessons.length-1;
+            document.getElementById('completeIcon').textContent=success?'🎉':'📚';
+            var completeTitleText=success?(_ui.excellentWork||'Excellent Work!'):(_ui.keepPracticing||'Keep Practicing!');
+            document.getElementById('completeTitle').textContent=completeTitleText;
+            var completeMessageText=lessons[state.currentSection].exercise.explanation;
+            document.getElementById('completeMessage').textContent=completeMessageText;
+            document.getElementById('nextBtn').textContent=isLast?(_ui.chapterCompleteBtn||'Complete Chapter'):(_ui.continueBtn||'Continue');
+            var myRunId=currentRunId;
+            showScreen('screen-complete');
+            await speech.speak(completeTitleText);if(currentRunId!==myRunId)return;
+            if(completeMessageText)await speech.speak(completeMessageText);
+        }
+
+        async function nextSection(){
+            stopCurrentDemo();createNewNarrator('next');
+            if(state.currentSection<lessons.length-1){state.currentSection++;state.currentStep=0;updateSidebar();await loadQuestion();}
+            else{
+                var myRunId=currentRunId;
+                showScreen('screen-final');setBackground('bg-welcome');
+                await speech.speak(_ui.congratsMsg||"Congratulations! You've completed Newton's first law of motion.");
+                if(currentRunId!==myRunId)return;
+                if(_ui.finalSubtitle){await speech.speak(_ui.finalSubtitle);}
+            }
+        }
+
+        async function restartSection(){stopCurrentDemo();createNewNarrator('restart');state.currentStep=0;await loadQuestion();}
+        async function goToSection(idx){stopCurrentDemo();createNewNarrator('goto');await new Promise(function(r){setTimeout(r,50);});state.currentSection=idx;state.currentStep=0;updateSidebar();await loadQuestion();}
+
+        document.getElementById('pauseToggle').addEventListener('click',function(){
+            state.isPaused=!state.isPaused;var pb=document.getElementById('pauseToggle');
+            if(state.isPaused){pb.textContent='▶️';pb.classList.add('paused');pb.title='Resume';if(speech)speech.pause();}
+            else{pb.textContent='⏸️';pb.classList.remove('paused');pb.title='Pause';if(speech)speech.resume();}
+        });
+        document.getElementById('audioToggle').addEventListener('click',function(){
+            state.isMuted=!state.isMuted;document.getElementById('audioToggle').textContent=state.isMuted?'🔇':'🔊';
+            var dot=document.getElementById('speakingDot');
+            if(state.isMuted){if(speech&&speech.audio)speech.audio.muted=true;if(dot)dot.classList.remove('active');}
+            else{if(speech&&speech.audio){speech.audio.muted=false;if(dot)dot.classList.add('active');}}
+        });
+        window.addEventListener('resize',function(){if(document.getElementById('screen-explanation').classList.contains('active')){initCanvas();window.__needsRedraw=true;}});
+
+        createParticles();updateSidebar();
+    </script>
+    <script>
+    window.addEventListener('keydown', function(e){ if(e.key===' '||e.keyCode===32){e.preventDefault();e.stopPropagation();}}, true);
+    window.addEventListener('keyup',   function(e){ if(e.key===' '||e.keyCode===32){e.preventDefault();e.stopPropagation();}}, true);
+    window.addEventListener('keypress',function(e){ if(e.key===' '||e.keyCode===32){e.preventDefault();e.stopPropagation();}}, true);
+    </script>
+<script src="../../language-button.js"></script>
+</body>
+</html>

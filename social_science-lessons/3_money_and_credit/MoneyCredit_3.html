@@ -1,0 +1,2013 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+(function(){
+  var ok=['as','en','hi','ja'],p=new URLSearchParams(location.search),l=p.get('language');
+  if(ok.indexOf(l)<0){
+    l=null;try{l=localStorage.getItem('siteLanguage');}catch(e){}
+    if(ok.indexOf(l)<0)l='as';
+    p.set('language',l);
+    history.replaceState(null,'',location.pathname+'?'+p.toString()+location.hash);
+  }
+  try{localStorage.setItem('siteLanguage',l);}catch(e){}
+  document.documentElement.lang=l;
+})();
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money and Credit — Chapter 3 · Part 3</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap');
+
+        *{margin:0;padding:0;box-sizing:border-box}
+        html,body{height:100%;overflow:hidden}
+        html{scroll-behavior:smooth}
+
+        body{
+            font-family:'Inter','Noto Sans Devanagari','Noto Sans JP','Noto Sans Bengali',-apple-system,BlinkMacSystemFont,sans-serif;
+            transition:background 1.2s ease;
+        }
+
+        .bg-welcome{background:linear-gradient(135deg,#0d1a2e 0%,#1a2a3a 40%,#0d1a2e 100%)}
+        .bg-section-0{background:linear-gradient(135deg,#0d1a10 0%,#152a18 50%,#0d1a10 100%)}
+        .bg-section-1{background:linear-gradient(135deg,#0a0d1a 0%,#12183a 50%,#0a0d1a 100%)}
+        .bg-section-2{background:linear-gradient(135deg,#1a0d05 0%,#2a180a 50%,#1a0d05 100%)}
+        .bg-section-3{background:linear-gradient(135deg,#0d1a18 0%,#152e28 50%,#0d1a18 100%)}
+        .bg-section-4{background:linear-gradient(135deg,#1a1505 0%,#2a2208 50%,#1a1505 100%)}
+        .bg-complete{background:linear-gradient(135deg,#1a2e0a 0%,#2e5020 50%,#0d1a0d 100%)}
+
+        .particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:0}
+        .particle{position:absolute;border-radius:50%;animation:float 20s infinite ease-in-out}
+        .particle.coin{background:radial-gradient(circle,rgba(218,165,32,0.35),rgba(218,165,32,0))}
+        .particle.note{background:radial-gradient(circle,rgba(50,180,100,0.3),rgba(50,180,100,0))}
+        .particle.silver{background:radial-gradient(circle,rgba(180,180,220,0.28),rgba(180,180,220,0))}
+        @keyframes float{0%,100%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:0.5}90%{opacity:0.5}100%{transform:translateY(-100vh) rotate(540deg);opacity:0}}
+
+        .glow-orb{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;z-index:0;transition:all 3s ease}
+        .orb-1{width:500px;height:500px;top:-250px;left:-250px;background:#DAA520;opacity:0.10}
+        .orb-2{width:400px;height:400px;bottom:-200px;right:-200px;background:#32b464;opacity:0.09}
+        .orb-3{width:300px;height:300px;top:50%;left:50%;transform:translate(-50%,-50%);background:#5080c8;opacity:0.07}
+
+        .concept-sidebar{
+            width:100%;height:115px;background:rgba(10,20,35,0.88);backdrop-filter:blur(24px);
+            border-top:1px solid rgba(218,165,32,0.18);padding:0.8rem 1.5rem;
+            position:fixed;left:0;bottom:0;z-index:100;
+            display:flex;align-items:center;justify-content:center;
+        }
+        .concept-list{display:flex;gap:0.4rem;justify-content:center;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+        .concept-list::-webkit-scrollbar{display:none}
+        .concept-item{display:flex;align-items:center;gap:0.5rem;padding:0.55rem 0.75rem;border-radius:12px;cursor:pointer;transition:all .3s;min-width:120px;white-space:nowrap;flex-shrink:0;position:relative;border:1px solid transparent}
+        .concept-item:hover{background:rgba(255,255,255,0.04);border-color:rgba(218,165,32,0.15)}
+        .concept-item.active{background:rgba(218,165,32,0.1);border-color:rgba(218,165,32,0.25)}
+        .concept-item.active::before{content:'';position:absolute;left:50%;top:-1px;transform:translateX(-50%);width:50%;height:3px;background:linear-gradient(90deg,#DAA520,#32b464);border-radius:0 0 3px 3px}
+        .concept-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;background:rgba(20,40,60,0.6);border:1px solid rgba(218,165,32,0.25);transition:all .3s;color:#DAA520}
+        .concept-icon svg{width:20px;height:20px;display:block}
+        .concept-item.completed .concept-icon{color:#fff}
+        .concept-item.active .concept-icon{color:#fff}
+        .concept-check svg{width:14px;height:14px;display:block;color:#32b464}
+        .concept-item.completed .concept-icon{background:linear-gradient(135deg,#1a6b3a,#32b464);border-color:transparent;color:#fff}
+        .concept-item.active .concept-icon{background:linear-gradient(135deg,#DAA520,#f0c040);border-color:transparent;color:#fff}
+        .concept-info{flex:1}
+        .concept-name{font-size:0.78rem;font-weight:600;color:#fff;margin-bottom:0.1rem;letter-spacing:0.01em}
+        .concept-status{font-size:0.62rem;color:rgba(255,255,255,0.3)}
+        .concept-item.completed .concept-status{color:#32b464}
+        .concept-item.active .concept-status{color:#DAA520}
+        .concept-check{opacity:0;color:#32b464;font-size:1rem}
+        .concept-item.completed .concept-check{opacity:1}
+
+        .main-content{position:fixed;top:0;left:0;right:0;bottom:115px;overflow-y:auto;overflow-x:hidden}
+        .screen{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 2.5rem 2rem;opacity:0;position:absolute;top:0;left:0;width:100%;height:0;overflow:hidden;pointer-events:none;transition:none}
+        .screen.active{opacity:1;pointer-events:all;position:relative;top:auto;left:auto;height:auto;overflow:visible;min-height:100%}
+
+        .label{font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;background:linear-gradient(90deg,#DAA520,#32b464,#5080c8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1.5rem}
+        .title{font-family:'Playfair Display','Noto Sans Devanagari','Noto Sans JP','Noto Sans Bengali',serif;font-size:clamp(2.5rem,5vw,4.2rem);font-weight:900;text-align:center;line-height:1.35;padding-block:0.15em;margin-bottom:1.5rem;background:linear-gradient(135deg,#ffffff 0%,#DAA520 60%,#32b464 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+        .subtitle{font-size:1.1rem;color:rgba(255,255,255,0.65);text-align:center;max-width:680px;line-height:1.75}
+        .question{font-size:clamp(1.3rem,3vw,1.75rem);font-weight:500;text-align:center;max-width:720px;line-height:1.55;color:#fff}
+
+        .btn{background:linear-gradient(135deg,#DAA520 0%,#f0c040 100%);color:#0d1a0d;border:none;padding:1rem 2.8rem;font-size:1.02rem;font-weight:800;border-radius:100px;cursor:pointer;transition:all .4s;margin-top:2rem;font-family:inherit;box-shadow:0 10px 40px rgba(218,165,32,0.25);letter-spacing:0.02em}
+        .btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 18px 50px rgba(218,165,32,0.4)}
+        .btn-secondary{background:rgba(20,40,60,0.4);border:1px solid rgba(218,165,32,0.25);box-shadow:none;margin-top:1rem;color:rgba(255,255,255,0.85)}
+        .btn-secondary:hover{background:rgba(20,40,60,0.6);box-shadow:0 10px 30px rgba(20,40,60,0.4)}
+
+        .canvas-container{width:100%;max-width:920px;aspect-ratio:16/10;margin:2rem 0;border-radius:20px;background:linear-gradient(180deg,rgba(8,16,30,0.97) 0%,rgba(14,26,48,0.97) 50%,rgba(6,12,24,0.97) 100%);border:2px solid rgba(218,165,32,0.2);overflow:hidden;box-shadow:0 30px 100px rgba(0,0,0,0.6),0 0 0 1px rgba(218,165,32,0.12),inset 0 1px 0 rgba(255,255,255,0.03);position:relative}
+        #canvas{width:100%;height:100%;display:block}
+
+        .narration-area{width:100%;max-width:920px;text-align:center;margin-top:1rem}
+        .narration{font-size:1.1rem;color:rgba(255,255,255,0.88);text-align:center;max-width:780px;line-height:1.8;min-height:65px;margin:0 auto}
+        .speaking-dot{display:inline-block;width:10px;height:10px;background:linear-gradient(135deg,#DAA520,#32b464);border-radius:50%;margin-left:8px;opacity:0;transition:opacity .3s;box-shadow:0 0 15px #32b464}
+        .speaking-dot.active{opacity:1;animation:pulse 1s ease-in-out infinite}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.5)}}
+
+        .exercise-container{width:100%;max-width:580px;margin-top:2rem}
+        .option{background:rgba(20,40,60,0.3);border:2px solid rgba(50,180,100,0.25);border-radius:16px;padding:1.15rem 1.5rem;margin-bottom:0.7rem;cursor:pointer;transition:all .3s;font-size:0.98rem;text-align:left;color:rgba(255,255,255,0.85);font-family:inherit;width:100%}
+        .option:hover{background:rgba(218,165,32,0.1);border-color:rgba(218,165,32,0.4);transform:translateX(4px);color:#fff}
+        .option.correct{border-color:#32b464;background:rgba(50,180,100,0.18);color:#a7f3d0;box-shadow:0 0 30px rgba(50,180,100,0.18)}
+        .option.incorrect{border-color:#cc4040;background:rgba(204,64,64,0.12);color:#fca5a5}
+        .narr-cap{font-size:1rem;color:rgba(255,255,255,0.75);text-align:center;max-width:780px;line-height:1.7;margin-top:1.2rem;min-height:1.7em}
+        .feedback{margin-top:2rem;padding:1.2rem 1.8rem;border-radius:16px;font-size:0.95rem;opacity:0;transform:translateY(10px);transition:all .4s;max-width:580px;text-align:center;line-height:1.6}
+        .feedback.visible{opacity:1;transform:translateY(0)}
+        .feedback.success{background:rgba(50,180,100,0.12);border:1px solid rgba(50,180,100,0.35);color:#a7f3d0}
+        .feedback.error{background:rgba(204,64,64,0.1);border:1px solid rgba(204,64,64,0.3);color:#fca5a5}
+
+        .control-buttons{position:fixed;top:1.5rem;right:1.5rem;display:flex;gap:0.6rem;z-index:100}
+        .audio-toggle,.pause-toggle{background:rgba(8,16,30,0.8);border:1px solid rgba(218,165,32,0.2);color:#fff;width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:1.1rem;transition:all .3s;backdrop-filter:blur(12px)}
+        .audio-toggle:hover,.pause-toggle:hover{background:rgba(218,165,32,0.15);border-color:rgba(218,165,32,0.35);transform:scale(1.08)}
+        .pause-toggle.paused{background:rgba(218,165,32,0.22);border-color:#DAA520;animation:pausePulse 1.5s ease-in-out infinite}
+        @keyframes pausePulse{0%,100%{box-shadow:0 0 0 0 rgba(218,165,32,0.3)}50%{box-shadow:0 0 20px 5px rgba(218,165,32,0.15)}}
+        .icon-large{font-size:3.5rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;color:#DAA520}
+        .icon-large svg{width:64px;height:64px;filter:drop-shadow(0 0 12px rgba(218,165,32,0.3))}
+        @media(max-width:640px){.icon-large svg{width:42px;height:42px}}
+
+        .badge-brand{display:inline-flex;align-items:center;gap:0.6rem;margin-bottom:2rem;padding:0.5rem 1rem;border-radius:100px;background:rgba(20,40,60,0.5);border:1px solid rgba(218,165,32,0.2)}
+        .badge-mark{font-weight:900;font-size:0.75rem;color:#DAA520;letter-spacing:0.1em}
+        .badge-sep{width:1px;height:14px;background:rgba(218,165,32,0.25)}
+        .badge-sub{font-size:0.65rem;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.15em}
+
+        @media(max-width:900px){
+            .concept-sidebar{height:75px;padding:0.4rem 0.6rem}
+            .concept-item{min-width:55px;padding:0.3rem 0.4rem;gap:0.2rem}
+            .concept-icon{width:28px;height:28px;font-size:0.9rem}
+            .concept-info{display:none}
+            .main-content{bottom:75px}
+            .screen{padding:2rem 1.2rem}
+            .canvas-container{margin:1.2rem 0;border-radius:16px}
+            .narration{font-size:0.98rem}
+        }
+        @media(max-width:640px){
+            .concept-sidebar{height:62px;padding:0.3rem 0.4rem}
+            .concept-item{min-width:42px;padding:0.25rem 0.3rem;border-radius:8px}
+            .concept-icon{width:22px;height:22px;font-size:0.75rem;border-radius:6px}
+            .main-content{bottom:62px}
+            .canvas-container{margin:0.5rem 0;border-radius:12px}
+            .narration{font-size:0.9rem;min-height:45px;line-height:1.6}
+            .screen{padding:1rem 0.7rem}
+            .title{font-size:1.8rem}
+            .question{font-size:1.05rem}
+        }
+    </style>
+<script src="lesson_data.js"></script>
+<script>
+(function(){
+  var ld=window.__lessonData||{};
+  var loc=ld.defaultLocale||'en';
+  var supported=ld.supportedLocales||['en'];
+  var urlParam=null;
+  try{var qp=new URLSearchParams(location.search);urlParam=qp.get('language')||qp.get('lang')||qp.get('locale')||qp.get('hl');if(urlParam)urlParam=urlParam.toLowerCase().split(/[-_]/)[0];}catch(e){}
+  if(urlParam&&supported.indexOf(urlParam)>=0){loc=urlParam;}
+  else{try{var stored=localStorage.getItem('__locale');if(stored&&supported.indexOf(stored)>=0)loc=stored;}catch(e){}}
+  try{localStorage.setItem('__locale',loc);}catch(e){}
+  window.__locale=loc;
+  var locales=ld.locales||{};
+  window.__localeData=locales[loc]||locales['en']||{};
+  var s=document.createElement('script');s.src='audio_index_'+loc+'.js';document.head.appendChild(s);
+})();
+</script>
+</head>
+<body class="bg-welcome">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+    <div class="particles" id="particles"></div>
+
+    <aside class="concept-sidebar"><div class="concept-list" id="conceptList"></div></aside>
+
+    <main class="main-content">
+        <div class="control-buttons">
+            <button class="pause-toggle" id="pauseToggle" title="Pause/Resume"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg></button>
+            <button class="audio-toggle" id="audioToggle" title="Mute/Unmute"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+        </div>
+
+        <!-- WELCOME -->
+        <div class="screen active" id="screen-welcome">
+            <div class="badge-brand">
+                <span class="badge-mark">NCERT</span>
+                <span class="badge-sep"></span>
+                <span class="badge-sub" id="badgeSubLabel">Class 10 · Economics</span>
+            </div>
+            <div class="label" id="welcomeLabel">Understanding Economic Development — Chapter 3 · Part 3</div>
+            <h1 class="title" id="welcomeTitle">Credit<br>& Society</h1>
+            <p class="subtitle" id="welcomeSubtitle">From the 2019 picture of where rural India borrows — to Self-Help Groups and the Grameen Bank — discover who gets formal credit, why the poor depend on moneylenders, and how SHGs are changing lives.</p>
+            <p class="narr-cap"></p>
+            <button class="btn" id="beginBtn" onclick="handleButtonClick(startJourney)">Begin Part 3</button>
+        </div>
+
+        <!-- QUESTION -->
+        <div class="screen" id="screen-question">
+            <div class="icon-large" id="questionIcon">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="18" r="6" fill="currentColor" fill-opacity="0.15"/><circle cx="36" cy="18" r="6" fill="currentColor" fill-opacity="0.15"/><path d="M18 16h12M18 20h12"/><path d="M30 13l3 3-3 3"/><path d="M18 17l-3 3 3 3"/><path d="M12 28v4M36 28v4"/><path d="M9 32h6M33 32h6"/></svg>
+            </div>
+            <div class="label" id="sectionLabel"></div>
+            <p class="question" id="questionText"></p>
+            <button class="btn" id="discoverBtn" onclick="handleButtonClick(revealExplanation)">Discover</button>
+        </div>
+
+        <!-- EXPLANATION -->
+        <div class="screen" id="screen-explanation">
+            <div class="canvas-container" id="canvasContainer">
+                <canvas id="canvas"></canvas>
+            </div>
+            <div class="narration-area">
+                <p class="narration" id="narration">
+                    <span id="narrationText"></span>
+                    <span class="speaking-dot" id="speakingDot"></span>
+                </p>
+            </div>
+        </div>
+
+        <!-- EXERCISE -->
+        <div class="screen" id="screen-exercise">
+            <div class="icon-large">
+                <svg viewBox="0 0 32 32" fill="none"><path d="M6 8h20v4H6zM6 14h20v4H6zM6 20h20v4H6z" fill="rgba(218,165,32,0.15)" stroke="#DAA520" stroke-width="1.5"/><circle cx="9" cy="10" r="1" fill="#32b464"/><circle cx="9" cy="16" r="1" fill="#DAA520"/><circle cx="9" cy="22" r="1" fill="#5080c8"/></svg>
+            </div>
+            <div class="label" id="testLabel">Test Your Understanding</div>
+            <p class="question" id="exerciseQuestion" style="font-size:1.2rem;"></p>
+            <div class="exercise-container" id="exerciseContainer"></div>
+            <div class="feedback" id="feedback"></div>
+            <p class="narr-cap"></p>
+        </div>
+
+        <!-- COMPLETE -->
+        <div class="screen" id="screen-complete">
+            <div class="icon-large">
+                <svg viewBox="0 0 32 32" fill="none"><path d="M16 4l3.5 7.5L28 13l-6 5.5 1.5 8.5-7.5-4-7.5 4L10 18.5 4 13l8.5-1.5z" fill="rgba(218,165,32,0.25)" stroke="#DAA520" stroke-width="2" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="label" id="sectionCompleteLabel">Section Complete</div>
+            <h1 class="title" id="completeTitle" style="font-size:clamp(2rem,4vw,3rem);">Excellent!</h1>
+            <p class="subtitle" id="completeMessage"></p>
+            <button class="btn" id="nextBtn" onclick="handleButtonClick(nextSection)">Next Topic →</button>
+            <button class="btn btn-secondary" id="reviewBtn" onclick="handleButtonClick(restartSection)">Review</button>
+        </div>
+
+        <!-- FINAL -->
+        <div class="screen" id="screen-final">
+            <div class="icon-large">
+                <svg viewBox="0 0 32 32" fill="none"><path d="M10 4h12v10a6 6 0 0 1-12 0V4z" fill="rgba(218,165,32,0.3)" stroke="#DAA520" stroke-width="2"/><path d="M10 8H6a2 2 0 0 0 0 8h2M22 8h4a2 2 0 0 1 0 8h-2" stroke="#DAA520" stroke-width="1.5"/><line x1="16" y1="20" x2="16" y2="24" stroke="#DAA520" stroke-width="2"/><rect x="11" y="24" width="10" height="3" rx="1" fill="rgba(218,165,32,0.3)" stroke="#DAA520" stroke-width="1.5"/></svg>
+            </div>
+            <div class="label" id="finalLabel">Chapter 3 Complete</div>
+            <h1 class="title" id="finalTitle">Well Done!</h1>
+            <p class="subtitle" id="finalSubtitle">You've understood rural India's credit landscape in 2019 — commercial banks at 51% and moneylenders at 23%, why the poorest pay the most for money, what high-cost borrowing does to a household, how SHGs solve the collateral problem, and how the Grameen Bank proved poor women are reliable borrowers.</p>
+            <div style="margin:2rem 0;padding:1.5rem 2rem;background:rgba(20,40,60,0.4);border:1px solid rgba(218,165,32,0.25);border-radius:16px;text-align:center">
+                <div id="evolutionChain" style="font-size:1.3rem;font-weight:900;letter-spacing:0.04em;background:linear-gradient(135deg,#DAA520,#32b464);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">MONEYLENDER → BANK → COOPERATIVE → SHG → GRAMEEN BANK</div>
+                <div id="evolutionLabel" style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-top:0.5rem;letter-spacing:0.1em">WHERE THE POOR CAN TURN FOR CREDIT — THE PATH OF THIS LESSON</div>
+            </div>
+            <p class="narr-cap"></p>
+            <button class="btn" id="startAgainBtn" onclick="location.reload()">Start Again</button>
+        </div>
+    </main>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   MONEY AND CREDIT — Chapter 3
+   NCERT Class 10 Economics
+══════════════════════════════════════════════════════ */
+
+const S={currentSection:0,isMuted:false,completedSections:[],isPaused:false};
+let currentRunId=0,animationId=null,animationTimeouts=[],speech=null;
+let sec0Times=[],sec1Times=[],sec2Times=[],sec3Times=[],sec4Times=[];
+
+/* ── COLOUR PALETTE ── */
+const C={
+    gold:'#DAA520',goldLight:'#f0c040',goldDim:'rgba(218,165,32,0.22)',
+    green:'#32b464',greenDeep:'#1a6b3a',greenBright:'#68d899',
+    blue:'#5080c8',blueLight:'#80a8e8',blueDim:'rgba(80,128,200,0.22)',
+    note:'#2ecc71',
+    purple:'#9b59b6',purpleLight:'#c39bd3',
+    crimson:'#cc4040',crimsonDim:'#7d2828',
+    silver:'#bdc3d0',
+    white:'#FFFFFF',
+    textDim:'rgba(255,255,255,0.5)',textFaint:'rgba(255,255,255,0.18)',
+    glass:'rgba(14,28,50,0.25)',glassBorder:'rgba(218,165,32,0.2)',
+    bg:'rgba(8,16,30,0.92)',
+};
+
+/* ── SECTIONS ── */
+const SECTIONS=[
+    {id:'s0',icon:'piechart', name:'Credit Sources',   status:'India 2019 Data'},
+    {id:'s1',icon:'whogets',  name:'Who Gets Credit?',  status:'Rich vs Poor'},
+    {id:'s2',icon:'expand',   name:'Expand Formal Credit',     status:'Why It Matters'},
+    {id:'s3',icon:'shg',      name:'Self-Help Groups',  status:'SHGs for Poor'},
+    {id:'s4',icon:'grameen',  name:'Grameen Bank',      status:'Bangladesh Model'},
+];
+
+/* ── LESSON CONTENT ── */
+const LESSONS=[
+    {
+        question:'In 2019, rural Indian households borrowed from many different sources — banks, cooperatives, moneylenders, landlords, even relatives. Which of them actually lends the most? And which of them is anybody keeping an eye on?',
+        label:'Formal Sector Credit in India',bg:'bg-section-0',
+        completeMsg:'In 2019, commercial banks provided 51% of rural credit, cooperative banks and societies 10%, and other formal agencies 5% — so formal sources came to 66%. On the informal side, moneylenders alone accounted for 23%, relatives and friends 7%, other informal agencies 3% and landlords 1%. The RBI supervises the formal lenders — they must hold a minimum cash balance and report whom they lend to and at what rate. Nobody at all supervises the informal ones.',
+    },
+    {
+        question:'Rich urban households get 83% of their loans from formal sources at low interest. For poor households, 54% of borrowing comes from informal lenders at high interest. What does this inequality in credit access mean for India\'s poor?',
+        label:'Formal and Informal: Who Gets What?',bg:'bg-section-1',
+        completeMsg:'Among urban households, 54% of what the poorest borrow comes from informal sources, while the richest take 83% of their loans from formal sources — and the same pattern holds in rural areas. The poor therefore pay much higher interest, so more of their earnings go on repayment and less is left for their needs. In rural India formal sources supply about two-thirds of all credit; the remaining third still comes from expensive informal sources.',
+    },
+    {
+        question:'Why should banks and cooperatives lend more, especially to rural areas? What happens to borrowers who are stuck paying very high interest rates to moneylenders every year?',
+        label:'Why Formal Credit Must Expand',bg:'bg-section-2',
+        completeMsg:'High informal interest rates reduce borrowers\' income and can lead to debt traps. Banks and cooperatives need to increase lending in rural areas so that dependence on informal sources reduces. Cheap and affordable credit is crucial for India\'s development.',
+    },
+    {
+        question:'Poor rural women have no collateral and banks often refuse them loans. How have Self-Help Groups solved this problem — and what else do they provide beyond just credit?',
+        label:'Self-Help Groups for the Poor',bg:'bg-section-3',
+        completeMsg:'SHGs pool savings of 15-20 members and lend to each other. After a year or two of regular savings, the group becomes eligible for a bank loan — with the group itself as the guarantee instead of collateral. SHGs also provide a platform to discuss health, nutrition, and domestic violence.',
+    },
+    {
+        question:'The Grameen Bank of Bangladesh started as a small project in the 1970s and by 2018 had over 9 million members. What makes its model special — and what did its founder prove about the poor?',
+        label:'Grameen Bank of Bangladesh',bg:'bg-section-4',
+        completeMsg:'Grameen Bank proved that poor women are reliable borrowers. Started in the 1970s as a small project, by 2018 it had over 9 million members in about 81,600 villages across Bangladesh — almost all of them women from the poorest sections of society. They showed they could start and run a variety of small income-generating activities successfully. Professor Muhammad Yunus, its founder, received the 2006 Nobel Peace Prize.',
+    },
+];
+
+/* ── EXERCISES ── */
+const EXERCISES=[
+    {
+        question:'According to the 2019 data in your textbook, which was the largest single source of credit for rural households in India?',
+        options:['Commercial Banks (51%)','Moneylenders (23%)','Cooperative Banks and Societies (10%)','Relatives and Friends (7%)'],
+        correct:0,
+        explanation:'Commercial banks were by far the largest single source at 51%. Adding cooperative banks and societies (10%) and other formal agencies (5%), formal sources supplied 66% of rural credit. Moneylenders were the largest informal source at 23% — still almost a quarter of all rural credit, and supervised by nobody.'
+    },
+    {
+        question:'What percentage of loans do poor urban households take from informal sources?',
+        options:['17 per cent','28 per cent','54 per cent','83 per cent'],
+        correct:2,
+        explanation:'54% of the loans taken by poor urban households come from informal sources such as moneylenders. Compare this with rich urban households: only 17% of their loans are informal, while 83% come from formal sources at much lower interest. A similar pattern is found in rural areas — the rich avail cheap credit from formal lenders, while the poor pay a large amount for borrowing.'
+    },
+    {
+        question:'Why is high cost of informal borrowing dangerous for poor households?',
+        options:['It raises their credit score, so that banks lend to them more readily later','More earnings go on repayment, leaving less income and risking a debt trap','It forces them to save more, which steadily builds up their household savings','It lets them move over to formal banks as soon as the moneylender is repaid'],
+        correct:1,
+        explanation:'High interest rates on informal loans mean borrowers spend a large part of their earnings just repaying debt. This leaves less for their needs and makes it harder to improve their economic situation. It can also push them into a debt trap, just as it did Swapna.'
+    },
+    {
+        question:'How do Self-Help Groups (SHGs) help members get bank loans without collateral?',
+        options:['The government stands guarantee for every single member\'s loan to the bank','The group is the guarantee — if one member does not repay, the others follow it up','The members mortgage all their land together as one collective piece of collateral','The bank waives collateral because every SHG receives a special government subsidy'],
+        correct:1,
+        explanation:'SHGs solve the collateral problem creatively: the group itself becomes the guarantee. If one member fails to repay, the other members follow up seriously. Banks are willing to lend to poor women organised in SHGs even without individual collateral because of this group accountability.'
+    },
+    {
+        question:'What did the Grameen Bank of Bangladesh prove about poor borrowers?',
+        options:['That the poor are unreliable borrowers who need government subsidies, not loans','That only rich borrowers can really be trusted to repay a bank loan on time','That poor women are reliable borrowers who run small income-generating activities','That banks should stop lending in rural areas and leave that to the moneylenders'],
+        correct:2,
+        explanation:'Grameen Bank proved that poor borrowers — almost all of them women from the poorest sections — are actually very reliable. With over 9 million members across about 81,600 villages by 2018, it showed that if credit is available on appropriate and reasonable terms, millions of small people with their millions of small pursuits can create the biggest development wonder.'
+    },
+];
+
+/* ══════ SPEECH MANAGER ══════ */
+class SpeechMgr{
+  constructor(){this.audio=null;this.isDestroyed=false;this.isPaused=false;this.pauseResolve=null;this._speakId=0;this._audioResolve=null;this._ft=[];}
+  destroy(){this.isDestroyed=true;this._stopAudio();this._ft.forEach(function(t){try{clearTimeout(t);}catch(e){}});this._ft=[];if(this.pauseResolve){this.pauseResolve();this.pauseResolve=null;}dot(false);}
+  _stopAudio(){if(this.audio){var a=this.audio;this.audio=null;try{a.onended=null;a.onerror=null;a.pause();a.removeAttribute('src');a.load();}catch(e){}}}
+  pause(){if(!this.isPaused){this.isPaused=true;if(this.audio){try{this.audio.pause();}catch(e){}}dot(false);}}
+  resume(){if(this.isPaused){this.isPaused=false;if(this.audio){try{this.audio.play().catch(function(){});}catch(e){}}dot(true);}}
+  _waitResume(){var self=this;return new Promise(function(res){self.pauseResolve=res;});}
+  speak(text){
+    var self=this,id=++this._speakId;
+    this._stopAudio();
+    var el=document.getElementById('narrationText');if(el)el.textContent=text;document.querySelectorAll('.narr-cap').forEach(function(c){c.textContent=text;});
+    dot(true);
+    return new Promise(function(resolve){
+      if(self.isDestroyed){resolve();return;}
+      var idx=window.__lessonAudioIndex||{},src=idx[text];
+      var wpm=140,minMs=900,words=text?text.trim().split(/\s+/).length:1;
+      var ms=Math.max(minMs,Math.round(words/wpm*60000));
+      if(!src){
+        var tid=setTimeout(function(){if(id===self._speakId){dot(false);resolve();}},ms);
+        self._ft.push(tid);return;
+      }
+      var audio=new Audio(src);audio.preload='auto';self.audio=audio;self._audioResolve=resolve;
+      audio.muted=S.isMuted;
+      audio.onended=function(){if(id!==self._speakId)return;self._audioResolve=null;self.audio=null;dot(false);resolve();};
+      audio.onerror=function(){if(id!==self._speakId)return;self.audio=null;self._audioResolve=null;
+        var tid2=setTimeout(function(){if(id===self._speakId){dot(false);resolve();}},ms);self._ft.push(tid2);};
+      if(self.isPaused){
+        self._waitResume().then(function(){if(self.isDestroyed||id!==self._speakId){resolve();return;}audio.play().catch(function(){dot(false);resolve();});});
+      }else{audio.play().catch(function(){dot(false);resolve();});}
+    });
+  }
+  playAudio(b64){return Promise.resolve();}
+}
+
+function dot(on){const d=document.getElementById('speakingDot');if(d){d.classList.toggle('active',on);}}
+function narrate(txt){document.getElementById('narrationText').textContent=txt;}
+function wait(ms){return new Promise(r=>{const t=setTimeout(r,ms);animationTimeouts.push(t);})}
+function easeOut(t){return 1-Math.pow(1-t,3)}
+function easeInOut(t){return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2}
+function easeOutBack(t){const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)}
+
+function stopAll(){
+    currentRunId++;beatReset();S.isPaused=false;
+    const pb=document.getElementById('pauseToggle');
+    if(pb){pb.classList.remove('paused');pb.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';}
+    if(speech){try{speech.destroy()}catch(e){}}
+    speech=new SpeechMgr();
+    animationTimeouts.forEach(t=>{try{clearTimeout(t)}catch(e){}});
+    animationTimeouts=[];
+    if(animationId){cancelAnimationFrame(animationId);animationId=null;}
+    return currentRunId;
+}
+function isRunValid(r){return r===currentRunId;}
+function waitR(ms,r){return new Promise(res=>{const t=setTimeout(()=>{if(r!==undefined&&!isRunValid(r))return;res();},ms);animationTimeouts.push(t);});}
+function handleButtonClick(cb){stopAll();cb();}
+
+/* ══════ PARTICLES ══════ */
+function createParticles(){
+    const el=document.getElementById('particles');
+    for(let i=0;i<38;i++){
+        const p=document.createElement('div');
+        p.className='particle '+['coin','note','silver'][i%3];
+        p.style.left=Math.random()*100+'%';
+        const sz=(1.5+Math.random()*2.5)+'px';p.style.width=sz;p.style.height=sz;
+        p.style.animationDuration=(14+Math.random()*16)+'s';
+        p.style.animationDelay=Math.random()*14+'s';
+        el.appendChild(p);
+    }
+}
+
+/* ══════ SIDEBAR ══════ */
+const SVG_ICONS={
+    piechart:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="16" fill="currentColor" fill-opacity="0.1"/><path d="M24 8v16l11.3 11.3" stroke-width="2.2"/><path d="M24 24L8.7 35.3" stroke-width="1.5" stroke-opacity="0.6"/><path d="M24 24L35 12" stroke-width="1.5" stroke-opacity="0.6"/><circle cx="24" cy="24" r="2.5" fill="currentColor"/></svg>',
+    whogets:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="16" r="5"/><circle cx="34" cy="16" r="5"/><path d="M6 38v-4a8 8 0 0 1 16 0v4"/><path d="M26 38v-4a8 8 0 0 1 16 0v4"/><path d="M8 30h8M32 30h8" stroke-width="1.5" stroke-opacity="0.5"/></svg>',
+    expand:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L24 8l18 10" fill="currentColor" fill-opacity="0.1"/><line x1="6" y1="18" x2="42" y2="18"/><rect x="4" y="36" width="40" height="6" rx="1" fill="currentColor" fill-opacity="0.12"/><line x1="12" y1="20" x2="12" y2="36"/><line x1="24" y1="20" x2="24" y2="36"/><line x1="36" y1="20" x2="36" y2="36"/><path d="M24 2v10M20 6l4-4 4 4" stroke-width="2"/></svg>',
+    shg:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="14" r="4"/><circle cx="24" cy="10" r="4"/><circle cx="34" cy="14" r="4"/><path d="M6 34v-3a8 8 0 0 1 16 0"/><path d="M26 34v-3a8 8 0 0 1 16 0"/><path d="M16 28a8 8 0 0 1 16 0v6H16v-6z" fill="currentColor" fill-opacity="0.1"/><path d="M20 34l3 4 5-8" stroke-width="2.2"/></svg>',
+    grameen:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="14" r="6" fill="currentColor" fill-opacity="0.12"/><path d="M14 36v-4a10 10 0 0 1 20 0v4"/><path d="M6 36h36"/><path d="M12 24c4 6 20 6 24 0" stroke-dasharray="3 3"/><path d="M30 10l6-4M18 10l-6-4" stroke-width="1.5"/></svg>',
+    check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,12 10,18 20,6"/></svg>',
+};
+
+var _ld=window.__lessonData||{},_wel=(_ld.locales&&(_ld.locales[window.__locale||'en']||_ld.locales['en']))||{};
+var _ui=_wel.ui||{},_les=_wel.lessons||[],_sec=_wel.sections||[];
+function initLocaleDOM(){
+  var L=_ui;
+  // page step 8 Nov: tooltips + tab title come from the data (the hard-coded hi/ja/as table is gone); fallback = English data
+  var EN=(_ld.locales&&_ld.locales.en&&_ld.locales.en.ui)||{};
+  var T=[EN.pauseTitle||'Pause/Resume',EN.muteTitle||'Mute/Unmute'];
+  var pt=document.getElementById('pauseToggle'),at=document.getElementById('audioToggle');
+  if(pt){pt.title=L.pauseTitle||T[0];pt.setAttribute('aria-label',pt.title);}
+  if(at){at.title=L.muteTitle||T[1];at.setAttribute('aria-label',at.title);}
+  document.documentElement.lang=window.__locale||'en';
+  document.title=L.pageTitle||EN.pageTitle||document.title;
+  if(L.badgeSubLabel){var elb=document.getElementById('badgeSubLabel');if(elb)elb.textContent=L.badgeSubLabel;}
+  if(L.welcomeLabel){var el=document.getElementById('welcomeLabel');if(el)el.textContent=L.welcomeLabel;}
+  if(L.welcomeTitle){var el2=document.getElementById('welcomeTitle');if(el2)el2.innerHTML=L.welcomeTitle.replace('\n','<br>');}
+  if(L.welcomeSubtitle){var el3=document.getElementById('welcomeSubtitle');if(el3)el3.textContent=L.welcomeSubtitle;}
+  if(L.beginBtn){var el4=document.getElementById('beginBtn');if(el4)el4.textContent=L.beginBtn;}
+  if(L.finalLabel){var el5=document.getElementById('finalLabel');if(el5)el5.textContent=L.finalLabel;}
+  if(L.finalTitle){var el6=document.getElementById('finalTitle');if(el6)el6.textContent=L.finalTitle;}
+  if(L.finalSubtitle){var el7=document.getElementById('finalSubtitle');if(el7)el7.textContent=L.finalSubtitle;}
+  if(L.discoverBtn){var el8=document.getElementById('discoverBtn');if(el8)el8.textContent=L.discoverBtn;}
+  if(L.testLabel){var el9=document.getElementById('testLabel');if(el9)el9.textContent=L.testLabel;}
+  if(L.sectionCompleteLabel){var el10=document.getElementById('sectionCompleteLabel');if(el10)el10.textContent=L.sectionCompleteLabel;}
+  if(L.reviewBtn){var el11=document.getElementById('reviewBtn');if(el11)el11.textContent=L.reviewBtn;}
+  if(L.evolutionChain){var el12=document.getElementById('evolutionChain');if(el12)el12.textContent=L.evolutionChain;}
+  if(L.evolutionLabel){var el13=document.getElementById('evolutionLabel');if(el13)el13.textContent=L.evolutionLabel;}
+  if(L.startAgainBtn){var el14=document.getElementById('startAgainBtn');if(el14)el14.textContent=L.startAgainBtn;}
+}
+function updateSidebar(){
+    const list=document.getElementById('conceptList');
+    list.innerHTML=SECTIONS.map((s,i)=>{
+        const isActive=i===S.currentSection;
+        const isDone=S.completedSections.includes(i);
+        const cls=`concept-item${isActive?' active':''}${isDone?' completed':''}`;
+        return `<div class="${cls}" onclick="handleButtonClick(()=>jumpTo(${i}))">
+            <div class="concept-icon">${SVG_ICONS[s.icon]||''}</div>
+            <div class="concept-info">
+                <div class="concept-name">${(function(){var locSec=_sec[i]||{};return locSec.name||s.name;})()}</div>
+                <div class="concept-status">${isDone?(_ui.completedLabel||'Completed'):isActive?(_ui.inProgressLabel||'In Progress'):(function(){var locSec=_sec[i]||{};return locSec.status||s.status;})()}</div>
+            </div>
+            <span class="concept-check">${SVG_ICONS.check}</span>
+        </div>`;
+    }).join('');
+}
+
+function jumpTo(idx){
+    if(idx>=LESSONS.length){showExercise();return;}
+    S.currentSection=idx;showQuestion();
+}
+
+/* ══════ CANVAS SYSTEM ══════ */
+const canvas=document.getElementById('canvas');
+const ctx=canvas.getContext('2d');
+let W=920,H=575;
+const _DIG={as:'০১২৩৪৫৬৭৮৯'};   // page step 8 Nov: Assamese only — Hindi and English keep 0-9 (TRANSLATION_RULES §1.4)
+function nd(str){const m=_DIG[window.__locale];return m?str.replace(/[0-9]/g,d=>m[+d]):str;}
+let dpr=1,baseScaleX=1,baseScaleY=1;
+
+function initCanvas(){
+    const cont=canvas.parentElement;const r=cont.getBoundingClientRect();
+    dpr=window.devicePixelRatio||1;
+    canvas.width=r.width*dpr;canvas.height=r.height*dpr;
+    canvas.style.width=r.width+'px';canvas.style.height=r.height+'px';
+    baseScaleX=dpr*r.width/920;baseScaleY=dpr*r.height/575;
+    ctx.setTransform(baseScaleX,0,0,baseScaleY,0,0);
+    W=920;H=575;
+}
+
+/* ══════ TYPE SCALE ══════
+   One scale for the whole lesson, so every section reads the same and nothing
+   is guessed per-painter. The canvas is 920×575 and is watched like a slide:
+   below ~12px is simply not readable at that size, so body copy sits at 14 and
+   nothing is allowed under 12. Change a number here and it moves everywhere. */
+const F={
+    title:22,      // section title in the header
+    subtitle:13.5, // one-line strapline under the title
+    cardTitle:18,  // card / panel heading
+    cardSub:13.5,  // card sub-heading
+    body:14,       // bullets and fact lines — the workhorse size
+    caption:12,    // smallest permitted anywhere
+    footer:15,     // bottom takeaway pill
+    hub:18,        // centre-node label
+    badge:12.5,    // small pills and tags
+};
+
+/* ══════ DRAWING LIBRARY ══════ */
+const D={
+    clear(){ctx.save();ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,canvas.width,canvas.height);ctx.restore();ctx.setTransform(baseScaleX,0,0,baseScaleY,0,0);},
+    text(str,x,y,{size=14,color='#fff',weight='500',align='center',glow=false,maxW=null}={}){
+        str=nd(String(str));
+        const fam="'Inter','Noto Sans Devanagari','Noto Sans JP','Noto Sans Bengali',sans-serif";
+        if(glow){ctx.shadowColor=color;ctx.shadowBlur=16;}
+        ctx.fillStyle=color;ctx.textAlign=align;ctx.textBaseline='middle';
+        let sz=size;
+        ctx.font=`${weight} ${sz}px ${fam}`;
+        let lines=str.split('\n');
+        if(maxW){
+            // shrink a little first, then wrap — never squeeze glyphs
+            const widest=()=>Math.max(...lines.map(l=>ctx.measureText(l).width));
+            // page step 8 Nov: a translation may shrink further (to 70%) before it wraps; English keeps its 85% floor
+            const floor=(window.__locale||'en')==='en'?0.85:0.7;
+            while(widest()>maxW&&sz>size*floor){sz-=0.5;ctx.font=`${weight} ${sz}px ${fam}`;}
+            if(widest()>maxW){
+                const out=[];
+                lines.forEach(l=>{
+                    const toks=l.includes(' ')?l.split(' '):Array.from(l), sep=l.includes(' ')?' ':'';
+                    let cur='';
+                    toks.forEach(t=>{const tr=cur?cur+sep+t:t;if(cur&&ctx.measureText(tr).width>maxW){out.push(cur);cur=t;}else cur=tr;});
+                    if(cur)out.push(cur);
+                });
+                lines=out;
+            }
+        }
+        const lh=sz*1.28, y0=y-(lines.length-1)*lh/2;
+        lines.forEach((l,i)=>ctx.fillText(l,x,y0+i*lh));
+        ctx.shadowBlur=0;
+    },
+    roundRect(x,y,w,h,{fill=null,stroke=C.glassBorder,lineWidth=1.5,radius=12}={}){
+        ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,w,h,radius);else{const r2=radius;ctx.moveTo(x+r2,y);ctx.lineTo(x+w-r2,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r2);ctx.lineTo(x+w,y+h-r2);ctx.quadraticCurveTo(x+w,y+h,x+w-r2,y+h);ctx.lineTo(x+r2,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r2);ctx.lineTo(x,y+r2);ctx.quadraticCurveTo(x,y,x+r2,y);ctx.closePath();}
+        if(fill){ctx.fillStyle=fill;ctx.fill();}
+        if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lineWidth;ctx.stroke();}
+    },
+};
+
+/* ══════ LOOP RUNNER ══════ */
+
+/* ══════ BEAT CLOCK ══════
+   Narration is a list of BEATS — one sentence each. The painters below were
+   authored against a nominal per-beat timeline of BEAT_SPAN ms: "this card at
+   +800, that arrow at +1600". Running that timeline on the wall clock is what
+   breaks sync — it finishes long before a slow sentence and gets cut off by a
+   fast one.
+
+   So the timeline is driven from the REAL audio playhead instead. Every frame
+   the beat's start stamp is re-anchored so that
+
+       performance.now() - sec<N>Times[k]  ===  pt * BEAT_SPAN
+
+   where pt is 0→1 progress through that beat's audio. Every delay and duration
+   already written into a painter therefore becomes a FRACTION of the sentence
+   being spoken, and lands on the same words every time — whatever the TTS does.
+
+   pt is clamped MONOTONIC. Before the audio's duration is known we fall back to
+   a char-length estimate, and the two clocks disagree at the handoff; without
+   the clamp pt snaps backward once per beat and every sized element collapses
+   and regrows. */
+const BEAT_SPAN=4000;
+let beatTimes=null;    // the sec<N>Times array for the running section
+let beatIndex=-1;      // index of the beat currently being spoken (-1 = none)
+let beatEst=4000;      // char-length fallback, used until audio.duration exists
+let beatT0=0;          // wall-clock start of the current beat
+let beatPt=0;          // monotonic 0→1 progress through the current beat
+
+/* ══════ STAGES ══════
+   A section is not one crowded screen. It is a short sequence of STAGES, each
+   owning a run of narration beats and each free to use the WHOLE canvas. When
+   the narration crosses into the next stage the previous one fades out — so a
+   student is never asked to read three panels at once, and every panel can be
+   drawn big enough to read.
+
+   STAGE_OF[section][beat] = which stage that beat belongs to. */
+const STAGE_OF=[
+    [0,0,0,0,1,1,1,1],      // §0 — build the pie · then who supervises which half
+    [0,0,0,0,1,1,1],        // §1 — build the bars · then what they mean
+    [0,0,0,0,1,1,1],        // §2 — the chain of harm · then the cost and the fix
+    [0,0,0,0,0,0,0,1,1,1],  // §3 — why the moneylender wins · how an SHG works · why a bank lends to it
+    [0,0,0,0,1,1,1],        // §4 — Grameen's scale · then what it proved
+];
+let beatLast=0;                   // survives beatEnd(), so a stage holds between beats
+let stageCur=-1, stageAt=0;
+
+function stageOf(sec){
+    const m=STAGE_OF[sec]||[0];
+    return m[Math.min(beatLast,m.length-1)]||0;
+}
+// 1 for the live stage, fading 1→0 for the stage it replaced, 0 for the rest.
+function stageAlpha(sec,idx){
+    const cur=stageOf(sec);
+    if(cur!==stageCur){ stageCur=cur; stageAt=performance.now(); }
+    const k=easeOut(Math.min((performance.now()-stageAt)/380,1));
+    if(idx===cur) return k;
+    if(idx===cur-1) return 1-k;
+    return 0;
+}
+// Progress through ONE beat, as a fraction of the sentence being spoken, mapped
+// onto a [from,to] window. This is what stops a panel's bullets from all landing
+// in the first fifth of a fourteen-second sentence: give each bullet its own
+// window and it arrives on the words that describe it.
+function beatProg(times,b,from,to){
+    if(!times||!times[b]) return 0;
+    const p=Math.min(Math.max((performance.now()-times[b])/BEAT_SPAN,0),1);
+    const a=(from===undefined?0:from), z=(to===undefined?0.5:to);
+    if(z<=a) return p>=z?1:0;
+    return Math.min(Math.max((p-a)/(z-a),0),1);
+}
+
+function beatBegin(times,i,say){
+    beatTimes=times; beatIndex=i; beatLast=i;
+    beatT0=performance.now(); beatPt=0;
+    beatEst=Math.max(2200,(say||'').length*32);
+    times[i]=beatT0;                       // pt = 0
+}
+function beatEnd(){
+    // Freeze at the far end of the timeline: virtual time keeps growing from
+    // here, so finished reveals stay revealed and looping motion keeps running.
+    if(beatTimes&&beatIndex>=0) beatTimes[beatIndex]=performance.now()-BEAT_SPAN;
+    beatIndex=-1;
+}
+function beatReset(){ beatTimes=null; beatIndex=-1; beatPt=0; beatLast=0; stageCur=-1; }
+// Runs once per animation frame, immediately before the painter.
+function beatTick(){
+    if(!beatTimes||beatIndex<0) return;
+    let raw;
+    const a=speech&&speech.audio;
+    if(a&&a.duration>0&&isFinite(a.duration)) raw=Math.min(1,a.currentTime/a.duration);
+    else raw=Math.min(1,(performance.now()-beatT0)/beatEst);
+    if(raw>beatPt) beatPt=raw;             // may only move forward
+    beatTimes[beatIndex]=performance.now()-beatPt*BEAT_SPAN;
+}
+
+function startLoop(painter){
+    initCanvas();
+    const rid=currentRunId;
+    let startT=null;
+    function frame(ts){
+        if(rid!==currentRunId)return;
+        if(!startT)startT=ts;
+        if(!S.isPaused){beatTick();painter(ts-startT,Math.min((ts-startT)/4000,1),ts);}
+        animationId=requestAnimationFrame(frame);
+    }
+    animationId=requestAnimationFrame(frame);
+}
+
+/* ══════ SHARED PAINTER PIECES ══════
+   Every stage opens with the same header block and uses the same pill/panel
+   shapes, so a student's eye lands in the same places from section to section. */
+function paintHeader(alpha,title,sub,col){
+    if(alpha<=0)return;
+    ctx.save();ctx.globalAlpha=alpha;
+    ctx.shadowColor=col||C.gold;ctx.shadowBlur=12;
+    D.text(title,W/2,28,{size:F.title,color:col||C.gold,weight:'900',align:'center',maxW:880});
+    ctx.shadowBlur=0;
+    if(sub)D.text(sub,W/2,56,{size:F.subtitle,color:'rgba(255,255,255,0.55)',align:'center',maxW:850});
+    ctx.restore();
+}
+// A measured lozenge. Returns its width so callers can chain them.
+function pill(cx,cy,text,col,{size=F.badge,padX=16,h=30,weight='800',maxW=W-48}={}){
+    text=nd(text);
+    ctx.font=`${weight} ${size}px ${"'Inter','Noto Sans Devanagari','Noto Sans JP','Noto Sans Bengali',sans-serif"}`;
+    // page step 8 Nov: a translated pill never runs past its slot — shrink the font (English fits at full size)
+    while(size>7&&ctx.measureText(text).width+padX*2>maxW){size-=0.5;ctx.font=weight+' '+size+'px '+"'Inter','Noto Sans Devanagari','Noto Sans JP','Noto Sans Bengali',sans-serif";}
+    const w=ctx.measureText(text).width+padX*2;
+    D.roundRect(cx-w/2,cy-h/2,w,h,{fill:col+'1f',stroke:col+'77',radius:h/2,lineWidth:1.4});
+    D.text(text,cx,cy+0.5,{size,color:col,weight,align:'center'});
+    return w;
+}
+// A row of pills, measured first so the whole row sits centred on cx.
+function pillRow(cx,cy,items,cols,opts){
+    const o=opts||{}, padX=o.padX===undefined?16:o.padX, gap=o.gap===undefined?26:o.gap, maxW=o.maxW||W-48;
+    let size=o.size||F.body;
+    items=items.map(nd);
+    ctx.font=`800 ${size}px 'Inter','Noto Sans Devanagari','Noto Sans JP','Noto Sans Bengali',sans-serif`;
+    let ws=items.map(s=>ctx.measureText(s).width+padX*2);
+    // page step 8 Nov: shrink the whole row together until it fits the canvas (English rows fit at full size)
+    while(size>7&&ws.reduce((a,b)=>a+b,0)+gap*(items.length-1)>maxW){size-=0.5;ctx.font='800 '+size+'px '+"'Inter','Noto Sans Devanagari','Noto Sans JP','Noto Sans Bengali',sans-serif";ws=items.map(s=>ctx.measureText(s).width+padX*2);}
+    let x=cx-(ws.reduce((a,b)=>a+b,0)+gap*(items.length-1))/2;
+    items.forEach((s,i)=>{pill(x+ws[i]/2,cy,s,cols[i%cols.length],{size,padX,h:o.h||30,maxW:ws[i]+1});x+=ws[i]+gap;});
+}
+// A tick or cross, drawn on a 24-unit grid centred at (x,y).
+function drawMark(x,y,sz,ok,col){
+    const s=sz/24, a=ctx.globalAlpha;
+    ctx.save();ctx.translate(x,y);ctx.scale(s,s);
+    ctx.strokeStyle=col;ctx.lineWidth=2.6;ctx.lineCap='round';ctx.lineJoin='round';
+    ctx.globalAlpha=a*0.35;
+    ctx.beginPath();ctx.arc(0,0,11,0,Math.PI*2);ctx.stroke();
+    ctx.globalAlpha=a;
+    ctx.beginPath();
+    if(ok){ctx.moveTo(-5.5,0.5);ctx.lineTo(-1.5,4.5);ctx.lineTo(6,-4.5);}
+    else{ctx.moveTo(-5,-5);ctx.lineTo(5,5);ctx.moveTo(5,-5);ctx.lineTo(-5,5);}
+    ctx.stroke();
+    ctx.restore();
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 0 — WHERE RURAL INDIA BORROWS (2019)
+   Canvas 920×575.
+
+   STAGE 0 — the pie, built one lender at a time
+     header  y 28 / 56 · donut centre (270,318) r 140, hole r 50
+     legend  x 520–885, rows y 112 + i*44
+   STAGE 1 — the same circle, cut by who is supervised
+     header  y 28 / 56 · split bar y 96–150
+     formal card  x 55–450, y 180–420   · informal card x 470–865, y 180–420
+     takeaway     y 450–545
+════════════════════════════════════════════════════════ */
+function paintSection0(elapsed,prog,ts){
+    const cd=(_les[0]||{}).canvas||{};
+    D.clear();
+    const t=ts*0.001;
+    const A0=stageAlpha(0,0), A1=stageAlpha(0,1);
+    const cx=270, cy=318, R=140, HOLE=50;
+
+    // Each slice belongs to the beat that names it. The old code declared a
+    // `step` on every segment and then never read it, so the whole chart —
+    // all seven slices and the entire legend — appeared during beat 0 while
+    // the narration was still saying "loans can be grouped into two kinds".
+    // NCERT Graph 1, "Sources of Credit in Rural India, 2019" — All India Debt
+    // and Investment Survey, NSSO 77th Round. Formal 51+10+5 = 66 per cent;
+    // informal 23+7+3+1 = 34 per cent.
+    const SEG=[
+        {beat:1,from:0.20,to:0.90,pct:0.51,col:C.blue,     name:cd.banksLabel||'Commercial Banks',     val:cd.banksVal||'51%',formal:true},
+        {beat:2,from:0.15,to:0.80,pct:0.23,col:'#ff8844',  name:cd.moneylenderLabel||'Moneylenders',         val:cd.moneylenderVal||'23%',formal:false},
+        {beat:3,from:0.05,to:0.26,pct:0.10,col:C.green,    name:cd.coopLabel||'Cooperative Banks & Societies',val:cd.coopVal||'10%',formal:true},
+        {beat:3,from:0.22,to:0.40,pct:0.05,col:C.greenBright,name:cd.otherFormalLabel||'Other Formal Agencies',val:cd.otherFormalVal||'5%', formal:true},
+        {beat:3,from:0.38,to:0.56,pct:0.07,col:C.purple,   name:cd.relativesLabel||'Relatives & Friends',  val:cd.relativesVal||'7%', formal:false},
+        {beat:3,from:0.53,to:0.70,pct:0.03,col:C.silver,   name:cd.otherInfLabel||'Other Informal',val:cd.otherInfVal||'3%',formal:false},
+        {beat:3,from:0.68,to:0.84,pct:0.01,col:C.crimson,  name:cd.landlordLabel||'Landlords',            val:cd.landlordVal||'1%', formal:false},
+    ];
+
+    /* ─────────── STAGE 0 ─────────── */
+    if(A0>0){
+        paintHeader(A0*beatProg(sec0Times,0,0,0.28),cd.hdr0Title||'WHERE RURAL INDIA BORROWS',
+                    cd.hdr0Sub||'Every rupee of rural credit in 2019, and who it came from');
+
+        // The empty ring is laid down first, so there is something for the
+        // slices to fill and the student can see the whole before the parts.
+        const ring=A0*beatProg(sec0Times,0,0.3,0.75);
+        if(ring>0.01){
+            ctx.save();ctx.globalAlpha=ring*0.5;
+            ctx.strokeStyle='rgba(255,255,255,0.20)';ctx.lineWidth=2;ctx.setLineDash([7,9]);
+            ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+            ctx.restore();
+        }
+
+        let ang=-Math.PI/2;
+        SEG.forEach(sg=>{
+            const p=beatProg(sec0Times,sg.beat,sg.from,sg.to);
+            if(p<=0.001)return;
+            const full=sg.pct*Math.PI*2, sweep=full*p;
+            ctx.save();ctx.globalAlpha=A0;
+            ctx.fillStyle=sg.col+'dd';ctx.strokeStyle='rgba(8,16,30,0.7)';ctx.lineWidth=2;
+            ctx.beginPath();ctx.moveTo(cx,cy);
+            ctx.arc(cx,cy,R,ang,ang+sweep);ctx.closePath();ctx.fill();ctx.stroke();
+            ctx.restore();
+            ang+=sweep;
+        });
+
+        // Hole and centre label, punched after the slices so it sits on top
+        if(ring>0.01){
+            ctx.save();ctx.globalAlpha=A0;
+            ctx.fillStyle='rgba(8,16,30,0.95)';
+            ctx.beginPath();ctx.arc(cx,cy,HOLE,0,Math.PI*2);ctx.fill();
+            ctx.strokeStyle=C.gold+'44';ctx.lineWidth=1.5;
+            ctx.beginPath();ctx.arc(cx,cy,HOLE,0,Math.PI*2);ctx.stroke();
+            D.text(cd.ringRuralLabel||'RURAL',cx,cy-11,{size:F.caption,color:C.textDim,weight:'600',align:'center',maxW:88});
+            D.text(cd.ringYearLabel||'2019',cx,cy+10,{size:F.cardTitle,color:C.gold,weight:'900',align:'center',maxW:88});
+            ctx.restore();
+        }
+
+        // Percentages sit inside the three slices big enough to hold them
+        let ang2=-Math.PI/2;
+        SEG.forEach(sg=>{
+            const p=beatProg(sec0Times,sg.beat,sg.from,sg.to);
+            const full=sg.pct*Math.PI*2;
+            if(p>0.85&&sg.pct>=0.15){
+                const mid=ang2+full/2, lx=cx+Math.cos(mid)*(R*0.66), ly=cy+Math.sin(mid)*(R*0.66);
+                ctx.save();ctx.globalAlpha=A0*Math.min(1,(p-0.85)/0.15);
+                D.text(sg.val,lx,ly,{size:20,color:'#fff',weight:'900',align:'center'});
+                ctx.restore();
+            }
+            ang2+=full*p;
+        });
+
+        // Legend — each row arrives with its own slice
+        SEG.forEach((sg,i)=>{
+            const p=A0*beatProg(sec0Times,sg.beat,sg.from,sg.to);
+            if(p<=0.01)return;
+            ctx.save();ctx.globalAlpha=p;
+            const ly=112+i*44;
+            D.roundRect(520,ly-17,365,34,{fill:sg.col+'14',stroke:sg.col+'44',radius:9,lineWidth:1.2});
+            ctx.fillStyle=sg.col;ctx.beginPath();ctx.arc(542,ly,7,0,Math.PI*2);ctx.fill();
+            D.text(sg.name,560,ly,{size:F.body,color:sg.col,weight:'700',align:'left',maxW:270});
+            D.text(sg.val,872,ly,{size:F.body,color:sg.col,weight:'900',align:'right'});
+            ctx.restore();
+        });
+
+        // canvas fix 8 Nov (owner OK): beat 0 names the two kinds — show the key while it is said
+        const kk=A0*beatProg(sec0Times,0,0.3,0.6);
+        if(kk>0.01){const c1=(_les[1]||{}).canvas||{};ctx.save();ctx.globalAlpha=kk;
+            pill(cx-72,548,c1.formalLabel||'Formal',C.green,{size:F.badge,h:26});pill(cx+72,548,c1.informalLabel||'Informal','#ff8844',{size:F.badge,h:26});ctx.restore();}
+
+        // Once the two formal slices are down, name their combined share
+        const ft=A0*beatProg(sec0Times,3,0.82,0.98);
+        if(ft>0.01){
+            ctx.save();ctx.globalAlpha=ft;
+            pill(cx,500,cd.formalLabel||'Formal (66%)',C.green,{size:F.body,h:32});
+            ctx.restore();
+        }
+    }
+
+    /* ─────────── STAGE 1 ─────────── */
+    if(A1>0){
+        paintHeader(A1*beatProg(sec0Times,4,0,0.25),cd.hdr1Title||'WHO IS WATCHING THE LENDER?',
+                    cd.hdr1Sub||'Cut the same circle along one line — supervised, and not supervised');
+
+        // The split bar
+        const sb=beatProg(sec0Times,4,0.25,0.7);
+        if(sb>0.01){
+            ctx.save();ctx.globalAlpha=A1*Math.min(1,sb*2);
+            const bx=60,bw=800,by=96,bh=54;
+            D.roundRect(bx,by,bw,bh,{fill:'rgba(30,40,60,0.5)',stroke:null,radius:12});
+            const fw=bw*0.66*sb;
+            D.roundRect(bx,by,fw,bh,{fill:C.green+'cc',stroke:null,radius:12});
+            if(sb>0.4)D.text(cd.formalLabel||'Formal (66%)',bx+bw*0.33,by+bh/2,{size:F.footer,color:'#04150b',weight:'900',align:'center',maxW:500});
+            const iw=bw*0.34*sb;
+            D.roundRect(bx+bw-iw,by,iw,bh,{fill:C.crimson+'cc',stroke:null,radius:12});
+            if(sb>0.4)D.text(cd.informalLabel||'Informal (34%)',bx+bw*0.83,by+bh/2,{size:F.footer,color:'#1a0505',weight:'900',align:'center',maxW:250});
+            ctx.restore();
+        }
+
+        // Beat 5 — the supervised half
+        const f0=A1*beatProg(sec0Times,5,0,0.35);
+        if(f0>0.01){
+            ctx.save();ctx.globalAlpha=f0;ctx.translate(0,(1-f0)*14);
+            D.roundRect(55,180,395,256,{fill:'rgba(8,30,16,0.90)',stroke:C.green+'88',radius:16,lineWidth:2});
+            D.text(cd.rbiLabel||'Supervised by RBI',252,216,{size:F.cardTitle,color:C.green,weight:'900',align:'center',maxW:365});
+            D.text(cd.formalWhoLabel||'banks  ·  cooperative societies',252,244,{size:F.caption,color:C.textDim,align:'center',maxW:365});
+            ctx.restore();
+        }
+        [[cd.formalRule1||'must hold a minimum cash balance',0.26],
+         [cd.formalRule2||'must report whom they lend to',0.40],
+         [cd.formalRule3||'and at what rate of interest',0.54],
+         [cd.formalRule4||'must lend to small cultivators and small\nborrowers too — not only big business',0.68]].forEach(([txt,w],i)=>{
+            const lp=A1*beatProg(sec0Times,5,w,w+0.22);
+            if(lp<=0.01)return;
+            ctx.save();ctx.globalAlpha=lp;
+            const y=282+i*40;
+            drawMark(100,y,26,true,C.green);
+            txt.split('\n').forEach((l,li)=>
+                D.text(l,128,y+(txt.includes('\n')?li*17-8:0),{size:txt.includes('\n')?12:F.body,color:'rgba(255,255,255,0.84)',align:'left',maxW:310}));
+            ctx.restore();
+        });
+
+        // Beat 6 — the half nobody watches
+        const g0=A1*beatProg(sec0Times,6,0,0.35);
+        if(g0>0.01){
+            ctx.save();ctx.globalAlpha=g0;ctx.translate(0,(1-g0)*14);
+            D.roundRect(470,180,395,256,{fill:'rgba(30,8,8,0.90)',stroke:C.crimson+'88',radius:16,lineWidth:2});
+            D.text(cd.noSupLabel||'No supervision',667,216,{size:F.cardTitle,color:C.crimson,weight:'900',align:'center',maxW:365});
+            D.text(cd.informalWhoLabel||'moneylenders  ·  traders  ·  landlords',667,244,{size:F.caption,color:C.textDim,align:'center',maxW:365});
+            ctx.restore();
+        }
+        [[cd.informalRule1||'no cash balance to hold',0.26],
+         [cd.informalRule2||'any rate of interest they like',0.40],
+         [cd.informalRule3||'no one to stop unfair recovery',0.54],
+         [cd.informalRule4||'they keep no records of the transactions,\nand they harass the poor borrowers',0.68]].forEach(([txt,w],i)=>{
+            const lp=A1*beatProg(sec0Times,6,w,w+0.22);
+            if(lp<=0.01)return;
+            ctx.save();ctx.globalAlpha=lp;
+            const y=282+i*40;
+            drawMark(515,y,26,false,C.crimson);
+            txt.split('\n').forEach((l,li)=>
+                D.text(l,543,y+(txt.includes('\n')?li*17-8:0),{size:txt.includes('\n')?12:F.body,color:'rgba(255,255,255,0.84)',align:'left',maxW:310}));
+            ctx.restore();
+        });
+
+        // Beat 7 — the sting
+        const tk=A1*beatProg(sec0Times,7,0.05,0.45);
+        if(tk>0.01){
+            ctx.save();ctx.globalAlpha=tk;
+            D.roundRect(55,462,810,86,{fill:'rgba(8,16,30,0.92)',stroke:C.gold+'88',radius:16,lineWidth:2});
+            D.text(cd.sting1Label||'Two-thirds of rural credit is now supervised — and the banks lead it.',W/2,490,
+                   {size:F.footer,color:C.goldLight,weight:'800',align:'center',maxW:760});
+            ctx.restore();
+        }
+        const tk2=A1*beatProg(sec0Times,7,0.45,0.85);
+        if(tk2>0.01){
+            ctx.save();ctx.globalAlpha=tk2;
+            D.text(cd.sting2Label||'But the moneylender alone is still almost a quarter of it, and nobody watches him.',W/2,522,
+                   {size:F.body,color:C.crimson,weight:'700',align:'center',maxW:760});
+            ctx.restore();
+        }
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 1 — WHO GETS THE CHEAP CREDIT?
+   Canvas 920×575.
+
+   STAGE 0 — a paired bar per wealth group, built group by group
+     header  y 28 / 56 · group labels y 100 · bars sit on baseline y 400
+     legend  y 440 · axis note y 470
+   STAGE 1 — the two ends of that chart, read together
+     header  y 28 / 56 · poor vs rich cards y 96–290
+     the half-met fact y 320–410 · the conclusion y 440–540
+════════════════════════════════════════════════════════ */
+function paintSection1(elapsed,prog,ts){
+    const cd=(_les[1]||{}).canvas||{};
+    D.clear();
+    const t=ts*0.001;
+    const A0=stageAlpha(1,0), A1=stageAlpha(1,1);
+
+    /* ─────────── STAGE 0 ─────────── */
+    if(A0>0){
+        paintHeader(A0*beatProg(sec1Times,0,0,0.28),cd.hdr0Title||'WHO GETS THE CHEAP CREDIT?',
+                    cd.hdr0Sub||'Urban households sorted by wealth — and where each group\'s loans come from');
+
+        const BASE=400, MAXH=210, BW=62;
+        // NCERT Graph 2 states only the two ends in prose: 54 per cent of poor
+        // urban households' loans are informal, and for the rich only 17 per
+        // cent are informal against 83 per cent formal. Those two are exact.
+        // The middle two groups are read off the printed bars, so they are
+        // interpolated here to sit monotonically between the stated ends.
+        const GRP=[
+            {beat:1,from:0.15,to:0.8, x:180,label:cd.poorestLabel||'Poorest',   sub:cd.householdsLabel||'households',formal:46,informal:54,col:C.crimson,pct:true},
+            {beat:2,from:0.15,to:0.8, x:370,label:cd.lowerLabel||'Few Assets',sub:cd.householdsLabel||'households',formal:57,informal:43,col:'#ff8844'},
+            {beat:3,from:0.10,to:0.45,x:560,label:cd.upperLabel||'Well-off',  sub:cd.householdsLabel||'households',formal:70,informal:30,col:C.gold},
+            {beat:3,from:0.42,to:0.85,x:750,label:cd.richestLabel||'Richest',   sub:cd.householdsLabel||'households',formal:83,informal:17,col:C.green,pct:true},
+        ];
+
+        // The baseline is laid down on beat 0, before any bar stands on it
+        const ax=A0*beatProg(sec1Times,0,0.3,0.7);
+        if(ax>0.01){
+            ctx.save();ctx.globalAlpha=ax*0.6;
+            ctx.strokeStyle='rgba(255,255,255,0.30)';ctx.lineWidth=1.5;
+            ctx.beginPath();ctx.moveTo(90,BASE);ctx.lineTo(850,BASE);ctx.stroke();
+            ctx.restore();
+        }
+
+        GRP.forEach(g=>{
+            const p=beatProg(sec1Times,g.beat,g.from,g.to);
+            if(p<=0.01)return;
+            const a=A0*Math.min(1,p*3);
+            ctx.save();ctx.globalAlpha=a;
+            D.text(g.label,g.x,100,{size:F.body,color:g.col,weight:'900',align:'center',maxW:180});
+            D.text(g.sub,g.x,120,{size:F.caption,color:C.textDim,align:'center',maxW:180});
+
+            // informal on the left, always red — so the eye tracks one colour
+            const ih=MAXH*(g.informal/100)*p;
+            const ig=ctx.createLinearGradient(0,BASE-ih,0,BASE);
+            ig.addColorStop(0,'#cc4040dd');ig.addColorStop(1,'#cc404055');
+            D.roundRect(g.x-BW-5,BASE-ih,BW,ih,{fill:ig,stroke:'#cc404099',radius:5,lineWidth:1.2});
+            if(p>0.6&&g.pct)D.text(g.informal+'%',g.x-BW/2-5,BASE-ih-16,{size:F.body,color:'#ff7777',weight:'900',align:'center'});
+
+            // formal on the right, in the group's own colour
+            const fh=MAXH*(g.formal/100)*p;
+            const fg=ctx.createLinearGradient(0,BASE-fh,0,BASE);
+            fg.addColorStop(0,C.green+'dd');fg.addColorStop(1,C.green+'55');
+            D.roundRect(g.x+5,BASE-fh,BW,fh,{fill:fg,stroke:C.green+'99',radius:5,lineWidth:1.2});
+            if(p>0.6&&g.pct)D.text(g.formal+'%',g.x+BW/2+5,BASE-fh-16,{size:F.body,color:C.greenBright||C.green,weight:'900',align:'center'});
+            ctx.restore();
+        });
+
+        const lg=A0*beatProg(sec1Times,1,0.3,0.6);   // canvas fix 8 Nov: on "informal sources" (was beat 0)
+        if(lg>0.01){
+            ctx.save();ctx.globalAlpha=lg;
+            ctx.fillStyle='#cc4040cc';ctx.beginPath();ctx.arc(322,442,8,0,Math.PI*2);ctx.fill();
+            D.text(cd.informalLabel||'Informal',340,442,{size:F.body,color:'#ff8888',weight:'600',align:'left',maxW:170});
+            ctx.fillStyle=C.green+'cc';ctx.beginPath();ctx.arc(530,442,8,0,Math.PI*2);ctx.fill();
+            D.text(cd.formalLabel||'Formal',548,442,{size:F.body,color:C.green,weight:'600',align:'left',maxW:300});
+            ctx.restore();
+        }
+    }
+
+    /* ─────────── STAGE 1 ─────────── */
+    if(A1>0){
+        paintHeader(A1*beatProg(sec1Times,4,0,0.22),cd.hdr1Title||'READ THE TWO ENDS TOGETHER',
+                    cd.hdr1Sub||'The households with the least money are the ones paying the most for it');
+
+        const e0=A1*beatProg(sec1Times,4,0.18,0.55);
+        if(e0>0.01){
+            ctx.save();ctx.globalAlpha=e0;ctx.translate(0,(1-e0)*14);
+            D.roundRect(60,96,380,194,{fill:'rgba(30,8,8,0.90)',stroke:C.crimson+'88',radius:16,lineWidth:2});
+            D.text(cd.poorestLabel||'Poorest',250,132,{size:F.cardTitle,color:C.crimson,weight:'900',align:'center',maxW:350});
+            D.text(cd.poorestInformal||'54%',250,192,{size:46,color:C.crimson,weight:'900',align:'center',glow:true});
+            D.text(cd.poorestSub1||'of their borrowing is informal —',250,238,{size:F.body,color:'rgba(255,255,255,0.80)',align:'center',maxW:350});
+            D.text(cd.poorestSub2||'at the moneylender\'s rate',250,262,{size:F.body,color:'rgba(255,255,255,0.80)',align:'center',maxW:350});
+            ctx.restore();
+        }
+        const e1=A1*beatProg(sec1Times,4,0.5,0.88);
+        if(e1>0.01){
+            ctx.save();ctx.globalAlpha=e1;ctx.translate(0,(1-e1)*14);
+            D.roundRect(480,96,380,194,{fill:'rgba(8,30,16,0.90)',stroke:C.green+'88',radius:16,lineWidth:2});
+            D.text(cd.richestLabel||'Richest',670,132,{size:F.cardTitle,color:C.green,weight:'900',align:'center',maxW:350});
+            D.text(cd.richestFormal||'83%',670,192,{size:46,color:C.green,weight:'900',align:'center',glow:true});
+            D.text(cd.richestSub1||'of their borrowing is formal —',670,238,{size:F.body,color:'rgba(255,255,255,0.80)',align:'center',maxW:350});
+            D.text(cd.richestSub2||'at the bank\'s much lower rate',670,262,{size:F.body,color:'rgba(255,255,255,0.80)',align:'center',maxW:350});
+            ctx.restore();
+        }
+
+        // Beat 5 — and even that formal half only stretches so far
+        const h0=beatProg(sec1Times,5,0.05,0.5);
+        if(h0>0.01){
+            ctx.save();ctx.globalAlpha=A1*Math.min(1,h0*2.5);
+            D.roundRect(60,316,800,102,{fill:'rgba(8,16,30,0.92)',stroke:C.gold+'77',radius:16,lineWidth:1.8});
+            D.text(cd.ruralIntroLabel||'AND IN RURAL INDIA, FORMAL SOURCES SUPPLY',W/2,342,
+                   {size:F.caption,color:C.textDim,weight:'800',align:'center',maxW:740});
+            const bx=200,bw=520,by=360,bh=24;
+            D.roundRect(bx,by,bw,bh,{fill:'rgba(30,40,60,0.6)',stroke:null,radius:8});
+            D.roundRect(bx,by,bw*0.66*h0,bh,{fill:C.gold+'cc',stroke:null,radius:8});
+            if(h0>0.5){
+                D.text(cd.twoThirdsLabel||'two-thirds',bx+bw*0.33,by+bh/2,{size:F.body,color:'#1a1005',weight:'900',align:'center',maxW:330});
+                D.text(cd.thirdInformalLabel||'a third is still informal',bx+bw*0.83,by+bh/2,{size:F.caption,color:C.textDim,weight:'700',align:'center',maxW:170});
+                D.text(cd.textbookNoteLabel||'(two-thirds of the credit actually taken, in the 2019 survey — the textbook\'s summing-up says formal credit still meets only about half of rural credit NEEDS)',
+                       W/2,402,{size:11,color:'rgba(255,255,255,0.42)',align:'center',maxW:760});
+            }
+            ctx.restore();
+        }
+
+        // Beat 6 — why this is not just unfair but economically costly
+        const c0=A1*beatProg(sec1Times,6,0,0.4);
+        if(c0>0.01){
+            ctx.save();ctx.globalAlpha=c0;
+            D.text(cd.punchlineLabel||'So the people with least money pay the most for it.',W/2,458,
+                   {size:F.footer,color:C.goldLight,weight:'900',align:'center',maxW:800,glow:true});
+            ctx.restore();
+        }
+        const c1=A1*beatProg(sec1Times,6,0.4,0.85);
+        if(c1>0.01){
+            ctx.save();ctx.globalAlpha=c1;
+            D.text(cd.reasonLine1Label||'That is why formal credit has to be shared out more equally —',W/2,496,
+                   {size:F.body,color:'rgba(255,255,255,0.78)',align:'center',maxW:800});
+            D.text(cd.reasonLine2Label||'so that the poor, too, can benefit from cheaper loans.',W/2,522,
+                   {size:F.body,color:'rgba(255,255,255,0.78)',align:'center',maxW:800});
+            ctx.restore();
+        }
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 2 — WHY CHEAP CREDIT MATTERS
+   Canvas 920×575.
+
+   STAGE 0 — the chain a high interest rate sets off
+     header y 28 / 56 · three discs y 210 (r 52) at x 175 · 460 · 745
+     titles y 288 · descriptions y 316 / 338 · the arrows between them at y 210
+   STAGE 1 — the quiet cost, the fix, and what cheap credit buys
+     header y 28 / 56 · the loan not taken y 92–210
+     the fix y 236–320 · four gains y 350–470 · takeaway y 500
+════════════════════════════════════════════════════════ */
+function paintSection2(elapsed,prog,ts){
+    const cd=(_les[2]||{}).canvas||{};
+    D.clear();
+    const t=ts*0.001;
+    const A0=stageAlpha(2,0), A1=stageAlpha(2,1);
+
+    /* ─────────── STAGE 0 ─────────── */
+    if(A0>0){
+        paintHeader(A0*beatProg(sec2Times,0,0,0.28),cd.hdr0Title||'WHAT A HIGH INTEREST RATE DOES',
+                    cd.hdr0Sub||'Follow one expensive loan through to where it ends');
+
+        const LINK=[
+            {beat:1,x:175,col:'#ff8844',icon:'high_interest',title:cd.step1Label||'High interest rate',
+             lines:[cd.link1Line1||'What a moneylender can',cd.link1Line2||'charge, with nobody',cd.link1Line3||'to say otherwise']},
+            {beat:2,x:460,col:C.crimson,icon:'less_income', big:cd.link2Big||'less',  title:cd.step2Label||'Large repayment share',
+             lines:[cd.link2Line1||'A larger share of all you',cd.link2Line2||'earn goes straight back',cd.link2Line3||'out again as repayment']},
+            {beat:3,x:745,col:'#aa2222',icon:'debt_trap',   big:cd.link3Big||'trap',  title:cd.step3Label||'Debt trap',
+             lines:[cd.link3Line1||'Repayment outgrows income,',cd.link3Line2||'so you borrow again to',cd.link3Line3||'survive — and it snowballs']},
+        ];
+
+        // The empty track appears on beat 0, so the shape of the argument is
+        // visible before any of it is filled in.
+        const tr=A0*beatProg(sec2Times,0,0.32,0.75);
+        if(tr>0.01){
+            ctx.save();ctx.globalAlpha=tr*0.45;
+            ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=2;ctx.setLineDash([7,9]);
+            ctx.beginPath();ctx.moveTo(120,210);ctx.lineTo(800,210);ctx.stroke();ctx.setLineDash([]);
+            ctx.restore();
+        }
+
+        LINK.forEach((k,i)=>{
+            if(i>0){
+                const ap=A0*beatProg(sec2Times,k.beat,0,0.22);
+                if(ap>0.01){
+                    ctx.save();ctx.globalAlpha=ap;
+                    const x0=LINK[i-1].x+62,x1=k.x-62;
+                    const grd=ctx.createLinearGradient(x0,210,x1,210);
+                    grd.addColorStop(0,LINK[i-1].col+'aa');grd.addColorStop(1,k.col+'cc');
+                    ctx.strokeStyle=grd;ctx.lineWidth=3;ctx.lineCap='round';
+                    ctx.beginPath();ctx.moveTo(x0,210);ctx.lineTo(x0+(x1-x0)*ap,210);ctx.stroke();
+                    if(ap>0.9){ctx.fillStyle=k.col+'cc';ctx.beginPath();ctx.moveTo(x1,210);ctx.lineTo(x1-12,204);ctx.lineTo(x1-12,216);ctx.closePath();ctx.fill();}
+                    ctx.restore();
+                }
+            }
+            const p=beatProg(sec2Times,k.beat,0.15,0.5);
+            if(p>0.01){
+                const a=A0*p, s=0.7+0.3*easeOutBack(p), pulse=Math.sin(t*(1.5+i*0.5)+i)*0.5+0.5;
+                ctx.save();ctx.globalAlpha=a;
+                ctx.translate(k.x,210);ctx.scale(s,s);
+                const g=ctx.createRadialGradient(0,0,0,0,0,66+pulse*9);
+                g.addColorStop(0,k.col+'44');g.addColorStop(1,k.col+'00');
+                ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,66+pulse*9,0,Math.PI*2);ctx.fill();
+                ctx.fillStyle='rgba(8,16,30,0.9)';ctx.strokeStyle=k.col;ctx.lineWidth=2.6;
+                ctx.beginPath();ctx.arc(0,0,52,0,Math.PI*2);ctx.fill();ctx.stroke();
+                ctx.save();ctx.scale(1.45,1.45);drawCycleIcon(k.icon,k.col,t);ctx.restore();
+                ctx.restore();
+            }
+            const tp=A0*(i===2?beatProg(sec2Times,k.beat,0.75,0.9):beatProg(sec2Times,k.beat,0.4,0.62));   // canvas fix 8 Nov: "debt trap" ends the sentence
+            if(tp>0.01){
+                ctx.save();ctx.globalAlpha=tp;
+                D.text(k.title,k.x,288,{size:F.cardTitle,color:k.col,weight:'900',align:'center',maxW:270});
+                ctx.restore();
+            }
+            const lp=A0*beatProg(sec2Times,k.beat,0.55,0.9);
+            if(lp>0.01){
+                ctx.save();ctx.globalAlpha=lp;
+                k.lines.forEach((l,li)=>D.text(l,k.x,320+li*25,{size:F.cardSub,color:C.textDim,align:'center',maxW:276}));
+                ctx.restore();
+            }
+        });
+
+        const nm=A0*beatProg(sec2Times,3,0.78,0.98);
+        if(nm>0.01){
+            ctx.save();ctx.globalAlpha=nm;
+            pill(W/2,440, cd.step3Label||'Debt trap',C.crimson,{size:F.footer,h:38,padX:22});
+            ctx.restore();
+        }
+    }
+
+    /* ─────────── STAGE 1 ─────────── */
+    if(A1>0){
+        paintHeader(A1*beatProg(sec2Times,4,0,0.22),cd.hdr1Title||'THE CASE FOR CHEAP CREDIT',
+                    cd.hdr1Sub||'What expensive borrowing quietly prevents — and what affordable borrowing buys');
+
+        // Beat 4 — the loan nobody took
+        const q0=A1*beatProg(sec2Times,4,0.18,0.5);
+        if(q0>0.01){
+            ctx.save();ctx.globalAlpha=q0;
+            D.roundRect(60,92,800,118,{fill:'rgba(30,8,8,0.90)',stroke:'#ff884488',radius:16,lineWidth:2});
+            D.text(cd.quietCostLabel||'There is a quieter cost, and it never shows up as a debt.',W/2,126,
+                   {size:F.cardTitle,color:'#ff9955',weight:'800',align:'center',maxW:740});
+            ctx.restore();
+        }
+        const q1=A1*beatProg(sec2Times,4,0.48,0.85);
+        if(q1>0.01){
+            ctx.save();ctx.globalAlpha=q1;
+            D.text(cd.quietCostLine1||'Someone who might have started a small business simply does not —',W/2,164,
+                   {size:F.body,color:'rgba(255,255,255,0.82)',align:'center',maxW:740});
+            D.text(cd.quietCostLine2||'because at that rate, borrowing is too expensive to risk.',W/2,190,
+                   {size:F.body,color:'rgba(255,255,255,0.82)',align:'center',maxW:740});
+            ctx.restore();
+        }
+
+        // Beat 5 — the fix, stated plainly
+        const f0=A1*beatProg(sec2Times,5,0,0.45);
+        if(f0>0.01){
+            ctx.save();ctx.globalAlpha=f0;
+            D.roundRect(60,236,800,84,{fill:'rgba(8,30,16,0.92)',stroke:C.green+'99',radius:16,lineWidth:2});
+            D.text(cd.remedyLabel||'Remedy: Banks & cooperatives must lend more in rural areas',W/2,278,
+                   {size:F.footer,color:C.green,weight:'800',align:'center',maxW:740,glow:true});
+            ctx.restore();
+        }
+
+        // Beat 6 — and here is what that buys
+        const GAIN=[
+            {x:130,col:C.green,  head:cd.gain1Head||'better seed',  sub:[cd.gain1Sub1||'a farmer can invest',cd.gain1Sub2||'in the next crop']},
+            {x:365,col:C.blue,   head:cd.gain2Head||'small industry',sub:[cd.gain2Sub1||'a workshop can be',cd.gain2Sub2||'set up and expanded']},
+            {x:600,col:C.gold,   head:cd.gain3Head||'more trade',   sub:[cd.gain3Sub1||'a trader can carry',cd.gain3Sub2||'more stock']},
+            {x:820,col:C.purple, head:cd.gain4Head||'higher income',sub:[cd.gain4Sub1||'and a better standard',cd.gain4Sub2||'of living']},
+        ];
+        GAIN.forEach((g,i)=>{
+            const p=A1*beatProg(sec2Times,6,0.05+i*0.14,0.05+i*0.14+0.28);
+            if(p<=0.01)return;
+            ctx.save();ctx.globalAlpha=p;
+            const s=0.85+0.15*easeOutBack(Math.min(1,p));
+            ctx.save();ctx.translate(g.x,376);ctx.scale(s,s);
+            ctx.strokeStyle=g.col;ctx.lineWidth=3;ctx.lineCap='round';
+            ctx.beginPath();ctx.moveTo(0,12);ctx.lineTo(0,-10);ctx.stroke();
+            ctx.fillStyle=g.col;ctx.beginPath();ctx.moveTo(0,-17);ctx.lineTo(-7,-7);ctx.lineTo(7,-7);ctx.closePath();ctx.fill();
+            ctx.restore();
+            D.text(g.head,g.x,414,{size:F.body,color:g.col,weight:'900',align:'center',maxW:210});
+            g.sub.forEach((l,li)=>D.text(l,g.x,440+li*20,{size:F.caption,color:C.textDim,align:'center',maxW:210}));
+            ctx.restore();
+        });
+        const tk=A1*beatProg(sec2Times,6,0.62,0.92);
+        if(tk>0.01){
+            ctx.save();ctx.globalAlpha=tk;
+            D.text(cd.conclusionLabel||'Cheap credit = higher incomes = development',W/2,516,
+                   {size:F.footer,color:C.goldLight,weight:'900',align:'center',maxW:800,glow:true});
+            ctx.restore();
+        }
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 3 — SELF-HELP GROUPS
+   Canvas 920×575.
+
+   STAGE 0 — how the group actually works, one move at a time
+     header y 28 / 56 · the problem strip y 92–150
+     four discs y 260 (r 46) at x 145 · 375 · 605 · 835 — but see note below
+     titles y 330 · descriptions y 358 / 380 / 402
+   STAGE 1 — why a bank will lend to a group it would refuse individually
+     header y 28 / 56 · the collateral swap y 100–290
+     group accountability y 320–410 · what else it gives y 440–540
+════════════════════════════════════════════════════════ */
+function paintSection3(elapsed,prog,ts){
+    const cd=(_les[3]||{}).canvas||{};
+    D.clear();
+    const t=ts*0.001;
+    const A0=stageAlpha(3,0), A1=stageAlpha(3,1);
+
+    /* ─────────── STAGE 0 ─────────── */
+    if(A0>0){
+        paintHeader(A0*beatProg(sec3Times,2,0,0.25),cd.hdr0Title||'THE SELF-HELP GROUP',
+                    cd.hdr0Sub||'A way for people with no collateral to reach a bank anyway',C.green);
+
+        // Beats 0-1 — NCERT spends a page on WHY the poor stay with the
+        // moneylender before it offers the SHG. That reasoning owns the canvas
+        // first, then clears for the four steps.
+        const hold2=sec3Times[2]?1-beatProg(sec3Times,2,0,0.3):1;
+
+        const pr=A0*beatProg(sec3Times,0,0.15,0.5)*hold2;
+        if(pr>0.01){
+            ctx.save();ctx.globalAlpha=pr;
+            D.roundRect(60,88,800,86,{fill:'rgba(30,8,8,0.88)',stroke:C.crimson+'77',radius:16,lineWidth:1.8});
+            D.text(cd.notEverywhereLabel||'Banks are not everywhere in rural India — and where they are,',W/2,118,
+                   {size:F.body,color:'rgba(255,255,255,0.82)',align:'center',maxW:740});
+            D.text(cd.harderLabel||'a bank loan is far harder to get than a moneylender\'s.',W/2,146,
+                   {size:F.body,color:C.crimson,weight:'700',align:'center',maxW:740});
+            ctx.restore();
+        }
+        const pr2=A0*beatProg(sec3Times,0,0.48,0.85)*hold2;
+        if(pr2>0.01){
+            ctx.save();ctx.globalAlpha=pr2;
+            D.text(cd.documentsLabel||'A bank wants proper documents and collateral — as it did from Megha.',W/2,200,
+                   {size:F.body,color:'rgba(255,255,255,0.78)',align:'center',maxW:780});
+            D.text(cd.absenceLabel||'The absence of collateral is one of the major reasons the poor are refused.',W/2,226,
+                   {size:F.footer,color:C.gold,weight:'800',align:'center',maxW:780});
+            ctx.restore();
+        }
+
+        // Beat 1 — the moneylender's bargain, both halves of it
+        const SIDE=[
+            {x:60, col:C.goldLight,title:cd.easySideTitle||'WHY THE MONEYLENDER IS EASY',
+             lines:[cd.easyLine1||'He knows his borrowers personally',cd.easyLine2||'He lends without any collateral at all',
+                    cd.easyLine3||'You may come back before repaying the last loan']},
+            {x:480,col:C.crimson,  title:cd.costSideTitle||'AND WHAT HE CHARGES FOR IT',
+             lines:[cd.costLine1||'Very high rates of interest',cd.costLine2||'He keeps no records of the transactions',
+                    cd.costLine3||'He harasses the poor borrowers']},
+        ];
+        SIDE.forEach((sd,i)=>{
+            const p=A0*beatProg(sec3Times,1,0.08+i*0.24,0.08+i*0.24+0.40)*hold2;
+            if(p<=0.01)return;
+            ctx.save();ctx.globalAlpha=p;ctx.translate(0,(1-p)*14);
+            D.roundRect(sd.x,268,380,180,{fill:sd.col+'12',stroke:sd.col+'88',radius:16,lineWidth:1.9});
+            D.text(sd.title,sd.x+190,300,{size:F.cardSub,color:sd.col,weight:'900',align:'center',maxW:350});
+            sd.lines.forEach((l,li)=>{
+                ctx.fillStyle=sd.col+'cc';
+                ctx.beginPath();ctx.arc(sd.x+26,338+li*32,3.5,0,Math.PI*2);ctx.fill();
+                D.text(l,sd.x+40,338+li*32,{size:F.caption,color:'rgba(255,255,255,0.80)',align:'left',maxW:330});
+            });
+            ctx.restore();
+        });
+        const pr3=A0*beatProg(sec3Times,1,0.72,0.95)*hold2;
+        if(pr3>0.01){
+            ctx.save();ctx.globalAlpha=pr3;
+            D.text(cd.caughtLabel||'So the poor are caught between a bank that will not lend and a lender who bleeds them.',
+                   W/2,492,{size:F.footer,color:C.goldLight,weight:'800',align:'center',maxW:800});
+            ctx.restore();
+        }
+
+        const STEP=[
+            {beat:2,x:120,col:C.green,    icon:'members',  title:cd.step1Label||'15–20 members form group',
+             lines:[cd.step1Line1||'15 to 20 people from',cd.step1Line2||'one neighbourhood —',cd.step1Line3||'usually women']},
+            {beat:3,x:345,col:C.goldLight,icon:'savings',  title:cd.step2Label||'Regular savings pooled',
+             lines:[cd.step2Line1||'Each puts ₹25 to ₹100',cd.step2Line2||'or more into one',cd.step2Line3||'common pool']},
+            {beat:4,x:570,col:C.blue,     icon:'lend',     title:cd.step3Label||'Members borrow from pool',
+             lines:[cd.step3Line1||'Members borrow from',cd.step3Line2||'the pool — at interest,',cd.step3Line3||'but far below the lender']},
+            {beat:5,x:795,col:C.purple,   icon:'bank_loan',title:cd.step4Label||'After 1–2 years: bank loan',
+             lines:[cd.step4Line1||'After a year or two of',cd.step4Line2||'regular saving, the group',cd.step4Line3||'itself becomes eligible']},
+        ];
+        STEP.forEach((st,i)=>{
+            if(i>0){
+                const ap=A0*beatProg(sec3Times,st.beat,0,0.2);
+                if(ap>0.01){
+                    ctx.save();ctx.globalAlpha=ap;
+                    const x0=STEP[i-1].x+52,x1=st.x-52;
+                    const grd=ctx.createLinearGradient(x0,255,x1,255);
+                    grd.addColorStop(0,STEP[i-1].col+'aa');grd.addColorStop(1,st.col+'cc');
+                    ctx.strokeStyle=grd;ctx.lineWidth=2.6;ctx.lineCap='round';
+                    ctx.beginPath();ctx.moveTo(x0,255);ctx.lineTo(x0+(x1-x0)*ap,255);ctx.stroke();
+                    if(ap>0.9){ctx.fillStyle=st.col+'cc';ctx.beginPath();ctx.moveTo(x1,255);ctx.lineTo(x1-10,250);ctx.lineTo(x1-10,260);ctx.closePath();ctx.fill();}
+                    ctx.restore();
+                }
+            }
+            const p=beatProg(sec3Times,st.beat,0.12,0.45);
+            if(p>0.01){
+                const a=A0*p, s=0.7+0.3*easeOutBack(p), pulse=Math.sin(t*1.7+i*1.2)*0.5+0.5;
+                ctx.save();ctx.globalAlpha=a;
+                ctx.translate(st.x,255);ctx.scale(s,s);
+                const g=ctx.createRadialGradient(0,0,0,0,0,56+pulse*7);
+                g.addColorStop(0,st.col+'3a');g.addColorStop(1,st.col+'00');
+                ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,56+pulse*7,0,Math.PI*2);ctx.fill();
+                ctx.fillStyle='rgba(8,16,30,0.9)';ctx.strokeStyle=st.col;ctx.lineWidth=2.6;
+                ctx.beginPath();ctx.arc(0,0,42,0,Math.PI*2);ctx.fill();ctx.stroke();
+                ctx.save();ctx.scale(1.4,1.4);drawSHGIcon(st.icon,st.col,t);ctx.restore();
+                ctx.restore();
+            }
+            const tp=A0*beatProg(sec3Times,st.beat,0.38,0.6);
+            if(tp>0.01){
+                ctx.save();ctx.globalAlpha=tp;
+                D.text(st.title,st.x,330,{size:F.body,color:st.col,weight:'900',align:'center',maxW:205});
+                ctx.restore();
+            }
+            const lp=A0*beatProg(sec3Times,st.beat,0.52,0.88);
+            if(lp>0.01){
+                ctx.save();ctx.globalAlpha=lp;
+                st.lines.forEach((l,li)=>D.text(l,st.x,372+li*24,{size:F.caption,color:C.textDim,align:'center',maxW:210}));
+                ctx.restore();
+            }
+        });
+
+        // Beat 5 — whose name the loan is in, what it buys, and who decides.
+        // NCERT is specific about all three and they are easy to lose.
+        const n0=A0*beatProg(sec3Times,6,0.05,0.35);
+        if(n0>0.01){
+            ctx.save();ctx.globalAlpha=n0;
+            D.roundRect(50,442,820,114,{fill:'rgba(8,16,30,0.92)',stroke:C.green+'88',radius:16,lineWidth:1.9});
+            D.text(cd.sanctionLabel||'THE LOAN IS SANCTIONED IN THE NAME OF THE GROUP — TO CREATE SELF-EMPLOYMENT',W/2,462,
+                   {size:F.caption,color:C.green,weight:'900',align:'center',maxW:780});
+            ctx.restore();
+        }
+        const n1=A0*beatProg(sec3Times,6,0.3,0.68);
+        if(n1>0.01){
+            ctx.save();ctx.globalAlpha=n1;
+            pillRow(W/2,494,[cd.usePill1||'releasing mortgaged land',cd.usePill2||'seeds, fertiliser, bamboo, cloth',cd.usePill3||'housing materials',cd.usePill4||'sewing machines, handlooms, cattle'],
+                    [C.goldLight,C.green,C.blue,C.purple],{size:10.5,h:28,padX:11,gap:12});
+            ctx.restore();
+        }
+        const n2=A0*beatProg(sec3Times,6,0.64,0.92);
+        if(n2>0.01){
+            ctx.save();ctx.globalAlpha=n2;
+            D.text(cd.decidesLabel||'And the group itself decides all of it — the purpose, the amount, the interest to be charged, the repayment schedule.',
+                   W/2,532,{size:F.caption,color:'rgba(255,255,255,0.74)',align:'center',maxW:790});
+            ctx.restore();
+        }
+    }
+
+    /* ─────────── STAGE 1 ─────────── */
+    if(A1>0){
+        paintHeader(A1*beatProg(sec3Times,7,0,0.22),cd.hdr1Title||'WHY THE BANK SAYS YES',
+                    cd.hdr1Sub||'The group supplies the one thing none of its members has',C.green);
+
+        // Beat 5 — no collateral; the group is the collateral
+        const s0=A1*beatProg(sec3Times,7,0.18,0.5);
+        if(s0>0.01){
+            ctx.save();ctx.globalAlpha=s0;ctx.translate(0,(1-s0)*14);
+            D.roundRect(60,100,380,190,{fill:'rgba(30,8,8,0.90)',stroke:C.crimson+'88',radius:16,lineWidth:2});
+            D.text(cd.bankWantsTitle||'WHAT A BANK USUALLY WANTS',250,138,{size:F.body,color:C.crimson,weight:'900',align:'center',maxW:350});
+            drawMark(250,196,40,false,C.crimson);
+            D.text(cd.bankWantsLine1||'land papers, salary slips,',250,244,{size:F.body,color:'rgba(255,255,255,0.80)',align:'center',maxW:350});
+            D.text(cd.bankWantsLine2||'an asset to pledge',250,268,{size:F.body,color:'rgba(255,255,255,0.80)',align:'center',maxW:350});
+            ctx.restore();
+        }
+        const s1=A1*beatProg(sec3Times,7,0.48,0.85);
+        if(s1>0.01){
+            ctx.save();ctx.globalAlpha=s1;ctx.translate(0,(1-s1)*14);
+            D.roundRect(480,100,380,190,{fill:'rgba(8,30,16,0.90)',stroke:C.green+'88',radius:16,lineWidth:2});
+            D.text(cd.groupOffersTitle||'WHAT THE GROUP OFFERS',670,138,{size:F.body,color:C.green,weight:'900',align:'center',maxW:350});
+            drawMark(670,196,40,true,C.green);
+            D.text(cd.groupOffersLine1||'no individual collateral —',670,244,{size:F.body,color:'rgba(255,255,255,0.80)',align:'center',maxW:350});
+            D.text(cd.groupOffersLine2||'the group is the guarantee',670,268,{size:F.body,color:C.green,weight:'700',align:'center',maxW:350});
+            ctx.restore();
+        }
+
+        // Beat 6 — and why that guarantee is worth anything
+        const g0=A1*beatProg(sec3Times,8,0,0.4);
+        if(g0>0.01){
+            ctx.save();ctx.globalAlpha=g0;
+            D.roundRect(60,320,800,92,{fill:'rgba(8,16,30,0.92)',stroke:C.blue+'88',radius:16,lineWidth:2});
+            D.text(cd.followUpLabel||'If one member does not repay, the whole group follows it up.',W/2,352,
+                   {size:F.footer,color:C.blue,weight:'800',align:'center',maxW:740});
+            ctx.restore();
+        }
+        const g1=A1*beatProg(sec3Times,8,0.4,0.85);
+        if(g1>0.01){
+            ctx.save();ctx.globalAlpha=g1;
+            D.text(cd.whyLendLabel||'Which is exactly why a bank will lend to the group — when it would lend to none of them alone.',
+                   W/2,386,{size:F.body,color:'rgba(255,255,255,0.80)',align:'center',maxW:760});
+            ctx.restore();
+        }
+
+        // Beat 7 — the wider point
+        const w0=A1*beatProg(sec3Times,9,0,0.45);
+        if(w0>0.01){
+            ctx.save();ctx.globalAlpha=w0;
+            pillRow(W/2,452,[cd.benefitPill1||'timely credit',cd.benefitPill2||'at a fair rate',cd.benefitPill3||'without collateral'],
+                    [C.green,C.gold,C.blue],{size:F.body,h:32,padX:18,gap:24});
+            ctx.restore();
+        }
+        const w1=A1*beatProg(sec3Times,9,0.42,0.78);
+        if(w1>0.01){
+            ctx.save();ctx.globalAlpha=w1;
+            D.text(cd.benefitLabel||'Also: platform for discussing health, nutrition & domestic violence',
+                   W/2,500,{size:F.body,color:'rgba(255,255,255,0.78)',align:'center',maxW:800});
+            ctx.restore();
+        }
+        const w2=A1*beatProg(sec3Times,9,0.75,0.95);
+        if(w2>0.01){
+            ctx.save();ctx.globalAlpha=w2;
+            D.text(cd.buildingBlocksLabel||'Self-help groups are the building blocks of organising the rural poor.',
+                   W/2,532,{size:F.footer,color:C.goldLight,weight:'800',align:'center',maxW:800});
+            ctx.restore();
+        }
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 4 — GRAMEEN BANK OF BANGLADESH
+   Canvas 920×575.
+
+   STAGE 0 — how far a small project got
+     header y 28 / 56 · three stat discs y 250 (r 74) at x 175 · 460 · 745
+     labels y 350 · captions y 378
+   STAGE 1 — what it proved, and Yunus's sentence
+     header y 28 / 56 · the proof y 92–210 · the Nobel line y 236–300
+     the quote y 326–500 · attribution y 520
+════════════════════════════════════════════════════════ */
+function paintSection4(elapsed,prog,ts){
+    const cd=(_les[4]||{}).canvas||{};
+    D.clear();
+    const t=ts*0.001;
+    const A0=stageAlpha(4,0), A1=stageAlpha(4,1);
+
+    /* ─────────── STAGE 0 ─────────── */
+    if(A0>0){
+        paintHeader(A0*beatProg(sec4Times,0,0,0.28),cd.hdr0Title||'GRAMEEN BANK OF BANGLADESH',
+                    cd.hdr0Sub||'One of the biggest success stories in lending to the poor');
+
+        const intro=A0*beatProg(sec4Times,0,0.3,0.75)*(sec4Times[1]?1-beatProg(sec4Times,1,0,0.25):1);
+        if(intro>0.01){
+            ctx.save();ctx.globalAlpha=intro;
+            D.text(cd.introLabel||'reaching the poor, at reasonable rates',W/2,300,
+                   {size:F.cardTitle,color:'rgba(255,255,255,0.34)',weight:'700',align:'center',maxW:780});
+            ctx.restore();
+        }
+
+        const STAT=[
+            {beat:1,x:175,col:C.gold,  val:cd.foundedVal||'1970s',  label:cd.foundedLabel||'Founded',   sub:[cd.foundedSub1||'a small project, and',cd.foundedSub2||'nothing more than that']},
+            {beat:2,x:460,col:C.green, val:cd.membersVal||'9+ million',    label:cd.membersLabel||'Members by 2018',  sub:[cd.membersSub1||'over nine million members,',cd.membersSub2||'in about eighty-one',cd.membersSub3||'thousand six hundred villages']},
+            {beat:3,x:745,col:C.blue,  val:cd.borrowersVal||'women',  label:cd.borrowersLabel||'Almost all borrowers',sub:[cd.borrowersSub1||'and from the poorest',cd.borrowersSub2||'sections of society']},
+        ];
+        STAT.forEach((s,i)=>{
+            const p=beatProg(sec4Times,s.beat,0.1,0.5);
+            if(p>0.01){
+                const a=A0*p, sc=0.7+0.3*easeOutBack(p), pulse=Math.sin(t*1.6+i*1.2)*0.5+0.5;
+                ctx.save();ctx.globalAlpha=a;
+                ctx.translate(s.x,240);ctx.scale(sc,sc);
+                const g=ctx.createRadialGradient(0,0,0,0,0,92+pulse*10);
+                g.addColorStop(0,s.col+'3a');g.addColorStop(1,s.col+'00');
+                ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,92+pulse*10,0,Math.PI*2);ctx.fill();
+                ctx.fillStyle='rgba(8,16,30,0.90)';ctx.strokeStyle=s.col+'cc';ctx.lineWidth=2.8;
+                ctx.beginPath();ctx.arc(0,0,74,0,Math.PI*2);ctx.fill();ctx.stroke();
+                D.text(s.val,0,2,{size:s.val.length>12?19:(s.val.length>6?24:34),color:s.col,weight:'900',align:'center',glow:true,maxW:104});
+                ctx.restore();
+            }
+            const lp=A0*beatProg(sec4Times,s.beat,0.42,0.65);
+            if(lp>0.01){
+                ctx.save();ctx.globalAlpha=lp;
+                D.text(s.label,s.x,348,{size:F.body,color:s.col,weight:'900',align:'center',maxW:280});
+                ctx.restore();
+            }
+            const sp=A0*beatProg(sec4Times,s.beat,0.6,0.9);
+            if(sp>0.01){
+                ctx.save();ctx.globalAlpha=sp;
+                s.sub.forEach((l,li)=>D.text(l,s.x,378+li*21,{size:F.cardSub,color:C.textDim,align:'center',maxW:282}));
+                ctx.restore();
+            }
+        });
+    }
+
+    /* ─────────── STAGE 1 ─────────── */
+    if(A1>0){
+        paintHeader(A1*beatProg(sec4Times,4,0,0.22),cd.hdr1Title||'WHAT THOSE BORROWERS PROVED',
+                    cd.hdr1Sub||'The number that matters is not nine million');
+
+        const p0=A1*beatProg(sec4Times,4,0.18,0.55);
+        if(p0>0.01){
+            ctx.save();ctx.globalAlpha=p0;
+            D.roundRect(60,92,800,118,{fill:'rgba(8,30,16,0.90)',stroke:C.green+'88',radius:16,lineWidth:2});
+            D.text(cd.provenLabel||'Proved: poor women are reliable borrowers',W/2,128,
+                   {size:F.cardTitle,color:C.green,weight:'800',align:'center',maxW:740});
+            ctx.restore();
+        }
+        const p1=A1*beatProg(sec4Times,4,0.52,0.88);
+        if(p1>0.01){
+            ctx.save();ctx.globalAlpha=p1;
+            D.text(cd.provenSub1||'And capable of starting and running a whole variety of small,',W/2,166,
+                   {size:F.body,color:'rgba(255,255,255,0.82)',align:'center',maxW:740});
+            D.text(cd.provenSub2||'income-generating businesses, successfully.',W/2,192,
+                   {size:F.body,color:'rgba(255,255,255,0.82)',align:'center',maxW:740});
+            ctx.restore();
+        }
+
+        // Beat 5 — the Nobel
+        const n0=beatProg(sec4Times,5,0,0.5);
+        if(n0>0.01){
+            ctx.save();ctx.globalAlpha=A1*n0;
+            const s=0.85+0.15*easeOutBack(n0);
+            ctx.translate(W/2,268);ctx.scale(s,s);ctx.translate(-W/2,-268);
+            pill(W/2,268, cd.prizeLabel||'Nobel Peace Prize · 2006',C.gold,{size:F.footer,h:44,padX:26});
+            ctx.restore();
+        }
+        const n1=A1*beatProg(sec4Times,5,0.45,0.85);
+        if(n1>0.01){
+            ctx.save();ctx.globalAlpha=n1;
+            D.text(cd.awardedLabel||'awarded to its founder, Professor Muhammad Yunus',W/2,312,
+                   {size:F.body,color:C.textDim,align:'center',maxW:740});
+            ctx.restore();
+        }
+
+        // Beat 6 — his sentence, arriving a clause at a time
+        const QUOTE=[
+            {w:0.02,txt:cd.quotePart1||'If credit can be made available to poor people'},
+            {w:0.20,txt:cd.quotePart2||'on terms and conditions that are appropriate and reasonable,'},
+            {w:0.40,txt:cd.quotePart3||'these millions of small people, with their millions of small pursuits,'},
+            {w:0.60,txt:cd.quotePart4||'can add up to create the biggest development wonder.'},
+        ];
+        const qb=A1*beatProg(sec4Times,6,0,0.15);
+        if(qb>0.01){
+            ctx.save();ctx.globalAlpha=qb;
+            D.roundRect(60,344,800,190,{fill:'rgba(20,16,6,0.92)',stroke:C.gold+'88',radius:18,lineWidth:2});
+            ctx.save();ctx.globalAlpha=qb*0.14;
+            D.text('"',96,404,{size:88,color:C.gold,weight:'900',align:'left'});
+            D.text('"',824,504,{size:88,color:C.gold,weight:'900',align:'right'});
+            ctx.restore();
+            ctx.restore();
+        }
+        QUOTE.forEach((q,i)=>{
+            const p=A1*beatProg(sec4Times,6,q.w,q.w+0.22);
+            if(p<=0.01)return;
+            ctx.save();ctx.globalAlpha=p;
+            D.text(q.txt,W/2,386+i*30,{size:i===3?F.footer:F.body,
+                   color:i===3?C.goldLight:'rgba(255,255,255,0.88)',
+                   weight:i===3?'800':'500',align:'center',maxW:720});
+            ctx.restore();
+        });
+        const at=A1*beatProg(sec4Times,6,0.8,0.98);
+        if(at>0.01){
+            ctx.save();ctx.globalAlpha=at;
+            D.text(cd.attributionLabel||'— Professor Muhammad Yunus,  founder of Grameen Bank',W/2,508,
+                   {size:F.caption,color:C.textDim,weight:'600',align:'center',maxW:720});
+            ctx.restore();
+        }
+    }
+}
+
+/* ══════ DRAWING HELPERS ══════ */
+
+function drawCycleIcon(icon,col,t){
+    ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineCap='round';ctx.lineJoin='round';
+    if(icon==='high_interest'){
+        // Detailed % symbol with rising arrow and coins
+        ctx.lineWidth=1.8;
+        // Percent sign
+        ctx.strokeStyle=col;ctx.lineWidth=2;
+        // Left circle
+        ctx.beginPath();ctx.arc(-5,-5,3.5,0,Math.PI*2);ctx.stroke();
+        // Right circle
+        ctx.beginPath();ctx.arc(5,5,3.5,0,Math.PI*2);ctx.stroke();
+        // Diagonal bar
+        ctx.beginPath();ctx.moveTo(-8,8);ctx.lineTo(8,-8);ctx.stroke();
+        // Upward arrow (rates going up)
+        ctx.strokeStyle=col+'cc';ctx.lineWidth=1.8;
+        ctx.beginPath();ctx.moveTo(10,-8);ctx.lineTo(10,-16);ctx.stroke();
+        ctx.fillStyle=col+'cc';
+        ctx.beginPath();ctx.moveTo(10,-18);ctx.lineTo(6,-13);ctx.lineTo(14,-13);ctx.closePath();ctx.fill();
+        // Small coin stack bottom
+        ctx.strokeStyle=col+'66';ctx.lineWidth=1;
+        ctx.beginPath();ctx.ellipse(-9,12,5,2,0,0,Math.PI*2);ctx.stroke();
+        ctx.beginPath();ctx.ellipse(-9,9,5,2,0,0,Math.PI*2);ctx.stroke();
+
+    } else if(icon==='less_income'){
+        // Wallet draining — wallet outline with downward arrow
+        ctx.lineWidth=1.8;
+        // Wallet body
+        D.roundRect(-12,-8,24,16,{fill:col+'18',stroke:col,radius:3,lineWidth:1.8});
+        // Wallet flap
+        D.roundRect(-12,-14,14,8,{fill:col+'11',stroke:col+'88',radius:3,lineWidth:1.2});
+        // Coin slot
+        ctx.strokeStyle=col+'55';ctx.lineWidth=1;
+        ctx.beginPath();ctx.moveTo(-4,-10);ctx.lineTo(4,-10);ctx.stroke();
+        // Minus (money leaving)
+        ctx.strokeStyle=col;ctx.lineWidth=2.2;
+        ctx.beginPath();ctx.moveTo(-6,0);ctx.lineTo(6,0);ctx.stroke();
+        // Down arrow
+        ctx.strokeStyle=col+'aa';ctx.lineWidth=1.6;
+        ctx.beginPath();ctx.moveTo(14,-6);ctx.lineTo(14,6);ctx.stroke();
+        ctx.fillStyle=col+'aa';
+        ctx.beginPath();ctx.moveTo(14,8);ctx.lineTo(10,3);ctx.lineTo(18,3);ctx.closePath();ctx.fill();
+
+    } else if(icon==='debt_trap'){
+        // Chain link / trap — chains going down
+        ctx.lineWidth=1.8;
+        // Chain links
+        const links=[[-4,-12],[-4,-4],[-4,4],[-4,12]];
+        links.forEach(([lx,ly],li)=>{
+            ctx.strokeStyle=li<2?col+'88':col;ctx.lineWidth=1.6;
+            ctx.beginPath();ctx.ellipse(lx,ly,4,2.5,0,0,Math.PI*2);ctx.stroke();
+            if(li<links.length-1){
+                ctx.strokeStyle=col+'55';ctx.lineWidth=1;
+                ctx.beginPath();ctx.moveTo(lx,ly+2.5);ctx.lineTo(lx,ly+5.5);ctx.stroke();
+            }
+        });
+        // Warning exclamation right side
+        ctx.strokeStyle=col;ctx.lineWidth=2;
+        ctx.beginPath();ctx.moveTo(10,-12);ctx.lineTo(10,4);ctx.stroke();
+        ctx.fillStyle=col;ctx.beginPath();ctx.arc(10,10,2.5,0,Math.PI*2);ctx.fill();
+
+    } else if(icon==='no_growth'){
+        // Broken chart — graph going down then stopping
+        ctx.lineWidth=2;
+        // Axes
+        ctx.strokeStyle=col+'44';
+        ctx.beginPath();ctx.moveTo(-14,12);ctx.lineTo(-14,-14);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(-14,12);ctx.lineTo(14,12);ctx.stroke();
+        // Declining bars
+        const bars=[[-9,-4,6],[-2,-2,6],[5,1,6]];
+        bars.forEach(([bx,by2,bw],bi)=>{
+            const barH=12-by2;
+            ctx.fillStyle=col+(bi===0?'cc':bi===1?'88':'44');
+            ctx.beginPath();ctx.rect(bx,by2,bw,barH);ctx.fill();
+        });
+        // X mark (no growth)
+        ctx.strokeStyle=col+'aa';ctx.lineWidth=2;
+        ctx.beginPath();ctx.moveTo(8,-14);ctx.lineTo(14,-8);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(14,-14);ctx.lineTo(8,-8);ctx.stroke();
+    }
+}
+
+function drawSHGIcon(icon,col,t){
+    ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineCap='round';ctx.lineJoin='round';
+    if(icon==='members'){
+        // 3 small figures
+        ctx.lineWidth=1.3;
+        [-8,0,8].forEach((ox,i)=>{
+            ctx.fillStyle=col+(i===1?'ee':'aa');
+            ctx.beginPath();ctx.arc(ox,-12,3.5,0,Math.PI*2);ctx.fill();
+            ctx.strokeStyle=col+(i===1?'ee':'aa');ctx.lineWidth=1.3;
+            ctx.beginPath();ctx.moveTo(ox,-8);ctx.lineTo(ox,0);ctx.stroke();
+            ctx.beginPath();ctx.moveTo(ox-3,-4);ctx.lineTo(ox+3,-4);ctx.stroke();
+            ctx.beginPath();ctx.moveTo(ox,0);ctx.lineTo(ox-3,8);ctx.moveTo(ox,0);ctx.lineTo(ox+3,8);ctx.stroke();
+        });
+    } else if(icon==='savings'){
+        // Coins stacking up
+        ctx.lineWidth=1.3;
+        for(let k=0;k<3;k++){
+            const cy2=4-k*6;
+            ctx.fillStyle=col+(k===2?'cc':'66');
+            ctx.beginPath();ctx.ellipse(0,cy2,9,3.5,0,0,Math.PI*2);ctx.fill();
+            if(k===2){ctx.strokeStyle=col;ctx.lineWidth=1.3;ctx.stroke();}
+        }
+        // Up arrow
+        ctx.strokeStyle=col+'aa';ctx.lineWidth=1.5;
+        ctx.beginPath();ctx.moveTo(0,-10);ctx.lineTo(0,-18);ctx.stroke();
+        ctx.fillStyle=col+'aa';ctx.beginPath();ctx.moveTo(0,-20);ctx.lineTo(-4,-15);ctx.lineTo(4,-15);ctx.closePath();ctx.fill();
+    } else if(icon==='lend'){
+        // Rupee with arrow
+        ctx.lineWidth=1.8;
+        ctx.beginPath();ctx.arc(0,0,9,0,Math.PI*2);ctx.stroke();
+        D.text('₹',0,1,{size:9,color:col,weight:'900',align:'center'});
+        ctx.strokeStyle=col+'aa';ctx.lineWidth=1.5;
+        ctx.beginPath();ctx.moveTo(10,-2);ctx.lineTo(16,-2);ctx.stroke();
+        ctx.fillStyle=col+'aa';ctx.beginPath();ctx.moveTo(18,-2);ctx.lineTo(13,-5);ctx.lineTo(13,1);ctx.closePath();ctx.fill();
+    } else if(icon==='bank_loan'){
+        // Bank with checkmark
+        ctx.lineWidth=1.3;
+        ctx.fillStyle=col+'22';ctx.strokeStyle=col+'88';
+        ctx.beginPath();ctx.moveTo(0,-14);ctx.lineTo(10,-6);ctx.lineTo(10,6);ctx.lineTo(-10,6);ctx.lineTo(-10,-6);ctx.closePath();ctx.fill();ctx.stroke();
+        ctx.strokeStyle=col+'66';ctx.lineWidth=0.8;
+        ctx.beginPath();ctx.moveTo(0,-14);ctx.lineTo(-10,-6);ctx.stroke();
+        [-5,5].forEach(cx2=>{ctx.strokeStyle=col+'88';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(cx2,-5);ctx.lineTo(cx2,5);ctx.stroke();});
+        // Tick
+        ctx.strokeStyle=col;ctx.lineWidth=2.2;
+        ctx.beginPath();ctx.moveTo(-6,12);ctx.lineTo(-2,16);ctx.lineTo(8,6);ctx.stroke();
+    }
+}
+
+function showScreen(id){
+    narrate('');document.querySelectorAll('.narr-cap').forEach(function(c){c.textContent='';});
+    document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.position='absolute';});
+    const el=document.getElementById('screen-'+id);
+    if(el){el.classList.add('active');el.style.position='relative';}
+}
+
+function updateBg(idx){
+    const bgs=['bg-section-0','bg-section-1','bg-section-2','bg-section-3','bg-section-4','bg-complete'];
+    document.body.className=bgs[idx]||'bg-welcome';
+}
+
+function updateOrbs(idx){
+    const palettes=[
+        ['#32b464','#DAA520','#9b59b6'],
+        ['#5080c8','#32b464','#DAA520'],
+        ['#DAA520','#32b464','#5080c8'],
+        ['#32b464','#5080c8','#DAA520'],
+        ['#DAA520','#f0c040','#32b464'],
+        ['#32b464','#DAA520','#5080c8'],
+    ];
+    const pal=palettes[idx]||palettes[0];
+    document.querySelector('.orb-1').style.background=pal[0];
+    document.querySelector('.orb-2').style.background=pal[1];
+    document.querySelector('.orb-3').style.background=pal[2];
+}
+
+/* ══════ SECTION FLOW ══════ */
+async function startJourney(){
+    S.currentSection=0;S.completedSections=[];
+    updateSidebar();
+    await showQuestion();
+}
+
+async function showQuestion(){
+    const idx=S.currentSection;
+    const L=LESSONS[idx];
+    stopAll();
+    document.getElementById('questionText').textContent=L.question;
+    document.getElementById('sectionLabel').textContent=L.label;
+    var locL=(_les[idx]||{});
+    if(locL.question)document.getElementById('questionText').textContent=locL.question;
+    if(locL.label)document.getElementById('sectionLabel').textContent=locL.label;
+    // Update icon to match section
+    const iconKeys=['piechart','whogets','expand','shg','grameen'];
+    const iconEl=document.getElementById('questionIcon');
+    if(iconEl&&SVG_ICONS[iconKeys[idx]]){
+        iconEl.innerHTML=SVG_ICONS[iconKeys[idx]];
+    }
+    updateBg(idx);updateOrbs(idx);
+    showScreen('question');updateSidebar();
+    if(window.gsap){gsap.fromTo('#screen-question .question',{opacity:0,y:20},{opacity:1,y:0,duration:0.7,ease:'power2.out'});}
+    await speech.speak(locL.question||L.question);
+}
+
+async function revealExplanation(){
+    const idx=S.currentSection;
+    const r=stopAll();
+    showScreen('explanation');
+    const painters=[paintSection0,paintSection1,paintSection2,paintSection3,paintSection4];
+    startLoop(painters[idx]||paintSection0);
+
+    // One beat per thing that appears on screen. The old script named three or
+    // four ideas in a single sentence while the canvas was showing six or seven
+    // — so a student heard nothing about most of what they were looking at.
+    let parts=[], times=null;
+
+    if(idx===0){
+        sec0Times=[];times=sec0Times;
+        parts=[
+            'People borrow from all sorts of places, and those places fall into two kinds — formal sources, and informal ones. Here is the whole of rural India in 2019, in one circle.',
+            'Start with the biggest lender of all, and it is a formal one. Commercial banks: fifty-one per cent of all rural credit comes from them. That is more than half, from banks alone.',
+            'Next, the largest informal lender. The moneylender, at twenty-three per cent — still almost a quarter of everything rural India borrows.',
+            'And then the smaller shares. Cooperative banks and societies at ten per cent, other formal agencies at five. Relatives and friends at seven, other informal agencies at three, and landlords at one. Add the three formal ones together and the formal sector comes to sixty-six per cent — two-thirds of all rural credit.',
+            'Now cut that same circle along a different line. Not formal against informal, but this: who is being supervised, and who is not.',
+            'The Reserve Bank of India supervises the formal side. Banks must keep a minimum cash balance, and they must report to the RBI on who they are lending to and at what rate of interest. And the RBI sees to it that banks lend not only to profit-making businesses and traders, but also to small cultivators, to small scale industries, and to small borrowers.',
+            'On the other side there is no organisation supervising anybody. An informal lender may charge whatever rate of interest he chooses, and there is nobody to stop him using unfair means to get his money back. He keeps no records of the transactions at all, and he harasses the poor borrowers.',
+            'So two-thirds of rural credit is now watched by someone, and the banks lead it. But look again at that orange slice. The moneylender alone is still almost a quarter of everything rural India borrows — and nobody watches him at all.'
+        ];
+        if(_les[idx]&&_les[idx].beats&&_les[idx].beats.length)parts=_les[idx].beats;
+    }else if(idx===1){
+        sec1Times=[];times=sec1Times;
+        parts=[
+            'Now take urban households, sort them by wealth into four groups, and ask each group a single question: where did your loans actually come from?',
+            'Start at the bottom. For the poorest households, fifty-four per cent of everything they borrow comes from informal sources — more than half, at the moneylender\'s rate.',
+            'Move up one step, to households with a few assets, and the balance begins to tip the other way.',
+            'Keep going. The well-off borrow mostly from banks, and for the richest households only seventeen per cent is informal. Eighty-three per cent of their borrowing is formal.',
+            'Read the two ends of that chart together, because that is where the point is. The poorest borrow more than half of their money dear. The richest borrow eighty-three per cent of theirs cheap. And the very same pattern is found in rural areas.',
+            'And there is a second gap underneath it. In rural India, formal sources supply about two-thirds of all the credit. The remaining third still has to come from informal sources.',
+            'So the people with the least money are the ones paying the most for it. That is why formal credit has to be shared out more equally — so that the poor, too, can benefit from cheaper loans.'
+        ];
+        if(_les[idx]&&_les[idx].beats&&_les[idx].beats.length)parts=_les[idx].beats;
+    }else if(idx===2){
+        sec2Times=[];times=sec2Times;
+        parts=[
+            'Why does any of that matter so much? Follow what a high rate of interest actually does to a borrower.',
+            'It begins with the rate itself. A moneylender may charge five per cent a month — sixty per cent a year, as Shyamal paid in Sonpur — because there is nobody to say otherwise.',
+            'So a much larger share of everything the borrower earns goes straight back out again as repayment, and much less is left for them.',
+            'Push that far enough and the repayment becomes larger than the income itself. Now they must borrow again simply to survive, the debt snowballs, and that is the debt trap.',
+            'There is a quieter cost too, and it never shows up as a debt at all. Somebody who might have started a small enterprise simply does not — because at that rate, borrowing is too expensive to risk.',
+            'Which points at the remedy. Banks and cooperative societies have to lend more, and particularly in the rural areas where they are thinnest on the ground.',
+            'Because cheap credit is what lets a farmer buy better seed, a workshop set itself up, a trader carry more stock — and incomes rise on the back of it. That is why affordable credit is crucial to a country\'s development.'
+        ];
+        if(_les[idx]&&_les[idx].beats&&_les[idx].beats.length)parts=_les[idx].beats;
+    }else if(idx===3){
+        sec3Times=[];times=sec3Times;
+        parts=[
+            'So why are poor households still stuck with the moneylender? Because banks are not present everywhere in rural India — and even where they are, getting a bank loan is far harder than taking one from an informal lender. A bank wants proper documents and collateral, exactly as it wanted from Megha, and the absence of collateral is one of the major reasons the poor are refused.',
+            'The moneylender is the opposite in every way. He knows his borrowers personally, so he is often willing to lend without any collateral at all, and a borrower can approach him again even without having repaid the earlier loan. But look at what that costs. He charges very high rates of interest, he keeps no records of the transactions, and he harasses the poor borrowers.',
+            'The self-help group is the way around that. Fifteen to twenty people from one neighbourhood — usually women — organise themselves into a group.',
+            'They meet regularly, and each member saves a small amount into one common pool. Twenty-five rupees, a hundred or more, whatever they can manage.',
+            'Members can then take small loans out of that pool for their own needs. The group does charge interest on them — but far less than the moneylender would.',
+            'And after a year or two, if the group has been regular in its saving, the group itself becomes eligible for a loan from a bank.',
+            'Notice whose name that loan is in. It is sanctioned to the group, not to any one person, and its purpose is to create self-employment for the members. Small loans go out for releasing mortgaged land, for working capital like seeds and fertiliser and raw materials such as bamboo and cloth, for housing materials, and for acquiring assets — a sewing machine, a handloom, cattle. And every one of those decisions is the group\'s own: the purpose, the amount, the interest to be charged, the repayment schedule.',
+            'Here is the part that makes it work. No member has to pledge any collateral at all. The group itself is the guarantee.',
+            'And if one member does not repay, the whole group follows it up. Which is exactly why a bank is willing to lend to the group — when it would not have lent to any one of them on their own.',
+            'So a self-help group gives poor women timely credit, at a fair rate, without collateral. And it gives them a regular meeting, where health, nutrition and domestic violence get discussed too. They are the building blocks of organising the rural poor.'
+        ];
+        if(_les[idx]&&_les[idx].beats&&_les[idx].beats.length)parts=_les[idx].beats;
+    }else if(idx===4){
+        sec4Times=[];times=sec4Times;
+        parts=[
+            'One of the biggest success stories in getting credit to the poor at reasonable rates is in Bangladesh, and it is called the Grameen Bank.',
+            'It began in the nineteen-seventies as a small project, and nothing more than that.',
+            'By 2018 it had over nine million members, spread across about eighty-one thousand six hundred villages in Bangladesh.',
+            'And almost every one of those borrowers is a woman, from the poorest sections of society.',
+            'What those borrowers proved matters far more than the numbers do. Poor women turned out to be reliable borrowers — and perfectly capable of starting and running a whole variety of small income-generating businesses, successfully.',
+            'In 2006 the founder of the bank, Professor Muhammad Yunus, was awarded the Nobel Peace Prize.',
+            'And this is what he said. If credit can be made available to poor people on terms and conditions that are appropriate and reasonable, these millions of small people, with their millions of small pursuits, can add up to create the biggest development wonder.'
+        ];
+        if(_les[idx]&&_les[idx].beats&&_les[idx].beats.length)parts=_les[idx].beats;
+    }
+
+    for(let i=0;i<parts.length;i++){
+        if(!isRunValid(r))return;
+        narrate(parts[i]);
+        beatBegin(times,i,parts[i]);
+        await speech.speak(parts[i]);
+        beatEnd();
+        if(i<parts.length-1)await waitR(300,r);
+    }
+
+    if(!isRunValid(r))return;
+    await waitR(900,r);
+    if(!isRunValid(r))return;
+    await showExercise();
+}
+
+/* ══════ EXERCISE ══════ */
+async function showExercise(){
+    const r=stopAll();
+    const ex=document.getElementById('exerciseContainer');
+    const idx=S.currentSection;
+    if(idx>=EXERCISES.length){await showCompletionScreen();return;}
+    const E=EXERCISES[idx];
+    var locE=(_les[idx]||{}).exercise||{};
+    const q=locE.question||E.question;
+    const opts=(locE.options&&locE.options.length)?locE.options:E.options;
+    const expl=locE.explanation||E.explanation;
+    document.getElementById('exerciseQuestion').textContent=q;
+    const correctIdx=(locE.correct!=null)?locE.correct:E.correct;
+    const safeExpl=expl.replace(/'/g,"&#39;").replace(/"/g,'&quot;');
+    ex.innerHTML=opts.map((o,i)=>
+        `<button class="option" data-correct="${i===correctIdx}" data-expl="${safeExpl}">${o}</button>`
+    ).join('');
+    ex.querySelectorAll('.option').forEach(btn=>{
+        btn.addEventListener('click',()=>checkMCQ(btn,btn.dataset.correct==='true',btn.dataset.expl.replace(/&#39;/g,"'").replace(/&quot;/g,'"')));
+    });
+    document.getElementById('feedback').className='feedback';
+    document.getElementById('feedback').innerHTML='';
+    updateBg(5);updateOrbs(5);
+    showScreen('exercise');
+    updateSidebar();
+    await speech.speak(_ui.speakExercise||'Now test your understanding. ');
+    if(!isRunValid(r))return;
+    await speech.speak(q);
+}
+
+async function checkMCQ(el,isCorrect,explanation){
+    document.querySelectorAll('.option').forEach(o=>{o.style.pointerEvents='none';o.style.cursor='default';});
+    const fb=document.getElementById('feedback');
+    const r=stopAll();
+    if(isCorrect){
+        el.classList.add('correct');
+        fb.className='feedback success visible';
+        var locEx=(_les[S.currentSection]||{}).exercise||{};
+fb.innerHTML='<span style="display:inline-block;vertical-align:middle;width:18px;height:18px;color:#32b464;margin-right:8px">'+SVG_ICONS.check+'</span>'+(_ui.correctPrefix||'Correct! ')+(locEx.explanation||explanation);
+        if(!S.completedSections.includes(S.currentSection))S.completedSections.push(S.currentSection);
+        updateSidebar();
+        await speech.speak(_ui.speakCorrect||"Excellent! That's correct. ");
+        if(!isRunValid(r))return;
+        await speech.speak(locEx.explanation||explanation);
+    }else{
+        el.classList.add('incorrect');
+        fb.className='feedback error visible';
+        var locEx=(_les[S.currentSection]||{}).exercise||{};
+        fb.innerHTML='<span style="display:inline-block;vertical-align:middle;width:18px;height:18px;color:#fca5a5;margin-right:8px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span>'+(_ui.incorrectPrefix||'Not quite. ')+(locEx.explanation||explanation);
+        document.querySelectorAll('.option').forEach(o=>{if(o.dataset.correct==='true')o.classList.add('correct');});   // page step 8 Nov: the locale's own correct option
+        await speech.speak(_ui.speakIncorrect||"Not quite right. ");
+        if(!isRunValid(r))return;
+        await speech.speak(locEx.explanation||explanation);
+    }
+    if(!isRunValid(r))return;
+    await waitR(900,r);
+    if(!isRunValid(r))return;
+    await showCompletionScreen();
+}
+
+async function showCompletionScreen(){
+    const idx=S.currentSection;
+    const L=LESSONS[idx];
+    if(!S.completedSections.includes(idx))S.completedSections.push(idx);
+    updateSidebar();
+    document.getElementById('completeTitle').textContent=(_les[idx]&&_les[idx].completeTitle)||(idx<2?'Excellent!':idx<4?'Well Done!':'Outstanding!');
+    document.getElementById('completeMessage').textContent=(_les[idx]&&_les[idx].completeMsg)||L.completeMsg;
+    const nextBtn=document.getElementById('nextBtn');
+    if(idx>=LESSONS.length-1){
+        nextBtn.textContent=_ui.finalBtn||'See Full Summary';
+        nextBtn.onclick=()=>handleButtonClick(showFinalScreen);
+    }else{
+        nextBtn.textContent=_ui.nextTopicBtn||'Next Topic →';
+        nextBtn.onclick=()=>handleButtonClick(()=>nextSection());
+    }
+    updateBg(idx);showScreen('complete');
+    if(window.gsap){gsap.from('#completeTitle',{scale:0.6,opacity:0,duration:0.6,ease:'back.out(1.7)'});}
+    await speech.speak((_les[idx]&&_les[idx].completeMsg)||L.completeMsg);
+}
+
+async function nextSection(){S.currentSection++;await showQuestion();}
+async function restartSection(){await showQuestion();}
+function showFinalScreen(){
+    stopAll();document.body.className='bg-complete';showScreen('final');
+    setTimeout(()=>{if(speech)speech.speak(_ui.finalSpeak||"Congratulations! You have completed the third part of Chapter 3 — Money and Credit. You now understand where rural India actually borrows: commercial banks at fifty-one per cent, moneylenders at twenty-three, and formal sources at two-thirds of the whole. You have seen how the poorest urban households take fifty-four per cent of their loans informally while the richest take eighty-three per cent formally, why high-cost borrowing leads to debt traps and to enterprises that never start, how self-help groups let poor women borrow without collateral, and how the Grameen Bank of Bangladesh proved that poor women are reliable borrowers.");},400);
+}
+
+/* ══════ CONTROLS ══════ */
+document.getElementById('pauseToggle').addEventListener('click',function(){
+    S.isPaused=!S.isPaused;
+    this.classList.toggle('paused',S.isPaused);
+    this.innerHTML=S.isPaused
+        ?'<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>'
+        :'<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+    if(S.isPaused)speech.pause();else speech.resume();
+});
+
+document.getElementById('audioToggle').addEventListener('click',function(){
+    S.isMuted=!S.isMuted;
+    this.innerHTML=S.isMuted
+        ?'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>'
+        :'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
+    if(speech&&speech.audio)speech.audio.muted=S.isMuted;
+});
+
+window.addEventListener('resize',()=>{if(document.getElementById('screen-explanation').classList.contains('active'))initCanvas();});
+
+/* ══════ INIT ══════ */
+speech=new SpeechMgr();
+createParticles();
+updateSidebar();
+initLocaleDOM();
+if(window.gsap){
+    gsap.fromTo('#screen-welcome .title',{y:40,opacity:0},{y:0,opacity:1,duration:1,ease:'power3.out',delay:0.3});
+    gsap.fromTo('#screen-welcome .subtitle',{y:30,opacity:0},{y:0,opacity:1,duration:0.9,ease:'power2.out',delay:0.6});
+    gsap.fromTo('#screen-welcome .btn',{y:20,opacity:0},{y:0,opacity:1,duration:0.8,ease:'power2.out',delay:0.9});
+}
+window.addEventListener('load',()=>{
+    setTimeout(()=>{
+        if(document.getElementById('screen-welcome').classList.contains('active')){
+            speech.speak(_ui.welcomeSpeak||"Welcome to the third part of Chapter 3 — Money and Credit. Where does rural India actually borrow from, and who is watching those lenders? Why do the poorest households pay the most for money? And how do self-help groups and the Grameen Bank get credit to people a bank would turn away? Press Begin Part 3 when you're ready.");
+        }
+    },1200);
+});
+
+// ── Block Spacebar event fully ─────────────────────────────
+window.addEventListener('keydown', e => {
+    if (e.key === ' ' || e.keyCode === 32) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+}, true);
+window.addEventListener('keyup', e => {
+    if (e.key === ' ' || e.keyCode === 32) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+}, true);
+window.addEventListener('keypress', e => {
+    if (e.key === ' ' || e.keyCode === 32) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+}, true);
+</script>
+<script src="../../language-button.js"></script>
+</body>
+</html>

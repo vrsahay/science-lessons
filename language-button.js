@@ -4,6 +4,9 @@
   var ALL_LESSONS = { as: 'সকলো পাঠ', en: 'All lessons', hi: 'सभी पाठ', ja: 'すべてのレッスン' };
   var LANGUAGE = { as: 'ভাষা', en: 'Language', hi: 'भाषा', ja: '言語' };
   var isLesson = !document.documentElement.hasAttribute('data-landing');
+  // The unified landing page sits next to this script, so the back link is resolved from the script's own address.
+  var self = document.currentScript && document.currentScript.src;
+  var home = self ? new URL('index.html', self).href : '../index.html';
   var current = new URLSearchParams(location.search).get('language') || 'as';
 
   var style = document.createElement('style');
@@ -25,7 +28,7 @@
 
   if (isLesson) {
     var back = document.createElement('a');
-    back.href = '../?language=' + current;
+    back.href = home + '?language=' + current;
     back.setAttribute('aria-label', ALL_LESSONS[current]);
     back.innerHTML = '←<span class="lang-extra"></span>';
     back.lastChild.textContent = ALL_LESSONS[current];

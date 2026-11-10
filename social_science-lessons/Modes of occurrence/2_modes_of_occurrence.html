@@ -1,0 +1,2344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+(function(){
+  var ok=['as','en','hi','ja'],p=new URLSearchParams(location.search),l=p.get('language');
+  if(ok.indexOf(l)<0){
+    l=null;try{l=localStorage.getItem('siteLanguage');}catch(e){}
+    if(ok.indexOf(l)<0)l='as';
+    p.set('language',l);
+    history.replaceState(null,'',location.pathname+'?'+p.toString()+location.hash);
+  }
+  try{localStorage.setItem('siteLanguage',l);}catch(e){}
+  document.documentElement.lang=l;
+})();
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mode of Occurrence of Minerals — Chapter 5 · Part 2</title>
+    <script src="lesson_data.js"></script>
+    <script>
+    /* as-digits: on Assamese pages every visible number is shown in Assamese digits (০-৯), on the canvas and in the page.
+       Digits that belong to notation stay as written: a number touching a Latin letter (H2O, 2n²) or joined to a symbol by a
+       hyphen (U-235); an equation number such as (4.4a) is converted. Display only: lesson data, narration and audio lookup are
+       unchanged. Locale = this page's own rule (?language=, lower-cased, if supportedLocales has it; else en).
+       5_2 copy of _i18n/scripts/ch7-as-digits.snippet.html (10 Nov 2026), only the locale rule adapted. */
+    (function(){
+      var ld=window.__lessonData||{},p=new URLSearchParams(location.search),pool=ld.locales||{};
+      var lp=(p.get('language')||'en').toLowerCase();
+      var loc=((ld.supportedLocales||['en']).indexOf(lp)>=0&&pool[lp])?lp:'en';
+      if(loc!=='as')return;
+      var AS='০১২৩৪৫৬৭৮৯',L=/[A-Za-z]/;
+      function asDigits(s){
+        return String(s).replace(/[0-9]+(?:[.,][0-9]+)*/g,function(m,i,str){
+          var a=str.charAt(i-1),b=str.charAt(i+m.length);
+          var eq=a==='('&&m.indexOf('.')>0&&/^[a-z]\)/.test(str.substr(i+m.length,2));
+          if(!eq&&(L.test(a)||L.test(b)||(a==='-'&&L.test(str.charAt(i-2)))))return m;
+          return m.replace(/[0-9]/g,function(d){return AS.charAt(+d);});
+        });
+      }
+      window.__asDigits=asDigits;
+      var P=CanvasRenderingContext2D.prototype;
+      ['fillText','strokeText'].forEach(function(k){
+        var o=P[k];
+        P[k]=function(t){var a=Array.prototype.slice.call(arguments);a[0]=asDigits(t);return o.apply(this,a);};
+      });
+      var mt=P.measureText;
+      P.measureText=function(t){return mt.call(this,asDigits(t));};
+      var SKIP=/^(SCRIPT|STYLE|SUB|SUP|TEXTAREA|INPUT|CODE)$/;
+      function walk(n){
+        if(n.nodeType===3){
+          if(n.parentNode&&SKIP.test(n.parentNode.nodeName))return;
+          var v=n.nodeValue,w=asDigits(v);if(w!==v)n.nodeValue=w;
+        }else if(n.nodeType===1&&!SKIP.test(n.nodeName)){
+          for(var c=n.firstChild;c;c=c.nextSibling)walk(c);
+        }
+      }
+      function start(){
+        walk(document.body);
+        new MutationObserver(function(ms){
+          ms.forEach(function(m){if(m.type==='characterData')walk(m.target);else m.addedNodes.forEach(walk);});
+        }).observe(document.body,{childList:true,subtree:true,characterData:true});
+      }
+      if(document.body)start();else document.addEventListener('DOMContentLoaded',start);
+    })();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box}
+        html,body{height:100%;overflow:hidden}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',-apple-system,sans-serif;transition:background 1.2s ease;}
+        .bg-welcome{background:linear-gradient(135deg,#0d0a08 0%,#2a1810 40%,#0d0a08 100%)}
+        .bg-section-0{background:linear-gradient(135deg,#0d0a08 0%,#3a2418 50%,#1f1610 100%)}
+        .bg-section-1{background:linear-gradient(135deg,#2a0d18 0%,#4a1828 50%,#1a0810 100%)}
+        .bg-section-2{background:linear-gradient(135deg,#0d1408 0%,#2a3818 50%,#0e1408 100%)}
+        .bg-section-3{background:linear-gradient(135deg,#0a1218 0%,#1a3a48 50%,#0d1820 100%)}
+        .bg-section-4{background:linear-gradient(135deg,#180a0d 0%,#3a1c20 50%,#0d0a08 100%)}
+        .bg-complete{background:linear-gradient(135deg,#3d2c14 0%,#8b6914 50%,#1a3a26 100%)}
+
+        .particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:0}
+        .particle{position:absolute;border-radius:50%;animation:float 22s infinite ease-in-out}
+        .particle.copper{background:radial-gradient(circle,rgba(184,115,51,0.40),rgba(184,115,51,0))}
+        .particle.gold{background:radial-gradient(circle,rgba(218,165,32,0.35),rgba(218,165,32,0))}
+        .particle.silver{background:radial-gradient(circle,rgba(192,192,192,0.30),rgba(192,192,192,0))}
+        @keyframes float{0%,100%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:0.6}90%{opacity:0.6}100%{transform:translateY(-100vh) rotate(720deg);opacity:0}}
+
+        .glow-orb{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;z-index:0;transition:all 3s ease}
+        .orb-1{width:500px;height:500px;top:-250px;left:-250px;background:#B87333;opacity:0.10}
+        .orb-2{width:400px;height:400px;bottom:-200px;right:-200px;background:#DAA520;opacity:0.10}
+        .orb-3{width:300px;height:300px;top:50%;left:50%;transform:translate(-50%,-50%);background:#C0C0C0;opacity:0.08}
+
+        .concept-sidebar{width:100%;height:115px;background:rgba(15,12,10,0.85);backdrop-filter:blur(24px);border-top:1px solid rgba(218,165,32,0.15);padding:0.8rem 1.5rem;position:fixed;left:0;bottom:0;z-index:100;display:flex;align-items:center;justify-content:center;}
+        .concept-list{display:flex;gap:0.4rem;justify-content:center;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+        .concept-list::-webkit-scrollbar{display:none}
+        .concept-item{display:flex;align-items:center;gap:0.5rem;padding:0.55rem 0.75rem;border-radius:12px;cursor:pointer;transition:all .3s;min-width:120px;white-space:nowrap;flex-shrink:0;position:relative;border:1px solid transparent}
+        .concept-item:hover{background:rgba(255,255,255,0.04);border-color:rgba(218,165,32,0.15)}
+        .concept-item.active{background:rgba(218,165,32,0.1);border-color:rgba(218,165,32,0.25)}
+        .concept-item.active::before{content:'';position:absolute;left:50%;top:-1px;transform:translateX(-50%);width:50%;height:3px;background:linear-gradient(90deg,#DAA520,#B87333);border-radius:0 0 3px 3px}
+        .concept-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;background:rgba(40,28,20,0.5);border:1px solid rgba(218,165,32,0.25);transition:all .3s;color:#DAA520}
+        .concept-icon svg{width:20px;height:20px;display:block}
+        .concept-item.completed .concept-icon{color:#fff;background:linear-gradient(135deg,#3d8b3d,#5fa55f);border-color:transparent}
+        .concept-item.active .concept-icon{color:#fff;background:linear-gradient(135deg,#DAA520,#B87333);border-color:transparent}
+        .concept-check svg{width:14px;height:14px;display:block;color:#5fa55f}
+        .concept-info{flex:1}
+        .concept-name{font-size:0.78rem;font-weight:600;color:#fff;margin-bottom:0.1rem;letter-spacing:0.01em}
+        .concept-status{font-size:0.62rem;color:rgba(255,255,255,0.3)}
+        .concept-item.completed .concept-status{color:#5fa55f}
+        .concept-item.active .concept-status{color:#DAA520}
+        .concept-check{opacity:0;color:#5fa55f}
+        .concept-item.completed .concept-check{opacity:1}
+
+        .main-content{position:fixed;top:0;left:0;right:0;bottom:115px;overflow-y:auto;overflow-x:hidden}
+        .screen{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 2.5rem 2rem;opacity:0;position:absolute;top:0;left:0;width:100%;height:0;overflow:hidden;pointer-events:none}
+        .screen.active{opacity:1;pointer-events:all;position:relative;top:auto;left:auto;height:auto;overflow:visible;min-height:100%;transition:opacity .8s ease}
+
+        .label{font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;background:linear-gradient(90deg,#DAA520,#B87333,#C0C0C0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.7;padding:0.1em 0;margin-bottom:1.5rem}
+        .title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4.2rem);font-weight:900;text-align:center;line-height:1.45;padding:0.12em 0;margin-bottom:1.5rem;background:linear-gradient(135deg,#ffffff 0%,#DAA520 60%,#B87333 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+        body[data-lang="hi"] .title{padding-top:0.35em;line-height:1.35}
+        .subtitle{font-size:1.1rem;color:rgba(255,255,255,0.65);text-align:center;max-width:680px;line-height:1.75}
+        .question{font-size:clamp(1.3rem,3vw,1.75rem);font-weight:500;text-align:center;max-width:720px;line-height:1.55;color:#fff}
+
+        .btn{background:linear-gradient(135deg,#DAA520 0%,#B87333 100%);color:#1a1208;border:none;padding:1rem 2.8rem;font-size:1.02rem;font-weight:800;border-radius:100px;cursor:pointer;transition:all .4s;margin-top:2rem;font-family:inherit;box-shadow:0 10px 40px rgba(218,165,32,0.25);letter-spacing:0.02em}
+        .btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 18px 50px rgba(218,165,32,0.4)}
+        .btn-secondary{background:rgba(40,28,20,0.4);border:1px solid rgba(218,165,32,0.25);box-shadow:none;margin-top:1rem;color:rgba(255,255,255,0.85)}
+        .btn-secondary:hover{background:rgba(40,28,20,0.6)}
+
+        .canvas-container{width:100%;max-width:920px;aspect-ratio:16/10;margin:2rem 0;border-radius:20px;background:linear-gradient(180deg,rgba(20,14,10,0.97) 0%,rgba(40,28,20,0.97) 50%,rgba(15,10,8,0.97) 100%);border:2px solid rgba(218,165,32,0.2);overflow:hidden;box-shadow:0 30px 100px rgba(0,0,0,0.6),0 0 0 1px rgba(184,115,51,0.15);position:relative}
+        #canvas{width:100%;height:100%;display:block}
+
+        .narration-area{width:100%;max-width:920px;text-align:center;margin-top:1rem}
+        .narration{font-size:1.1rem;color:rgba(255,255,255,0.88);text-align:center;max-width:780px;line-height:1.8;min-height:65px;margin:0 auto}
+        .speaking-dot{display:inline-block;width:10px;height:10px;background:linear-gradient(135deg,#DAA520,#B87333);border-radius:50%;margin-left:8px;opacity:0;transition:opacity .3s;box-shadow:0 0 15px #B87333}
+        .speaking-dot.active{opacity:1;animation:pulse 1s ease-in-out infinite}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.5)}}
+
+        .control-buttons{position:fixed;top:1.5rem;right:1.5rem;display:flex;gap:0.6rem;z-index:100}
+        .audio-toggle,.pause-toggle{background:rgba(20,14,10,0.8);border:1px solid rgba(218,165,32,0.2);color:#fff;width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:1.1rem;transition:all .3s;backdrop-filter:blur(12px)}
+        .audio-toggle:hover,.pause-toggle:hover{background:rgba(218,165,32,0.15);border-color:rgba(218,165,32,0.35);transform:scale(1.08)}
+        .pause-toggle.paused{background:rgba(218,165,32,0.22);border-color:#DAA520;animation:pausePulse 1.5s ease-in-out infinite}
+        @keyframes pausePulse{0%,100%{box-shadow:0 0 0 0 rgba(218,165,32,0.3)}50%{box-shadow:0 0 20px 5px rgba(218,165,32,0.15)}}
+
+        .icon-large{font-size:3.5rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center}
+        .icon-large svg{width:56px;height:56px}
+
+        .badge-brand{display:inline-flex;align-items:center;gap:0.6rem;margin-bottom:2rem;padding:0.5rem 1rem;border-radius:100px;background:rgba(40,28,20,0.5);border:1px solid rgba(218,165,32,0.2)}
+        .badge-mark{font-weight:900;font-size:0.75rem;color:#DAA520;letter-spacing:0.1em}
+        .badge-sep{width:1px;height:14px;background:rgba(218,165,32,0.25)}
+        .badge-sub{font-size:0.65rem;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.15em}
+
+        @media(max-width:900px){
+            .concept-sidebar{height:75px;padding:0.4rem 0.6rem}
+            .concept-item{min-width:55px;padding:0.3rem 0.4rem;gap:0.2rem}
+            .concept-icon{width:28px;height:28px}
+            .concept-info{display:none}
+            .main-content{bottom:75px}
+            .screen{padding:2rem 1.2rem}
+        }
+        @media(max-width:640px){
+            .concept-sidebar{height:62px}
+            .concept-icon{width:22px;height:22px}
+            .main-content{bottom:62px}
+            .narration{font-size:0.9rem;line-height:1.6}
+            .title{font-size:1.8rem}
+            .question{font-size:1.05rem}
+        }
+
+        .exercise-container{width:100%;max-width:580px;margin-top:2rem}
+        .option{background:rgba(40,28,20,0.3);border:2px solid rgba(184,115,51,0.25);border-radius:16px;padding:1.15rem 1.5rem;margin-bottom:0.7rem;cursor:pointer;transition:all .3s;font-size:0.98rem;text-align:left;color:rgba(255,255,255,0.85);font-family:inherit;width:100%}
+        .option:hover{background:rgba(218,165,32,0.1);border-color:rgba(218,165,32,0.4);transform:translateX(4px);color:#fff}
+        .option.correct{border-color:#5fa55f;background:rgba(95,165,95,0.18);color:#a7e3a7}
+        .option.incorrect{border-color:#cc4040;background:rgba(204,64,64,0.12);color:#fca5a5}
+        .feedback{margin-top:2rem;padding:1.2rem 1.8rem;border-radius:16px;font-size:0.95rem;opacity:0;transition:all .4s;max-width:580px;text-align:center;line-height:1.6}
+        .feedback.visible{opacity:1}
+        .feedback.success{background:rgba(95,165,95,0.12);border:1px solid rgba(95,165,95,0.35);color:#a7e3a7}
+        .feedback.error{background:rgba(204,64,64,0.1);border:1px solid rgba(204,64,64,0.3);color:#fca5a5}
+    </style>
+</head>
+<body class="bg-welcome">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+    <div class="particles" id="particles"></div>
+
+    <aside class="concept-sidebar"><div class="concept-list" id="conceptList"></div></aside>
+
+    <main class="main-content">
+        <div class="control-buttons">
+            <button class="pause-toggle" id="pauseToggle" title="Pause/Resume"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg></button>
+            <button class="audio-toggle" id="audioToggle" title="Mute/Unmute"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+        </div>
+
+        <div class="screen active" id="screen-welcome">
+            <div class="badge-brand"><span class="badge-mark">NCERT</span><span class="badge-sep"></span><span class="badge-sub">Class 10 · Geography</span></div>
+            <div class="label" id="welcomeLabel">Minerals and Energy Resources — Chapter 5 · Part 2</div>
+            <h1 class="title" id="welcomeTitle">Mode of Occurrence of Minerals</h1>
+            <p class="subtitle" id="welcomeSubtitle">How does nature place its minerals? Cracks in igneous rocks, layers in sedimentary rocks, weathered surface rocks, valley sands, even the ocean itself — minerals are not scattered randomly. They follow rules. Let's read those rules.</p>
+            <button class="btn" id="beginBtn" onclick="handleButtonClick(startJourney)">Begin Lesson</button>
+        </div>
+
+        <div class="screen" id="screen-question">
+            <div class="icon-large"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" fill="rgba(218,165,32,0.15)" stroke="#DAA520" stroke-width="2"/><path d="M16 8v9M16 22v.5" stroke="#DAA520" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            <div class="label" id="sectionLabel"></div>
+            <p class="question" id="questionText"></p>
+            <button class="btn" id="revealBtn" onclick="handleButtonClick(revealExplanation)">Discover the Answer</button>
+        </div>
+
+        <div class="screen" id="screen-explanation">
+            <div class="canvas-container" id="canvasContainer"><canvas id="canvas"></canvas></div>
+            <div class="narration-area">
+                <p class="narration" id="narration">
+                    <span id="narrationText"></span>
+                    <span class="speaking-dot" id="speakingDot"></span>
+                </p>
+            </div>
+        </div>
+
+        <div class="screen" id="screen-exercise">
+            <div class="icon-large"><svg viewBox="0 0 32 32" fill="none"><path d="M6 8h20v4H6zM6 14h20v4H6zM6 20h20v4H6z" fill="rgba(218,165,32,0.15)" stroke="#DAA520" stroke-width="1.5"/></svg></div>
+            <div class="label exercise-label">Test Your Understanding</div>
+            <p class="question" id="exerciseQuestion" style="font-size:1.2rem;"></p>
+            <div class="exercise-container" id="exerciseContainer"></div>
+            <div class="feedback" id="feedback"></div>
+        </div>
+
+        <div class="screen" id="screen-complete">
+            <div class="icon-large"><svg viewBox="0 0 32 32" fill="none"><path d="M16 4l3.5 7.5L28 13l-6 5.5 1.5 8.5-7.5-4-7.5 4L10 18.5 4 13l8.5-1.5z" fill="rgba(218,165,32,0.25)" stroke="#DAA520" stroke-width="2" stroke-linejoin="round"/></svg></div>
+            <div class="label section-complete-label">Section Complete</div>
+            <h1 class="title" id="completeTitle" style="font-size:clamp(2rem,4vw,3rem);">Excellent!</h1>
+            <p class="subtitle" id="completeMessage"></p>
+            <button class="btn" id="nextBtn" onclick="handleButtonClick(nextSection)">Continue</button>
+            <button class="btn btn-secondary" id="reviewBtn" onclick="handleButtonClick(restartSection)">Review Again</button>
+        </div>
+
+        <div class="screen" id="screen-final">
+            <div class="icon-large"><svg viewBox="0 0 32 32" fill="none"><path d="M6 22l10-16 10 16H6z" fill="rgba(218,165,32,0.3)" stroke="#DAA520" stroke-width="2"/></svg></div>
+            <div class="label" id="finalLabel">Chapter 5 · Part 2 Complete</div>
+            <h1 class="title" id="finalTitle">Modes Mastered!</h1>
+            <p class="subtitle" id="finalSubtitle">From ore to vein, from sediment to placer, from ocean nodule to mine — you've travelled the five paths nature carves to bring minerals within reach. Next: Classification of Minerals.</p>
+            <div style="margin:2rem 0;padding:1.5rem 2rem;background:rgba(40,28,20,0.4);border:1px solid rgba(218,165,32,0.25);border-radius:16px;text-align:center">
+                <div id="finalFacesText" style="font-size:1.3rem;font-weight:900;letter-spacing:0.04em;background:linear-gradient(135deg,#DAA520,#B87333);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">VEINS · BEDS · DECOMPOSITION · PLACERS · OCEAN</div>
+                <div id="finalFacesSub" style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-top:0.5rem;letter-spacing:0.1em">FIVE PATHS NATURE TAKES</div>
+            </div>
+            <button class="btn" id="startAgainBtn" onclick="location.reload()">Start Again</button>
+        </div>
+    </main>
+
+<script>
+/* ══════ i18n / audio setup ══════ */
+const _params=new URLSearchParams(location.search);
+const _lang=(_params.get('language')||'en').toLowerCase();
+let _lessonData=window.__lessonData||null;
+let _localeData=null;
+let lessons=[],sections=[],exercises=[];
+
+function loadLessonAudioScript(lang){
+    return new Promise(res=>{
+        const s=document.createElement('script');
+        s.src='audio_index_'+lang+'.js';
+        s.onload=res;s.onerror=res;
+        document.head.appendChild(s);
+    });
+}
+
+async function loadLessonContent(){
+    if(!_lessonData)return;
+    const supported=_lessonData.supportedLocales||['en'];
+    const lang=supported.includes(_lang)?_lang:'en';
+    _localeData=_lessonData.locales[lang]||_lessonData.locales['en'];
+    document.body.dataset.lang=lang;
+
+    sections=(_localeData.sections||[]).map((s,i)=>({
+        id:'s'+i, icon:['ore','volcano','layers','wave','map'][i]||'ore',
+        name:s.name, status:s.status
+    }));
+    lessons=(_localeData.lessons||[]).map((l,i)=>({
+        question:l.question, label:l.label, completeMsg:l.completeMsg,
+        steps:l.steps||[], bg:'bg-section-'+i
+    }));
+    exercises=(_localeData.lessons||[]).map(l=>(l.exercise||{}));
+
+    if(_localeData.documentTitle)document.title=_localeData.documentTitle;
+    const W=_localeData.welcome||{};
+    const U=_localeData.ui||{};
+    {const _enU=(_lessonData.locales.en||{}).ui||{};const pt=document.getElementById('pauseToggle'),at=document.getElementById('audioToggle');
+     if(pt)pt.title=U.pauseResumeTitle||_enU.pauseResumeTitle||'Pause/Resume';if(at)at.title=U.muteUnmuteTitle||_enU.muteUnmuteTitle||'Mute/Unmute';}
+    _qs('.badge-mark',W.badge);
+    _qs('.badge-sub',W.badgeSub);
+    _qs('#welcomeLabel',W.label);
+    _qs('#welcomeTitle',W.title);
+    _qs('#welcomeSubtitle',W.subtitle);
+    _qsBtn('#beginBtn',W.beginButton);
+    _qsBtn('#revealBtn',U.revealButton);
+    _qsBtn('#nextBtn',U.nextBtn);
+    _qsBtn('#reviewBtn',U.reviewAgainButton);
+    _qs('#finalLabel',U.finalLabel);
+    _qs('#finalTitle',U.finalTitle);
+    _qs('#finalSubtitle',U.finalSubtitle);
+    _qs('#finalFacesText',U.finalFacesText);
+    _qs('#finalFacesSub',U.finalFacesSub);
+    _qsBtn('#startAgainBtn',U.startAgainButton);
+    document.querySelectorAll('.exercise-label').forEach(e=>{if(U.exerciseLabel)e.textContent=U.exerciseLabel;});
+    document.querySelectorAll('.section-complete-label').forEach(e=>{if(U.sectionCompleteLabel)e.textContent=U.sectionCompleteLabel;});
+
+    await loadLessonAudioScript(lang);
+}
+
+function _qs(sel,val){if(val){const el=document.querySelector(sel);if(el)el.textContent=val;}}
+function _qsBtn(sel,val){if(val){const el=document.querySelector(sel);if(el)el.textContent=val;}}
+function getSectionCanvas(idx){return((_localeData&&_localeData.lessons&&_localeData.lessons[idx]&&_localeData.lessons[idx].canvas)||{});}
+
+const S={currentSection:0,isMuted:false,completedSections:[],isPaused:false};
+let currentRunId=0,animationId=null,animationTimeouts=[],speech=null;
+let sec0StepTimes=[],sec1StepTimes=[],sec2StepTimes=[],sec3StepTimes=[],sec4StepTimes=[];
+
+const C={
+    gold:'#DAA520',goldLight:'#f0c040',copper:'#B87333',copperLight:'#d49966',
+    silver:'#C0C0C0',silverLight:'#E5E5E5',steel:'#71797E',steelDark:'#3a3f44',
+    lava:'#ff7030',lavaLight:'#ffa040',magma:'#cc3010',
+    green:'#84CC6D',greenBright:'#a8e06a',greenDeep:'#3d8b3d',
+    sky:'#64b5f6',skyLight:'#90caf9',water:'#1e6dc8',
+    crimson:'#cc4040',amber:'#f59e0b',sand:'#e8c878',clay:'#d4a060',
+    purple:'#c084fc',
+    textDim:'rgba(255,255,255,0.5)',textFaint:'rgba(255,255,255,0.18)',
+};
+
+/* sections[], lessons[], exercises[] populated by loadLessonContent() */
+
+class SpeechMgr{
+    constructor(){this.audio=null;this.isDestroyed=false;this.isPaused=false;this.pauseResolve=null;}
+    destroy(){this.isDestroyed=true;if(this.audio){try{this.audio.pause();this.audio.src='';this.audio.load();this.audio.onended=null}catch(e){}}if(this.pauseResolve){this.pauseResolve();this.pauseResolve=null}dot(false);}
+    pause(){if(this.audio&&!this.isPaused){this.isPaused=true;this.audio.pause();dot(false);}}
+    resume(){if(this.audio&&this.isPaused){this.isPaused=false;this.audio.play().catch(()=>{});dot(true);}}
+    _wait(ms){return new Promise(res=>{const st=Date.now();const chk=()=>{if(this.isDestroyed){res();return}if(S.isPaused){this.pauseResolve=()=>{this.pauseResolve=null;chk()};return}if(Date.now()-st>=ms)res();else setTimeout(chk,80)};chk()});}
+    _playUrl(url){return new Promise(res=>{if(this.isDestroyed){res();return}this.audio=new Audio();this.audio.src=url;this.audio.muted=S.isMuted;this.audio.onended=()=>{this.audio=null;res()};this.audio.onerror=()=>{this.audio=null;res()};if(S.isPaused){this.isPaused=true;const wr=()=>{if(this.isDestroyed||!this.audio){res();return}if(!S.isPaused){this.isPaused=false;this.audio.play().catch(()=>res())}else setTimeout(wr,80)};wr()}else this.audio.play().catch(()=>res())});}
+    async speak(text){
+        if(this.isDestroyed)return;
+        dot(true);
+        const idx=window.__lessonAudioIndex;
+        if(idx&&idx[text]){
+            await this._playUrl(idx[text]);
+        }else{
+            await this._wait(text.length*35);
+        }
+        if(!this.isDestroyed)dot(false);
+    }
+}
+
+function dot(on){const d=document.getElementById('speakingDot');if(d){d.classList.toggle('active',on);}}
+function narrate(txt){document.getElementById('narrationText').textContent=txt;}
+function easeOut(t){return 1-Math.pow(1-t,3)}
+function easeInOut(t){return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2}
+
+function stopAll(){
+    currentRunId++;S.isPaused=false;
+    const pb=document.getElementById('pauseToggle');
+    if(pb){pb.classList.remove('paused');pb.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';}
+    if(speech){try{speech.destroy()}catch(e){}}
+    speech=new SpeechMgr();
+    animationTimeouts.forEach(t=>{try{clearTimeout(t)}catch(e){}});
+    animationTimeouts=[];
+    if(animationId){cancelAnimationFrame(animationId);animationId=null;}
+    return currentRunId;
+}
+function isRunValid(r){return r===currentRunId;}
+function waitR(ms,r){return new Promise(res=>{const t=setTimeout(()=>{if(r!==undefined&&!isRunValid(r))return;res();},ms);animationTimeouts.push(t);});}
+function handleButtonClick(cb){stopAll();cb();}
+
+function createParticles(){
+    const el=document.getElementById('particles');
+    for(let i=0;i<35;i++){
+        const p=document.createElement('div');
+        p.className='particle '+['copper','gold','silver'][i%3];
+        p.style.left=Math.random()*100+'%';
+        const sz=(1.5+Math.random()*2.5)+'px';p.style.width=sz;p.style.height=sz;
+        p.style.animationDuration=(14+Math.random()*16)+'s';
+        p.style.animationDelay=Math.random()*14+'s';
+        el.appendChild(p);
+    }
+}
+
+const SVG_ICONS={
+    ore:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 17l3-9 4 3 4-6 3 12z" fill="currentColor" fill-opacity="0.25" stroke-linejoin="round"/><circle cx="9" cy="13" r="1" fill="currentColor"/><circle cx="14" cy="11" r="1" fill="currentColor"/><circle cx="17" cy="14" r="1" fill="currentColor"/></svg>',
+    volcano:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 20l5-10h2l2-3 2 3h2l5 10z" fill="currentColor" fill-opacity="0.25"/><path d="M11 6V3M9 4l-1-1M13 4l1-1" stroke-linecap="round"/></svg>',
+    layers:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="3" fill="currentColor" fill-opacity="0.30"/><rect x="3" y="10" width="18" height="3" fill="currentColor" fill-opacity="0.22"/><rect x="3" y="15" width="18" height="3" fill="currentColor" fill-opacity="0.16"/></svg>',
+    wave:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 10c3-3 6-3 9 0s6 3 9 0M3 16c3-3 6-3 9 0s6 3 9 0" /></svg>',
+    map:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z" fill="currentColor" fill-opacity="0.18"/><path d="M9 4v16M15 6v16"/></svg>',
+    check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,12 10,18 20,6"/></svg>',
+};
+
+function updateSidebar(){
+    const list=document.getElementById('conceptList');
+    list.innerHTML=sections.map((s,i)=>{
+        const isActive=i===S.currentSection;
+        const isDone=S.completedSections.includes(i);
+        const cls='concept-item'+(isActive?' active':'')+(isDone?' completed':'');
+        return '<div class="'+cls+'" onclick="handleButtonClick(()=>jumpTo('+i+'))">'
+            +'<div class="concept-icon">'+(SVG_ICONS[s.icon]||'')+'</div>'
+            +'<div class="concept-info"><div class="concept-name">'+s.name+'</div>'
+            +'<div class="concept-status">'+(isDone?((_localeData&&_localeData.sidebar&&_localeData.sidebar.completed)||'Completed'):isActive?((_localeData&&_localeData.sidebar&&_localeData.sidebar.inProgress)||'In Progress'):s.status)+'</div></div>'
+            +'<span class="concept-check">'+SVG_ICONS.check+'</span></div>';
+    }).join('');
+}
+function jumpTo(idx){if(idx>=lessons.length){showCompletionScreen();return;}S.currentSection=idx;showQuestion();}
+
+const canvas=document.getElementById('canvas');
+const ctx=canvas.getContext('2d');
+let W=920,H=575,dpr=1,baseScaleX=1,baseScaleY=1;
+
+function initCanvas(){
+    const cont=canvas.parentElement;const r=cont.getBoundingClientRect();
+    dpr=window.devicePixelRatio||1;
+    canvas.width=r.width*dpr;canvas.height=r.height*dpr;
+    canvas.style.width=r.width+'px';canvas.style.height=r.height+'px';
+    baseScaleX=dpr*r.width/920;baseScaleY=dpr*r.height/575;
+    ctx.setTransform(baseScaleX,0,0,baseScaleY,0,0);
+    W=920;H=575;indiaProj=null;
+}
+
+const D={
+    clear(){ctx.save();ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,canvas.width,canvas.height);ctx.restore();ctx.setTransform(baseScaleX,0,0,baseScaleY,0,0);},
+    text(str,x,y,{size=14,color='#fff',weight='500',align='center',glow=false,maxW=null,squeeze=false}={}){
+        if(glow){ctx.shadowColor=color;ctx.shadowBlur=18;}
+        ctx.fillStyle=color;ctx.font=`${weight} ${size}px 'Inter',sans-serif`;ctx.textAlign=align;ctx.textBaseline='middle';
+        /* fit-to-box (10 Nov, 5_2 page step): English labels fit their slots, so English is drawn unchanged. */
+        if(maxW){
+            const w=ctx.measureText(str).width;
+            if(w>maxW&&!squeeze){   // squeeze:true = the old behaviour (fillText maxW only) for slots the English already overfills
+                const s2=Math.max(size*maxW/w,size*0.6);ctx.font=`${weight} ${s2}px 'Inter',sans-serif`;
+                (window.__fitLog=window.__fitLog||{})[String(str)]=+(s2/size).toFixed(2);   // check aid: label → scale
+            }
+            ctx.fillText(str,x,y,maxW);
+        }else ctx.fillText(str,x,y);
+        ctx.shadowBlur=0;
+    },
+    roundRect(x,y,w,h,{fill=null,stroke='rgba(218,165,32,0.2)',lineWidth=1.5,radius=12}={}){
+        ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,w,h,radius);else{ctx.moveTo(x+radius,y);ctx.lineTo(x+w-radius,y);ctx.quadraticCurveTo(x+w,y,x+w,y+radius);ctx.lineTo(x+w,y+h-radius);ctx.quadraticCurveTo(x+w,y+h,x+w-radius,y+h);ctx.lineTo(x+radius,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-radius);ctx.lineTo(x,y+radius);ctx.quadraticCurveTo(x,y,x+radius,y);ctx.closePath();}
+        if(fill){ctx.fillStyle=fill;ctx.fill();}
+        if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lineWidth;ctx.stroke();}
+    },
+};
+
+/* fit-to-box for raw fillText labels (5_2 page step, 10 Nov): shrink the current font (to 60 % at most) when the text is wider
+   than its box, then fillText's maxW squeezes any rest. English fits, so English is drawn unchanged. */
+function _fitText(s,x,y,mw){
+    const w=ctx.measureText(s).width;
+    if(w>mw){const f=ctx.font,m=f.match(/(\d+(?:\.\d+)?)px/);
+        if(m){const sz=+m[1],s2=Math.max(sz*mw/w,sz*0.6);ctx.font=f.replace(m[0],s2+'px');(window.__fitLog=window.__fitLog||{})[String(s)]=+(s2/sz).toFixed(2);ctx.fillText(s,x,y,mw);ctx.font=f;return;}}
+    ctx.fillText(s,x,y,mw);
+}
+/* INDIA MAP */
+let indiaGeo=null,indiaProj=null,indiaGeoPath=null;
+fetch('https://cdn.jsdelivr.net/gh/adarshbiradar/maps-geojson@master/india.json')
+    .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+    .then(geo=>{indiaGeo=geo;indiaProj=null;}).catch(e=>console.warn('[map]',e.message));
+function buildProj(cx,cy,sx,sy){
+    if(!indiaGeo)return;
+    indiaProj=d3.geoMercator().fitExtent([[cx-sx,cy-sy],[cx+sx,cy+sy]],indiaGeo);
+    indiaGeoPath=d3.geoPath().projection(indiaProj).context(ctx);
+}
+
+function startLoop(painter){
+    initCanvas();const rid=currentRunId;let startT=null;
+    function frame(ts){
+        if(rid!==currentRunId)return;
+        if(!startT)startT=ts;
+        if(!S.isPaused)painter(ts-startT,Math.min((ts-startT)/4000,1),ts);
+        animationId=requestAnimationFrame(frame);
+    }
+    animationId=requestAnimationFrame(frame);
+}
+
+/* ─────────────────────────────────────────────────────────
+   SECTION 0 — WHAT IS AN ORE?
+   Rock vs Ore comparison + concentration meter
+───────────────────────────────────────────────────────── */
+function paintSection0(elapsed,prog,ts){
+    D.clear();
+    const now=performance.now(),t=ts*0.001;
+    const cd=getSectionCanvas(0);
+
+    if(sec0StepTimes[0]){
+        const hp=easeOut(Math.min((now-sec0StepTimes[0])/700,1));
+        ctx.save();ctx.globalAlpha=hp;
+        D.text(cd.title||'FROM ROCK TO ORE',W/2,28,{size:17,color:C.gold,weight:'900',align:'center',maxW:880});
+        D.text(cd.subtitle||'Concentration of mineral decides if it is an ORE',W/2,48,{size:12,color:C.textDim,align:'center',maxW:880});
+        ctx.restore();
+    }
+
+    // ── Three visually-distinct rocks with concentration filling INSIDE ──
+    const stages=[
+        {name:cd.stage0name||'PLAIN ROCK',label:cd.stage0label||'mostly ordinary rock, very few useful mineral grains',pct:0.05,
+         body:'#7d8186', highlight:'#9aa0a8', ring:'#888888',
+         verdict:cd.stage0verdict||'Not worth mining', mineralCol:'#666666'},
+        {name:cd.stage1name||'LOW-GRADE',label:cd.stage1label||'some mineral, but extraction expensive',pct:0.30,
+         body:'#7a5a32', highlight:'#a07a48', ring:C.amber,
+         verdict:cd.stage1verdict||'Borderline — high cost', mineralCol:C.amber},
+        {name:cd.stage2name||'ORE',label:cd.stage2label||'rich enough — extraction is profitable',pct:0.75,
+         body:'#3a2818', highlight:'#5a3820', ring:C.gold,
+         verdict:cd.stage2verdict||'Commercially viable!', mineralCol:C.gold},
+    ];
+    stages.forEach((st,i)=>{
+        if(!sec0StepTimes[0])return;
+        const ms=now-sec0StepTimes[0]-300-i*350;
+        if(ms<0)return;
+        const sp=easeOut(Math.min(ms/800,1));
+        const cx=180+i*280,cy=185;
+        ctx.save();ctx.globalAlpha=sp;
+
+        // Soft glow
+        const gr=ctx.createRadialGradient(cx,cy,2,cx,cy,90);
+        gr.addColorStop(0,st.ring+'33');gr.addColorStop(1,st.ring+'00');
+        ctx.fillStyle=gr;ctx.beginPath();ctx.arc(cx,cy,90,0,Math.PI*2);ctx.fill();
+
+        // Rock body (gradient for 3D look)
+        const rg=ctx.createRadialGradient(cx-12,cy-15,4,cx,cy,60);
+        rg.addColorStop(0,st.highlight);
+        rg.addColorStop(1,st.body);
+        ctx.fillStyle=rg;
+        ctx.beginPath();
+        ctx.moveTo(cx-50,cy+15);
+        ctx.bezierCurveTo(cx-58,cy-20,cx-30,cy-44,cx-5,cy-40);
+        ctx.bezierCurveTo(cx+34,cy-36,cx+58,cy-10,cx+50,cy+18);
+        ctx.bezierCurveTo(cx+30,cy+38,cx-25,cy+38,cx-50,cy+15);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle=st.ring;ctx.lineWidth=2;ctx.stroke();
+
+        // CLIP to rock outline so we draw mineral content INSIDE
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(cx-50,cy+15);
+        ctx.bezierCurveTo(cx-58,cy-20,cx-30,cy-44,cx-5,cy-40);
+        ctx.bezierCurveTo(cx+34,cy-36,cx+58,cy-10,cx+50,cy+18);
+        ctx.bezierCurveTo(cx+30,cy+38,cx-25,cy+38,cx-50,cy+15);
+        ctx.closePath();
+        ctx.clip();
+
+        // Concentration FILL — bright metallic from bottom up to st.pct
+        const fillProg = easeOut(Math.min(Math.max(0,ms-200)/900,1));
+        const reachedH = 80 * fillProg * st.pct;
+        if(reachedH > 0){
+            const fg = ctx.createLinearGradient(cx, cy+38, cx, cy-40);
+            fg.addColorStop(0, st.mineralCol);
+            fg.addColorStop(0.6, st.ring);
+            fg.addColorStop(1, st.mineralCol+'aa');
+            ctx.fillStyle = fg;
+            ctx.fillRect(cx-60, cy+38 - reachedH, 120, reachedH);
+        }
+
+        // Mineral grains/streaks — visually distinct per stage
+        if(i===0){ // PLAIN ROCK: very few grains, scattered
+            for(let s=0;s<3;s++){
+                const ang=(s*123)%360*Math.PI/180;
+                const rr=10+(s*9)%24;
+                const px=cx+Math.cos(ang)*rr,py=cy+Math.sin(ang)*rr*0.7;
+                ctx.fillStyle=st.mineralCol;
+                ctx.beginPath();ctx.arc(px,py,1.3,0,Math.PI*2);ctx.fill();
+            }
+        } else if(i===1){ // LOW-GRADE: scattered medium grains
+            for(let s=0;s<10;s++){
+                const ang=(s*97)%360*Math.PI/180;
+                const rr=6+(s*7)%30;
+                const px=cx+Math.cos(ang)*rr,py=cy+Math.sin(ang)*rr*0.75;
+                ctx.fillStyle=st.mineralCol;
+                ctx.beginPath();ctx.arc(px,py,1.8,0,Math.PI*2);ctx.fill();
+            }
+        } else { // ORE: dense grains + bright streaks (veins)
+            // Streaks
+            ctx.strokeStyle=C.gold;
+            ctx.lineWidth=1.8;
+            ctx.shadowColor=C.gold;ctx.shadowBlur=6;
+            for(let s=0;s<3;s++){
+                const yy = cy - 25 + s*18;
+                ctx.beginPath();
+                ctx.moveTo(cx-40, yy + Math.sin(s)*3);
+                ctx.bezierCurveTo(cx-15, yy + 4, cx+15, yy - 4, cx+42, yy + Math.sin(s+1)*3);
+                ctx.stroke();
+            }
+            ctx.shadowBlur=0;
+            // Dense grains
+            for(let s=0;s<22;s++){
+                const ang=(s*53)%360*Math.PI/180;
+                const rr=4+(s*5)%32;
+                const px=cx+Math.cos(ang)*rr,py=cy+Math.sin(ang)*rr*0.75;
+                const cols=[C.gold,C.copperLight,C.silver];
+                ctx.fillStyle=cols[s%3];
+                ctx.beginPath();ctx.arc(px,py,2.0,0,Math.PI*2);ctx.fill();
+            }
+        }
+        ctx.restore(); // un-clip
+
+        // Below rock — percent badge (clear, large)
+        D.roundRect(cx-35,cy+58,70,24,{fill:st.ring+'22',stroke:st.ring,radius:6,lineWidth:1.4});
+        D.text(Math.round(st.pct*100)+'%',cx,cy+71,{size:16,color:st.ring,weight:'900',align:'center',glow:true});
+
+        // Title
+        D.text(st.name,cx,cy+102,{size:15,color:st.ring,weight:'900',align:'center',maxW:250});
+        // Label below title — properly wrapped 2 lines
+        ctx.font="500 11px 'Inter',sans-serif";
+        ctx.fillStyle=C.textDim;ctx.textAlign='center';ctx.textBaseline='middle';
+        const lbl=st.label;
+        // simple 2-line wrap by mid-comma if long
+        if(lbl.includes(',')){
+            const parts = lbl.split(',');
+            _fitText(parts[0]+',',cx,cy+118,250);
+            _fitText(parts.slice(1).join(',').trim(),cx,cy+131,250);
+        } else {
+            _fitText(lbl,cx,cy+118,250);
+        }
+
+        // Verdict pill (positioned below label safely)
+        ctx.font="800 11px 'Inter',sans-serif";
+        const vw=ctx.measureText(st.verdict).width+18;
+        D.roundRect(cx-vw/2,cy+143,vw,20,{fill:st.ring+'22',stroke:st.ring+'aa',radius:10,lineWidth:1});
+        D.text(st.verdict,cx,cy+153,{size:11,color:st.ring,weight:'700',align:'center',maxW:250});
+
+        // Arrow to next stage — vertically centered on rock
+        if(i<2){
+            ctx.strokeStyle=C.gold+'aa';ctx.lineWidth=2;ctx.lineCap='round';
+            ctx.beginPath();
+            ctx.moveTo(cx+78,cy);ctx.lineTo(cx+178,cy);
+            ctx.moveTo(cx+170,cy-7);ctx.lineTo(cx+178,cy);ctx.lineTo(cx+170,cy+7);
+            ctx.stroke();
+        }
+        ctx.restore();
+    });
+
+    // ── Definition box (step 0) ──
+    if(sec0StepTimes[0] && now-sec0StepTimes[0]>1500){
+        const sp=easeOut(Math.min((now-sec0StepTimes[0]-1500)/700,1));
+        ctx.save();ctx.globalAlpha=sp;
+        D.roundRect(60,360,W-120,40,{fill:'rgba(218,165,32,0.10)',stroke:C.gold+'aa',radius:10,lineWidth:1.4});
+        D.text('📖  '+(cd.oreDefinition||'ORE = a rock with enough mineral that extraction is commercially worthwhile'),W/2,381,{size:14,color:C.gold,weight:'700',align:'center',maxW:780});
+        ctx.restore();
+    }
+
+    // ── Step 1: Four factors with mini-sketches ──
+    if(sec0StepTimes[1]){
+        const sp=easeOut(Math.min((now-sec0StepTimes[1])/700,1));
+        ctx.save();ctx.globalAlpha=sp;
+        D.roundRect(60,415,W-120,90,{fill:'rgba(40,28,20,0.55)',stroke:C.gold+'aa',radius:12,lineWidth:1.4});
+        D.text(cd.structureTitle||'WHAT DECIDES MINING EASE & COST',W/2,432,{size:13,color:C.gold,weight:'900',align:'center',maxW:780});
+        // Four factor mini-sketches (5_2 visual fix: icons 14 px higher, clear of their labels at y 496)
+        const colW = (W-120)/4;
+        // 1: Deposit shape
+        const f1x=60+colW*0.5;
+        ctx.save();
+        ctx.fillStyle=C.copper;
+        ctx.beginPath();ctx.ellipse(f1x-15,464,8,4,0,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle=C.gold;
+        ctx.fillRect(f1x+2, 456, 4, 18);
+        ctx.restore();
+        D.text(cd.factor0||'Shape',f1x,496,{size:12,color:'#fff',weight:'700',align:'center',maxW:180});
+        // 2: Depth
+        const f2x=60+colW*1.5;
+        ctx.save();
+        ctx.strokeStyle=C.silver;ctx.lineWidth=1.2;
+        ctx.beginPath();ctx.moveTo(f2x-12,450);ctx.lineTo(f2x+12,450);ctx.stroke();
+        ctx.fillStyle=C.gold;
+        ctx.fillRect(f2x-3, 456, 6, 22);
+        ctx.fillStyle=C.silver;
+        ctx.font="700 11px 'Inter',sans-serif";ctx.textAlign='left';ctx.textBaseline='middle';
+        _fitText(cd.depthAxis||'depth',f2x+8,471,80);
+        ctx.restore();
+        D.text(cd.factor1||'Depth',f2x,496,{size:12,color:'#fff',weight:'700',align:'center',maxW:180});
+        // 3: Hardness (pickaxe)
+        const f3x=60+colW*2.5;
+        ctx.save();
+        ctx.strokeStyle=C.amber;ctx.lineWidth=2;ctx.lineCap='round';
+        ctx.beginPath();ctx.moveTo(f3x-10,476);ctx.lineTo(f3x+8,456);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(f3x+2,456);ctx.lineTo(f3x+14,464);ctx.stroke();
+        ctx.restore();
+        D.text(cd.factor2||'Hardness',f3x,496,{size:12,color:'#fff',weight:'700',align:'center',maxW:180});
+        // 4: Market distance
+        const f4x=60+colW*3.5;
+        ctx.save();
+        ctx.fillStyle=C.copper;
+        ctx.beginPath();ctx.arc(f4x-14,466,3,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle=C.greenBright;ctx.lineWidth=1.2;
+        ctx.setLineDash([2,2]);
+        ctx.beginPath();ctx.moveTo(f4x-12,466);ctx.lineTo(f4x+10,466);ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle=C.greenBright;
+        ctx.fillRect(f4x+8, 460, 8, 12);
+        ctx.restore();
+        D.text(cd.factor3||'Market',f4x,496,{size:12,color:'#fff',weight:'700',align:'center',maxW:180});
+        ctx.restore();
+    }
+
+    // ── Pulse banner (preview the 5 modes coming up) ──
+    if(sec0StepTimes[1]&&now-sec0StepTimes[1]>12000){   // 5_2 canvas fix: on "the main types of formations in which minerals occur"
+        const sp=easeOut(Math.min((now-sec0StepTimes[1]-12000)/700,1));
+        const pulse=Math.sin(t*2)*0.15+0.85;
+        ctx.save();ctx.globalAlpha=sp;
+        D.roundRect(W/2-300,525,600,32,{fill:`rgba(218,165,32,${0.13*pulse})`,stroke:C.gold+'aa',radius:14,lineWidth:1.4});
+        D.text(cd.modesTitle||'5 MODES of occurrence: Veins & Lodes · Beds · Decomposition · Placer · Ocean',W/2,541,{size:12,color:C.gold,weight:'700',align:'center',maxW:580});
+        ctx.restore();
+    }
+}
+
+/* ─────────────────────────────────────────────────────────
+   SECTION 1 — VEINS & LODES (igneous/metamorphic)
+   Cross-section: magma rises through cracks, cools into vein/lode
+───────────────────────────────────────────────────────── */
+function paintSection1(elapsed,prog,ts){
+    D.clear();
+    const now=performance.now(),t=ts*0.001;
+    const cd=getSectionCanvas(1);
+    const S1_VEIN_AT=8800,S1_LODE_AT=11000;   // 5_2 canvas fix: ms into step 0 when the voice says "called veins" / "called lodes"
+
+    if(sec1StepTimes[0]){
+        const hp=easeOut(Math.min((now-sec1StepTimes[0])/700,1));
+        ctx.save();ctx.globalAlpha=hp;
+        D.text(cd.title||'VEINS & LODES — IGNEOUS / METAMORPHIC ROCK',W/2,28,{size:16,color:C.gold,weight:'900',align:'center',maxW:880});
+        D.text(cd.subtitle||'Molten minerals rise · cool in cracks · solidify into mineral-rich seams',W/2,48,{size:12,color:C.textDim,align:'center',maxW:880});
+        ctx.restore();
+    }
+
+    // ── Cross-section earth (left, big) ──
+    const dx=40,dy=80,dw=540,dh=420;
+    if(sec1StepTimes[0]){
+        const sp=easeOut(Math.min((now-sec1StepTimes[0])/800,1));
+        ctx.save();ctx.globalAlpha=sp;
+
+        // Frame
+        D.roundRect(dx,dy,dw,dh,{fill:'rgba(15,8,6,0.7)',stroke:C.lava+'66',radius:14,lineWidth:1.5});
+        ctx.save();
+        if(ctx.roundRect){ctx.beginPath();ctx.roundRect(dx+2,dy+2,dw-4,dh-4,12);ctx.clip();}
+
+        // Sky
+        const sky=ctx.createLinearGradient(dx,dy,dx,dy+dh*0.13);
+        sky.addColorStop(0,'#3a4858');sky.addColorStop(1,'#5a4838');
+        ctx.fillStyle=sky;ctx.fillRect(dx,dy,dw,dh*0.13);
+
+        // Surface mountains (draw before host rock so they fade behind)
+        ctx.fillStyle='#3a2818';
+        ctx.beginPath();
+        ctx.moveTo(dx,dy+dh*0.13);
+        ctx.lineTo(dx+dw*0.25,dy+dh*0.06);
+        ctx.lineTo(dx+dw*0.45,dy+dh*0.10);
+        ctx.lineTo(dx+dw*0.65,dy+dh*0.04);
+        ctx.lineTo(dx+dw*0.85,dy+dh*0.10);
+        ctx.lineTo(dx+dw,dy+dh*0.13);
+        ctx.closePath();ctx.fill();
+
+        // ── HOST ROCK (solid, gray-blue) — fills most of cross-section ──
+        // Left half: IGNEOUS (cooled magma — uniform texture)
+        // Right half: METAMORPHIC (banded/foliated texture)
+        const rockTop = dy + dh*0.13;
+        const rockBot = dy + dh*0.88;
+
+        // Igneous (left half) — uniform speckled gray-brown
+        const igG = ctx.createLinearGradient(dx, rockTop, dx, rockBot);
+        igG.addColorStop(0, '#4a4048');
+        igG.addColorStop(1, '#2c2428');
+        ctx.fillStyle = igG;
+        ctx.fillRect(dx, rockTop, dw*0.5, rockBot - rockTop);
+        // Crystal speckles
+        ctx.fillStyle = 'rgba(180,170,160,0.18)';
+        for(let s=0;s<70;s++){
+            const sxp = dx + (s*47)%(dw*0.5);
+            const syp = rockTop + (s*31)%(rockBot-rockTop);
+            ctx.beginPath();ctx.arc(sxp, syp, 1+(s%2), 0, Math.PI*2);ctx.fill();
+        }
+
+        // Metamorphic (right half) — wavy bands
+        const mtG = ctx.createLinearGradient(dx+dw*0.5, rockTop, dx+dw*0.5, rockBot);
+        mtG.addColorStop(0, '#3e3640');
+        mtG.addColorStop(1, '#28201f');
+        ctx.fillStyle = mtG;
+        ctx.fillRect(dx+dw*0.5, rockTop, dw*0.5, rockBot - rockTop);
+        // Foliated bands (curved)
+        ctx.strokeStyle = 'rgba(160,140,150,0.22)';
+        ctx.lineWidth = 1.2;
+        for(let b=0;b<8;b++){
+            const yy = rockTop + (rockBot-rockTop)*((b+0.5)/8);
+            ctx.beginPath();
+            for(let xx = dx+dw*0.5; xx <= dx+dw; xx += 6){
+                const wave = Math.sin((xx-dx)/26 + b*0.7) * 4;
+                if(xx === dx+dw*0.5) ctx.moveTo(xx, yy + wave);
+                else ctx.lineTo(xx, yy + wave);
+            }
+            ctx.stroke();
+        }
+
+        // Vertical divider between igneous and metamorphic (subtle)
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();ctx.moveTo(dx+dw*0.5, rockTop);ctx.lineTo(dx+dw*0.5, rockBot);ctx.stroke();
+
+        // Rock labels — placed at BOTTOM-LEFT and BOTTOM-RIGHT, well below VEIN/LODE pills
+        D.text(cd.igneous||'IGNEOUS', dx+dw*0.255, rockBot-18, {size:12, color:'rgba(255,255,255,0.55)', weight:'700', align:'left',maxW:dw*0.23});   // 5_2 visual fix: right of the vein (was 0.10, under it)
+        D.text(cd.igneousSub||'(cooled magma)', dx+dw*0.255, rockBot-6, {size:10, color:'rgba(255,255,255,0.4)', weight:'500', align:'left',maxW:dw*0.23});
+        D.text(cd.metamorphic||'METAMORPHIC', dx+dw*0.92, rockBot-18, {size:12, color:'rgba(255,255,255,0.55)', weight:'700', align:'right',maxW:220});
+        D.text(cd.metamorphicSub||'(heat-altered)', dx+dw*0.92, rockBot-6, {size:10, color:'rgba(255,255,255,0.4)', weight:'500', align:'right',maxW:220});
+
+        // Bedrock floor
+        ctx.fillStyle='#1a0e08';ctx.fillRect(dx,rockBot,dw,dy+dh-rockBot);
+        // Magma chamber at bottom
+        const mgX=dx+dw*0.5,mgY=rockBot+18;
+        const mgGr=ctx.createRadialGradient(mgX,mgY,5,mgX,mgY,80);
+        const mgPulse=Math.sin(t*1.5)*0.2+0.8;
+        mgGr.addColorStop(0,`rgba(255,160,60,${mgPulse})`);
+        mgGr.addColorStop(0.5,`rgba(220,80,30,${0.7*mgPulse})`);
+        mgGr.addColorStop(1,'rgba(120,20,5,0)');
+        ctx.fillStyle=mgGr;ctx.beginPath();ctx.arc(mgX,mgY,80,0,Math.PI*2);ctx.fill();
+        D.text(cd.magma||'MAGMA', mgX, mgY+8, {size:11, color:'rgba(255,200,140,0.85)', weight:'700', align:'center',maxW:110});
+
+        // ── VEIN (left half) — THIN crack, hairline width ──
+        const sp1=sp, vein0=sec1StepTimes[0]?now-sec1StepTimes[0]-S1_VEIN_AT:-1;
+        if(sec1StepTimes[1]||vein0>0){
+            const ms=sec1StepTimes[1]?now-sec1StepTimes[1]:1e9;   // step 0: already formed; step 1: formation replay
+            const sp=sp1*(sec1StepTimes[1]?1:easeOut(Math.min(vein0/700,1)));
+            ctx.save();ctx.globalAlpha=sp;
+            const rise=Math.min(ms/2200,1);
+            // The vein path (small zig-zag crack)
+            const vx0 = dx+dw*0.20, vy0 = rockBot;
+            const vx1 = dx+dw*0.24, vy1 = rockTop+50;
+            // Crack outline (always visible — solid rock has cracks)
+            ctx.save();
+            ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.moveTo(vx0, vy0);
+            ctx.bezierCurveTo(vx0+8, rockBot-90, vx1-10, rockTop+150, vx1, vy1);
+            ctx.stroke();
+            ctx.restore();
+            // Animated rising LIQUID magma fill (color shifts with cooling)
+            // Color shift: at rise<0.5 → red/orange (hot), 0.5-0.8 → orange→yellow (cooling), >0.8 → metallic gold (solidified)
+            ctx.save();
+            const cooling = rise; // 0..1
+            const veinColor = cooling < 0.5 ? `rgba(255,${100+cooling*120},40,0.95)`
+                            : cooling < 0.8 ? `rgba(255,${180+ (cooling-0.5)*130},${(cooling-0.5)*350},0.95)`
+                            : C.gold;
+            ctx.strokeStyle = veinColor;
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = 'round';
+            ctx.shadowColor = veinColor;
+            ctx.shadowBlur = 8;
+            ctx.beginPath();
+            ctx.moveTo(vx0, vy0);
+            ctx.bezierCurveTo(vx0+8, rockBot-90, vx1-10, rockTop+150, vx1, vy1);
+            ctx.setLineDash([dh, dh]);
+            ctx.lineDashOffset = dh*(1-rise);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.shadowBlur = 0;
+            ctx.restore();
+            // Solidified mineral grains along the vein (after rise > 0.6)
+            if(rise > 0.6){
+                const solidify = easeOut(Math.min((ms-1300)/1000, 1));
+                ctx.save();ctx.globalAlpha = sp * solidify;
+                for(let p=0;p<5;p++){
+                    const tt = p/4;
+                    // Sample along the bezier
+                    const u = tt;
+                    const u1 = 1-u;
+                    const px = u1*u1*u1*vx0 + 3*u1*u1*u*(vx0+8) + 3*u1*u*u*(vx1-10) + u*u*u*vx1;
+                    const py = u1*u1*u1*vy0 + 3*u1*u1*u*(rockBot-90) + 3*u1*u*u*(rockTop+150) + u*u*u*vy1;
+                    ctx.fillStyle = [C.gold, C.copperLight][p%2];
+                    ctx.shadowColor = C.gold;ctx.shadowBlur = 4;
+                    ctx.beginPath();ctx.arc(px, py, 2.5, 0, Math.PI*2);ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+                ctx.restore();
+            }
+            // VEIN label
+            const lblP = (sec1StepTimes[0]&&(sec1StepTimes[1]||now)-sec1StepTimes[0]>S1_VEIN_AT)?1:easeOut(Math.min(Math.max(0,ms-1500)/700,1));
+            if(lblP > 0){
+                ctx.save();ctx.globalAlpha = sp * lblP;
+                D.roundRect(vx1-38, vy1-30, 76, 22, {fill:'rgba(20,15,10,0.95)', stroke:C.lavaLight, radius:10, lineWidth:1.4});
+                D.text(cd.vein||'VEIN', vx1, vy1-23, {size:12, color:C.lavaLight, weight:'900', align:'center',maxW:70});
+                D.text(cd.veinSub||'thin (cm)', vx1, vy1-13, {size:10, color:'rgba(255,255,255,0.65)', weight:'500', align:'center',maxW:70});
+                ctx.strokeStyle = C.lavaLight; ctx.lineWidth = 1; ctx.setLineDash([2,2]);
+                ctx.beginPath();ctx.moveTo(vx1, vy1-8); ctx.lineTo(vx1, vy1-2); ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.restore();
+            }
+            ctx.restore();
+        }
+
+        // ── LODE (right half) — THICK band ──
+        const lode0=sec1StepTimes[0]?now-sec1StepTimes[0]-S1_LODE_AT:-1;
+        if(sec1StepTimes[1]||lode0>0){
+            const ms = sec1StepTimes[1]?now-sec1StepTimes[1]-500:1e9;
+            const sp=sp1*(sec1StepTimes[1]?1:easeOut(Math.min(lode0/700,1)));
+            ctx.save();ctx.globalAlpha=sp;
+            if(ms > 0){
+                const rise = Math.min(ms/2400, 1);
+                // Lode shape — wide wedge widening upward
+                ctx.save();
+                const lx_bot = dx+dw*0.72, ly_bot = rockBot;
+                const lx_top_left = dx+dw*0.66, lx_top_right = dx+dw*0.79, ly_top = rockTop+60;
+                // Build wedge path
+                const wedgePath = () => {
+                    ctx.beginPath();
+                    ctx.moveTo(lx_bot-8, ly_bot);
+                    ctx.lineTo(lx_top_left, ly_top);
+                    ctx.lineTo(lx_top_right, ly_top);
+                    ctx.lineTo(lx_bot+8, ly_bot);
+                    ctx.closePath();
+                };
+                // Clip to wedge so fill stays inside
+                wedgePath();
+                ctx.save();
+                ctx.clip();
+                // Within wedge, fill only up to current rise level (from bottom upward)
+                const fillTop = ly_bot - (ly_bot - ly_top)*rise;
+                const lG = ctx.createLinearGradient(0, ly_top, 0, ly_bot);
+                if(rise < 0.7){
+                    lG.addColorStop(0, C.lavaLight);
+                    lG.addColorStop(0.6, C.lava);
+                    lG.addColorStop(1, C.magma);
+                } else {
+                    lG.addColorStop(0, C.gold);
+                    lG.addColorStop(0.5, C.copper);
+                    lG.addColorStop(1, C.lava);
+                }
+                ctx.fillStyle = lG;
+                ctx.fillRect(dx, fillTop, dw, ly_bot - fillTop + 5);
+                ctx.restore();
+                // Outline
+                wedgePath();
+                ctx.strokeStyle = rise>0.7 ? C.gold : C.lava;
+                ctx.lineWidth = 1.4;
+                ctx.stroke();
+                // Mineral chunks visible after solidifying
+                if(rise > 0.7){
+                    const solidify = easeOut(Math.min((ms-1700)/1000, 1));
+                    ctx.globalAlpha = sp * solidify;
+                    const chunks = [
+                        {x:0.69, y:0.30, c:C.gold},{x:0.74, y:0.40, c:C.silver},
+                        {x:0.71, y:0.55, c:C.copperLight},{x:0.76, y:0.55, c:C.gold},
+                        {x:0.72, y:0.70, c:C.copper},{x:0.69, y:0.70, c:C.silver},
+                    ];
+                    chunks.forEach(ck => {
+                        ctx.fillStyle = ck.c;
+                        ctx.shadowColor = ck.c; ctx.shadowBlur = 4;
+                        ctx.beginPath();
+                        ctx.arc(dx+dw*ck.x, rockTop + (rockBot-rockTop)*ck.y, 4.5, 0, Math.PI*2);
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                        ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+                        ctx.lineWidth = 0.7;
+                        ctx.stroke();
+                    });
+                }
+                ctx.restore();
+                // LODE label
+                const lblP = (sec1StepTimes[0]&&(sec1StepTimes[1]||now)-sec1StepTimes[0]>S1_LODE_AT)?1:easeOut(Math.min(Math.max(0,ms-2000)/700, 1));
+                if(lblP > 0){
+                    ctx.save();ctx.globalAlpha = sp * lblP;
+                    const lcx = dx+dw*0.725, lcy = rockTop+30;
+                    D.roundRect(lcx-40, lcy-12, 80, 22, {fill:'rgba(20,15,10,0.95)', stroke:C.gold, radius:10, lineWidth:1.4});
+                    D.text(cd.lode||'LODE', lcx, lcy-5, {size:12, color:C.gold, weight:'900', align:'center',maxW:74});
+                    D.text(cd.lodeSub||'thick (m)', lcx, lcy+5, {size:10, color:'rgba(255,255,255,0.7)', weight:'500', align:'center',maxW:74});
+                    ctx.strokeStyle = C.gold; ctx.lineWidth = 1; ctx.setLineDash([2,2]);
+                    ctx.beginPath();ctx.moveTo(lcx, lcy+10); ctx.lineTo(lcx, rockTop+60); ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.restore();
+                }
+            }
+            ctx.restore();
+        }
+
+        // Magma rising particles (subtle motion in the chamber)
+        for(let a=0;a<3;a++){
+            const ph=((t*0.5+a*0.3)%1.2);
+            const ax=mgX+Math.sin(t*0.5+a)*30;
+            const ay=mgY-ph*40;
+            if(ay<rockBot)continue;
+            const al=Math.max(0,1-ph)*0.6;
+            ctx.fillStyle=`rgba(255,160,60,${al})`;
+            ctx.beginPath();ctx.arc(ax,ay,2+ph*1.5,0,Math.PI*2);ctx.fill();
+        }
+
+        // ── 3-step process labels along the right side ──
+        if(sec1StepTimes[1] && now-sec1StepTimes[1]>2500){
+            const sp2 = easeOut(Math.min((now-sec1StepTimes[1]-2500)/700, 1));
+            ctx.save();ctx.globalAlpha = sp * sp2;
+            const stepX = dx + 8;
+            // Step pills along left edge
+            const steps = [
+                {y: rockBot - 30, n:'1', txt:cd.step1||'rise', col:C.lava},
+                {y: rockTop + (rockBot-rockTop)*0.5, n:'2', txt:cd.step2||'cool', col:C.amber},
+                {y: rockTop + 80, n:'3', txt:cd.step3||'solidify', col:C.gold},
+            ];
+            steps.forEach(s => {
+                ctx.fillStyle = s.col;
+                ctx.beginPath();ctx.arc(stepX, s.y, 9, 0, Math.PI*2);ctx.fill();
+                D.text(s.n, stepX, s.y, {size:12, color:'#1a0e08', weight:'900', align:'center'});
+                D.roundRect(stepX+12, s.y-8, 56, 16, {fill:'rgba(15,8,6,0.85)', stroke:s.col+'aa', radius:8, lineWidth:1});
+                D.text(s.txt, stepX+40, s.y, {size:11, color:s.col, weight:'700', align:'center',maxW:52});
+            });
+            ctx.restore();
+        }
+
+        ctx.restore(); // end clip
+        ctx.restore();
+    }
+
+    // ── RIGHT panel: minerals from veins/lodes ──
+    if(sec1StepTimes[1]){
+        const sp=easeOut(Math.min((now-sec1StepTimes[1])/800,1));
+        ctx.save();ctx.globalAlpha=sp;
+        const px=600,py=80,pw=280,ph=420;
+        D.roundRect(px,py,pw,ph,{fill:'rgba(20,8,12,0.7)',stroke:C.gold+'66',radius:12,lineWidth:1.4});
+        D.text(cd.fromVeinsTitle||'FROM VEINS & LODES',px+pw/2,py+20,{size:14,color:C.gold,weight:'900',align:'center',maxW:260});
+        D.text(cd.majorMetallic||'Major metallic minerals',px+pw/2,py+38,{size:11,color:C.textDim,align:'center',maxW:260});
+
+        const metals=[
+            {n:cd.m0name||'TIN',col:'#c8c8d0',bg:'#888896',use:cd.m0use||'cans · solder', icon:'can'},
+            {n:cd.m1name||'COPPER',col:C.copperLight,bg:C.copper,use:cd.m1use||'wires · pipes', icon:'wire'},
+            {n:cd.m2name||'ZINC',col:'#a8b0c0',bg:'#7a8090',use:cd.m2use||'galvanising', icon:'nail'},
+            {n:cd.m3name||'LEAD',col:'#8888a0',bg:'#3a3f48',use:cd.m3use||'batteries', icon:'sinker'},
+        ];
+        metals.forEach((m,i)=>{
+            const ms=now-sec1StepTimes[1]-800-i*220;
+            if(ms<0)return;
+            const mp=easeOut(Math.min(ms/600,1));
+            ctx.save();ctx.globalAlpha=sp*mp;
+            const my=py+62+i*82;
+            D.roundRect(px+15,my,pw-30,72,{fill:m.bg+'22',stroke:m.bg+'88',radius:10,lineWidth:1.2});
+
+            // Visual icon (real-world example)
+            const ix = px+42, iy = my+36;
+            ctx.save();
+            ctx.translate(ix, iy);
+            if(m.icon==='can'){
+                // Tin can
+                ctx.fillStyle = m.bg;
+                ctx.fillRect(-12, -14, 24, 28);
+                ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.strokeRect(-12, -14, 24, 28);
+                ctx.fillStyle = m.col;
+                ctx.beginPath();ctx.ellipse(0, -14, 12, 3, 0, 0, Math.PI*2);ctx.fill();
+                // Label band
+                ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                ctx.fillRect(-12, -4, 24, 4);
+            } else if(m.icon==='wire'){
+                // Coiled copper wire
+                ctx.strokeStyle = m.bg;
+                ctx.lineWidth = 3.5;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                for(let k=0;k<3;k++){
+                    ctx.moveTo(-12, -8 + k*8);
+                    ctx.bezierCurveTo(-12, -10+k*8, 12, -6+k*8, 12, -8+k*8);
+                }
+                ctx.stroke();
+            } else if(m.icon==='nail'){
+                // Galvanized nail
+                ctx.fillStyle = m.bg;
+                ctx.beginPath();
+                ctx.moveTo(-2, -14); ctx.lineTo(2, -14); ctx.lineTo(2, 10); ctx.lineTo(0, 14); ctx.lineTo(-2, 10);
+                ctx.closePath();ctx.fill();
+                ctx.fillStyle = m.col;
+                ctx.beginPath();ctx.arc(0, -14, 5, 0, Math.PI*2);ctx.fill();
+            } else if(m.icon==='sinker'){
+                // Lead sinker (small dark weight)
+                const grd = ctx.createRadialGradient(-3, -3, 1, 0, 0, 13);
+                grd.addColorStop(0, '#8a8aa0');
+                grd.addColorStop(1, m.bg);
+                ctx.fillStyle = grd;
+                ctx.beginPath();ctx.arc(0, 0, 12, 0, Math.PI*2);ctx.fill();
+                ctx.strokeStyle = '#1a1208'; ctx.lineWidth = 1; ctx.stroke();
+            }
+            ctx.restore();
+
+            // Metallic glint pulse
+            const pulse = Math.sin(t*2 + i)*0.3 + 0.7;
+            ctx.save();
+            ctx.fillStyle = `rgba(255,255,255,${pulse*0.5})`;
+            ctx.font = "700 12px 'Inter',sans-serif";
+            ctx.textAlign='center'; ctx.textBaseline='middle';
+            ctx.fillText('✦', ix-9, iy-11);
+            ctx.restore();
+
+            // Name
+            D.text(m.n, px+76, my+25, {size:15, color:m.col, weight:'900', align:'left',maxW:184});
+            // Use case (concrete examples)
+            D.text(m.use, px+76, my+45, {size:11, color:'rgba(255,255,255,0.75)', weight:'500', align:'left',maxW:184});
+            D.text(cd.metallicMineralTag||'metallic mineral', px+76, my+59, {size:10, color:'rgba(255,255,255,0.45)', align:'left',maxW:184});
+            ctx.restore();
+        });
+        ctx.restore();
+    }
+}
+
+/* ─────────────────────────────────────────────────────────
+   SECTION 2 — BEDS & LAYERS (sedimentary)
+   Horizontal strata diagram + coal/iron compression + evaporation pan
+───────────────────────────────────────────────────────── */
+function paintSection2(elapsed,prog,ts){
+    D.clear();
+    const now=performance.now(),t=ts*0.001;
+    const cd=getSectionCanvas(2);
+
+    if(sec2StepTimes[0]){
+        const hp=easeOut(Math.min((now-sec2StepTimes[0])/700,1));
+        ctx.save();ctx.globalAlpha=hp;
+        D.text(cd.title||'BEDS & LAYERS — IN SEDIMENTARY ROCKS',W/2,28,{size:16,color:C.gold,weight:'900',align:'center',maxW:880});
+        D.text(cd.subtitle||'Deposition — accumulation — concentration in horizontal strata',W/2,48,{size:12,color:C.textDim,align:'center',maxW:880});
+        ctx.restore();
+    }
+
+    // ── LEFT: Layered strata cross-section with deposition animation ──
+    if(sec2StepTimes[0]){
+        const sp=easeOut(Math.min((now-sec2StepTimes[0])/800,1));
+        ctx.save();ctx.globalAlpha=sp;
+        const dx=40,dy=70,dw=440,dh=460;
+        D.roundRect(dx,dy,dw,dh,{fill:'rgba(15,20,10,0.7)',stroke:C.greenBright+'55',radius:14,lineWidth:1.5});
+
+        // TITLE — placed safely OUTSIDE the strata area
+        D.text(cd.strataTitle||'SEDIMENTARY STRATA',dx+dw/2,dy+18,{size:13,color:C.greenBright,weight:'900',align:'center',maxW:420});
+        D.text(cd.strataSub||'Particles rain down — settle — compress — harden',dx+dw/2,dy+34,{size:11,color:C.textDim,align:'center',maxW:420});
+
+        ctx.save();
+        if(ctx.roundRect){ctx.beginPath();ctx.roundRect(dx+2,dy+50,dw-4,dh-58,8);ctx.clip();}
+
+        // Layers (form one by one)
+        const layers=[
+            {h:0.06,col:'#4a6038',name:cd.layer0||'Soil',kind:'soil',label:''},
+            {h:0.10,col:'#a87838',name:cd.layer1||'Sandstone',kind:'sandstone1',label:''},
+            {h:0.08,col:'#8a8060',name:cd.layer2||'Shale',kind:'shale1',label:''},
+            {h:0.13,col:'#1a1208',name:cd.layer3||'COAL',kind:'coal',label:cd.layer3sub||'plant matter compressed',accent:C.gold,valuable:true},
+            {h:0.10,col:'#7a6048',name:cd.layer4||'Limestone',kind:'limestone',label:''},
+            {h:0.13,col:'#5a3018',name:cd.layer5||'IRON ORE',kind:'ironore',label:cd.layer5sub||'iron-rich sediment',accent:C.copperLight,valuable:true},
+            {h:0.11,col:'#a89070',name:cd.layer6||'Sandstone',kind:'sandstone2',label:''},
+            {h:0.12,col:'#6a5840',name:cd.layer7||'Shale',kind:'shale2',label:''},
+        ];
+        const stratX=dx+15,stratW=dw-70,stratY=dy+85,stratH=dh-130;
+        let cumY=stratY;
+        const layerCount = layers.length;
+        layers.forEach((L,i)=>{
+            const ms=now-sec2StepTimes[0]-400-i*250;
+            if(ms<0){cumY+=stratH*L.h;return;}
+            const lp=easeOut(Math.min(ms/700,1));
+            const h=stratH*L.h;
+            ctx.save();ctx.globalAlpha=sp*lp;
+            // Gradient — strata fill
+            const lg=ctx.createLinearGradient(stratX,cumY,stratX,cumY+h);
+            lg.addColorStop(0,L.col);lg.addColorStop(1,'rgba(0,0,0,0.35)');
+            ctx.fillStyle=lg;ctx.fillRect(stratX,cumY,stratW,h);
+            // Texture specks
+            for(let s=0;s<25;s++){
+                ctx.fillStyle='rgba(255,255,255,0.05)';
+                ctx.beginPath();
+                ctx.arc(stratX+(s*43)%stratW,cumY+(s*23)%h,1+(s%2)*0.5,0,Math.PI*2);ctx.fill();
+            }
+            // Boundary line
+            ctx.strokeStyle='rgba(0,0,0,0.6)';ctx.lineWidth=0.6;
+            ctx.beginPath();ctx.moveTo(stratX,cumY+h);ctx.lineTo(stratX+stratW,cumY+h);ctx.stroke();
+
+            // Coal: black with golden shine
+            if(L.kind==='coal'){
+                for(let cs=0;cs<10;cs++){
+                    const csx=stratX+12+cs*36,csy=cumY+h*0.3+(cs%3)*h*0.25;
+                    const pulse=Math.sin(t*2.5+cs)*0.3+0.6;
+                    ctx.fillStyle=`rgba(218,165,32,${pulse*0.55})`;
+                    ctx.beginPath();ctx.arc(csx,csy,1.6,0,Math.PI*2);ctx.fill();
+                }
+            }
+            // Iron ore: red specks
+            if(L.kind==='ironore'){
+                for(let cs=0;cs<18;cs++){
+                    const csx=stratX+8+(cs*23)%stratW,csy=cumY+4+(cs*9)%(h-4);
+                    ctx.fillStyle='#c44830';
+                    ctx.beginPath();ctx.arc(csx,csy,1.5,0,Math.PI*2);ctx.fill();
+                }
+            }
+
+            // Layer name labels — INSIDE strata, right-aligned for non-valuable
+            if(L.valuable){
+                // Highlight glow border
+                ctx.save();
+                ctx.strokeStyle = L.accent;
+                ctx.lineWidth = 2;
+                ctx.shadowColor = L.accent; ctx.shadowBlur = 6;
+                ctx.strokeRect(stratX, cumY, stratW, h);
+                ctx.restore();
+                // Big label
+                ctx.fillStyle=L.accent;
+                ctx.font="900 13px 'Inter',sans-serif";
+                ctx.textAlign='left';ctx.textBaseline='middle';
+                _fitText(L.name,stratX+8,cumY+h/2-5,230);
+                ctx.font="500 10px 'Inter',sans-serif";ctx.fillStyle='rgba(255,255,255,0.7)';
+                _fitText(L.label,stratX+8,cumY+h/2+7,230);
+                // VALUABLE arrow on right
+                ctx.fillStyle = L.accent;
+                ctx.font="800 11px 'Inter',sans-serif";
+                ctx.textAlign='right';ctx.textBaseline='middle';
+                _fitText('◄ '+(cd.valuableTag||'VALUABLE'),stratX+stratW-8,cumY+h/2,120);
+            } else {
+                ctx.fillStyle='rgba(255,255,255,0.55)';
+                ctx.font="600 11px 'Inter',sans-serif";
+                ctx.textAlign='right';ctx.textBaseline='middle';
+                _fitText(L.name,stratX+stratW-8,cumY+h/2,340);
+            }
+            ctx.restore();
+            cumY+=h;
+        });
+
+        // ── Falling sediment particles (deposition animation) — appear ABOVE topmost-incomplete layer ──
+        // Show only while layers are still forming
+        const earliestUnformed = (() => {
+            for(let i=0;i<layerCount;i++){
+                const ms = now-sec2StepTimes[0]-400-i*250;
+                if(ms < 700) return i;
+            }
+            return -1;
+        })();
+        if(earliestUnformed >= 0){
+            // Falling particles from above sky into stratX strip
+            for(let p=0;p<14;p++){
+                const phase = ((t*0.8 + p*0.13) % 1);
+                const px = stratX + 8 + ((p*37)%(stratW-16));
+                const py = stratY + phase * (stratH * 0.9);
+                const fade = Math.max(0, 1 - phase) * 0.65;
+                const cols = ['#a87838','#8a8060','#7a6048','#a89070','#6a5840'];
+                ctx.fillStyle = cols[p%cols.length] + Math.floor(fade*255).toString(16).padStart(2,'0');
+                ctx.beginPath();
+                ctx.arc(px, py, 1.3, 0, Math.PI*2);
+                ctx.fill();
+            }
+        }
+
+        ctx.restore(); // end clip
+
+        // Side caption: arrow showing time
+        if(sec2StepTimes[0] && now-sec2StepTimes[0]>2000){
+            const ap=easeOut(Math.min((now-sec2StepTimes[0]-2000)/700,1));
+            ctx.save();ctx.globalAlpha=sp*ap;
+            // Time arrow on right edge
+            ctx.strokeStyle = C.gold + 'aa';
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.moveTo(dx+dw-28, stratY);
+            ctx.lineTo(dx+dw-28, stratY + stratH);
+            ctx.stroke();
+            // arrow head down
+            ctx.beginPath();
+            ctx.moveTo(dx+dw-33, stratY+stratH-8); ctx.lineTo(dx+dw-28, stratY+stratH);
+            ctx.lineTo(dx+dw-23, stratY+stratH-8);
+            ctx.stroke();
+            // labels rotated 90deg
+            ctx.save();
+            ctx.translate(dx+dw-13, stratY + stratH/2);
+            ctx.rotate(-Math.PI/2);
+            ctx.fillStyle = C.gold;
+            ctx.font = "700 13px 'Inter',sans-serif";
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            _fitText('🕐 '+(cd.millionsYears||'millions of years'), 0, 0,300);
+            ctx.restore();
+            ctx.restore();
+        }
+
+        ctx.restore();
+    }
+
+    // ── RIGHT TOP: Evaporation pan (gypsum, potash, salt) ──
+    if(sec2StepTimes[1]){
+        const sp=easeOut(Math.min((now-sec2StepTimes[1])/800,1));
+        ctx.save();ctx.globalAlpha=sp;
+        const px=500,py=70,pw=380,ph=220;
+        D.roundRect(px,py,pw,ph,{fill:'rgba(40,30,15,0.65)',stroke:C.amber+'aa',radius:12,lineWidth:1.4});
+        D.text(cd.evapTitle||'EVAPORATION (ARID REGIONS)',px+pw/2,py+18,{size:13,color:C.amber,weight:'900',align:'center',maxW:360});
+        D.text('🌵 '+(cd.evapSub||'desert lake — water evaporates — minerals left as crystals'),px+pw/2,py+34,{size:11,color:C.textDim,align:'center',maxW:360});
+
+        // Sun (top-right)
+        const sunX=px+pw-30,sunY=py+58;
+        const pulse=Math.sin(t*1.5)*0.2+0.8;
+        const sg=ctx.createRadialGradient(sunX,sunY,2,sunX,sunY,22);
+        sg.addColorStop(0,`rgba(255,220,100,${pulse})`);sg.addColorStop(1,'rgba(255,200,80,0)');
+        ctx.fillStyle=sg;ctx.beginPath();ctx.arc(sunX,sunY,22,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#ffd860';ctx.beginPath();ctx.arc(sunX,sunY,7,0,Math.PI*2);ctx.fill();
+
+        // Pan
+        const cycle=((now-sec2StepTimes[1])/3500)%1;
+        const panX=px+18,panY=py+85,panW=180,panH=58;
+        ctx.fillStyle='#5a4838';
+        ctx.fillRect(panX-5,panY,panW+10,panH+6);
+        ctx.fillStyle='#2a1810';
+        ctx.fillRect(panX,panY,panW,panH);
+        // Water level
+        const waterH=(1-cycle)*panH*0.85;
+        const wg=ctx.createLinearGradient(panX,panY+panH-waterH,panX,panY+panH);
+        wg.addColorStop(0,'rgba(120,180,220,0.85)');wg.addColorStop(1,'rgba(80,140,180,0.95)');
+        ctx.fillStyle=wg;
+        ctx.fillRect(panX,panY+panH-waterH,panW,waterH);
+        // Crystal layer at bottom
+        const crystalH=cycle*panH*0.85;
+        if(crystalH>0){
+            ctx.fillStyle='#f0e8d4';
+            ctx.fillRect(panX,panY+panH-crystalH,panW,crystalH);
+            for(let cr=0;cr<10;cr++){
+                const crx=panX+8+cr*18,cry=panY+panH-crystalH+4+(cr%3)*6;
+                if(cry>panY+panH-2)continue;
+                ctx.fillStyle=C.gold;
+                ctx.fillRect(crx,cry,2,2);
+            }
+        }
+        // Evaporation steam
+        for(let st=0;st<5;st++){
+            const ph=((t*0.8+st*0.2)%1.4);
+            const sx=panX+panW/5*(st+0.5);
+            const sy=panY+panH-waterH-ph*36;
+            const al=Math.max(0,1-ph/1.4)*0.5;
+            ctx.fillStyle=`rgba(220,220,220,${al})`;
+            ctx.beginPath();ctx.arc(sx,sy,3+ph*3,0,Math.PI*2);ctx.fill();
+        }
+        // Pan label
+        D.text(cd.saltWater||'salt water', panX+panW/2, panY-8, {size:10, color:C.water+'cc', weight:'600', align:'center',maxW:180});
+
+        // 3 mineral chips on right with ARROWS from crystal layer
+        const chips=[{n:cd.evap0||'GYPSUM',col:'#f0e0a0'},{n:cd.evap1||'POTASH SALT',col:'#f8b878'},{n:cd.evap2||'SODIUM SALT',col:'#e8e8f0'}];
+        const chipX = px + pw - 105;
+        chips.forEach((c,i)=>{
+            const ms=now-sec2StepTimes[1]-800-i*250;
+            if(ms<0)return;
+            const cp=easeOut(Math.min(ms/600,1));
+            ctx.save();ctx.globalAlpha=sp*cp;
+            const cy=py+80+i*38;
+            D.roundRect(chipX,cy-12,95,24,{fill:c.col+'33',stroke:c.col,radius:6,lineWidth:1.2});
+            D.text(c.n,chipX+47,cy,{size:10,color:c.col,weight:'900',align:'center',maxW:89});
+            // Arrow from crystals layer to chip
+            ctx.strokeStyle = c.col + 'aa';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([2,2]);
+            ctx.beginPath();
+            ctx.moveTo(panX+panW+4, panY+panH-crystalH/2);
+            ctx.lineTo(chipX-4, cy);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.restore();
+        });
+        ctx.restore();
+    }
+
+    // ── RIGHT BOTTOM: Coal formation timeline (4 stages) ──
+    if(sec2StepTimes[2]){
+        const sp=easeOut(Math.min((now-sec2StepTimes[2])/800,1));
+        ctx.save();ctx.globalAlpha=sp;
+        const px=500,py=305,pw=380,ph=225;
+        D.roundRect(px,py,pw,ph,{fill:'rgba(15,15,15,0.7)',stroke:C.copper+'aa',radius:12,lineWidth:1.4});
+        D.text(cd.coalTitle||'COAL FORMATION — COMPRESSION TIMELINE',px+pw/2,py+18,{size:13,color:C.copperLight,weight:'900',align:'center',maxW:360});
+        D.text(cd.coalSub||'Plant matter buried — heat and pressure — carbon-rich coal',px+pw/2,py+34,{size:11,color:C.textDim,align:'center',maxW:360});
+
+        // 4 stages: plants → peat → lignite → coal
+        const stages=[
+            {emoji:'🌿',name:cd.stage0name||'PLANTS',col:C.green,age:cd.age0||'today',carbon:'~45%'},
+            {emoji:'🪵',name:cd.stage1name||'PEAT',col:'#8a6840',age:cd.age1||'~10³ yrs',carbon:'~55%'},
+            {emoji:'🟫',name:cd.stage2name||'LIGNITE',col:'#5a3a20',age:cd.age2||'~10⁶ yrs',carbon:'~65%'},
+            {emoji:'⬛',name:cd.stage3name||'COAL',col:'#1a1208',age:cd.age3||'~10⁸ yrs',carbon:'~85%'},
+        ];
+        const stageW = (pw - 40) / 4;
+        stages.forEach((st,i)=>{
+            const ms=now-sec2StepTimes[2]-500-i*300;
+            if(ms<0)return;
+            const cp=easeOut(Math.min(ms/700,1));
+            ctx.save();ctx.globalAlpha=sp*cp;
+            const cx=px+20+stageW*(i+0.5);
+            const cy=py+110;
+            // Box
+            D.roundRect(cx-32,cy-30,64,80,{fill:st.col+'22',stroke:st.col,radius:8,lineWidth:1.2});
+            // Emoji
+            D.text(st.emoji,cx,cy-12,{size:22,align:'center'});
+            // Name
+            D.text(st.name,cx,cy+10,{size:12,color:st.col=='#1a1208'?C.gold:(st.col===C.green?C.green:'#fff'),weight:'900',align:'center',maxW:60});
+            // Age
+            D.text(st.age,cx,cy+24,{size:10,color:C.textDim,align:'center',maxW:60});
+            // Carbon %
+            D.text('C: '+st.carbon,cx,cy+38,{size:10,color:C.gold,weight:'700',align:'center',maxW:60});
+            // Arrow to next
+            if(i<3){
+                ctx.strokeStyle=C.copper+'aa';ctx.lineWidth=1.4;ctx.lineCap='round';
+                ctx.beginPath();
+                ctx.moveTo(cx+34,cy-5); ctx.lineTo(cx+34+stageW-66,cy-5);
+                ctx.moveTo(cx+34+stageW-72,cy-9); ctx.lineTo(cx+34+stageW-66,cy-5); ctx.lineTo(cx+34+stageW-72,cy-1);
+                ctx.stroke();
+            }
+            ctx.restore();
+        });
+        // "↑ pressure" marker below stage row
+        if(sec2StepTimes[2] && now-sec2StepTimes[2]>1500){
+            const pp = easeOut(Math.min((now-sec2StepTimes[2]-1500)/700, 1));
+            ctx.save();ctx.globalAlpha = sp*pp;
+            ctx.fillStyle = C.amber;
+            ctx.font="900 12px 'Inter',sans-serif"; ctx.textAlign='center'; ctx.textBaseline='middle';
+            _fitText('↑ '+(cd.pressureLabel||'PRESSURE & HEAT increase')+' →', px+pw/2, py+ph-22,pw-20);
+            ctx.restore();
+        }
+        ctx.restore();
+    }
+}
+
+/* ─────────────────────────────────────────────────────────
+   SECTION 3 — OTHER MODES (decomposition, placer, ocean)
+───────────────────────────────────────────────────────── */
+function paintSection3(elapsed,prog,ts){
+    D.clear();
+    const now=performance.now(),t=ts*0.001;
+    const cd=getSectionCanvas(3);
+
+    if(sec3StepTimes[0]){
+        const hp=easeOut(Math.min((now-sec3StepTimes[0])/700,1));
+        ctx.save();ctx.globalAlpha=hp;
+        D.text(cd.title||'THREE MORE PATHS',W/2,30,{size:16,color:C.gold,weight:'900',align:'center',maxW:880});
+        D.text(cd.subtitle||'Decomposition · Placer deposits · Ocean waters',W/2,52,{size:12,color:C.textDim,align:'center',maxW:880});
+        ctx.restore();
+    }
+
+    // 3 panels horizontally
+    const panels=[
+        {title:cd.decompTitle||'DECOMPOSITION',sub:cd.decompSub||'Surface rocks weather — soluble bits wash away',mineral:cd.decompMineral||'BAUXITE',col:C.copper,kind:'decomp'},
+        {title:cd.placerTitle||'PLACER DEPOSITS',sub:cd.placerSub||'In sands of valley floors — minerals not corroded by water',mineral:cd.placerMinerals||'GOLD · SILVER · TIN · PLATINUM',col:C.gold,kind:'placer'},
+        {title:cd.oceanTitle||'OCEAN WATERS',sub:cd.oceanSub||'Seas and seabeds yield diffused minerals',mineral:cd.oceanMinerals||'SALT · MAGNESIUM · BROMINE · Mn',col:C.water,kind:'ocean'},
+    ];
+    const pW=275,pH=420,gapX=18;
+    const totalW=3*pW+2*gapX,startX=(W-totalW)/2,startY=80;
+    panels.forEach((p,i)=>{
+        if(!sec3StepTimes[i])return;
+        const ms=now-sec3StepTimes[i];
+        const sp=easeOut(Math.min(ms/900,1));
+        const x=startX+i*(pW+gapX),y=startY;
+        ctx.save();ctx.globalAlpha=sp;
+        D.roundRect(x,y,pW,pH,{fill:'rgba(20,15,10,0.65)',stroke:p.col+'88',radius:14,lineWidth:1.6});
+        // Title
+        D.text(p.title,x+pW/2,y+22,{size:14,color:p.col,weight:'900',align:'center',glow:true,maxW:pW-30});
+        D.text(p.sub,x+pW/2,y+44,{size:11,color:C.textDim,align:'center',weight:'500',maxW:pW-30,squeeze:true});
+
+        // Visual area
+        const vx=x+15,vy=y+70,vw=pW-30,vh=240;
+        ctx.save();
+        ctx.beginPath();if(ctx.roundRect)ctx.roundRect(vx,vy,vw,vh,8);else ctx.rect(vx,vy,vw,vh);ctx.clip();
+
+        if(p.kind==='decomp'){
+            // ── ZONE 1: SKY WITH RAIN (top 22%) ──
+            const skyGd=ctx.createLinearGradient(vx,vy,vx,vy+vh*0.22);
+            skyGd.addColorStop(0,'#2a3848');skyGd.addColorStop(1,'#4a5a6a');
+            ctx.fillStyle=skyGd;ctx.fillRect(vx,vy,vw,vh*0.22);
+            // Ground background
+            ctx.fillStyle='#1e1208';ctx.fillRect(vx,vy+vh*0.22,vw,vh*0.78);
+            // Sun (dim, partly cloudy)
+            const pulse=Math.sin(t*1.4)*0.15+0.65;
+            ctx.fillStyle=`rgba(255,210,100,${pulse})`;ctx.beginPath();ctx.arc(vx+vw*0.15,vy+14,9,0,Math.PI*2);ctx.fill();
+            // Rain drops (more, brighter)
+            for(let r=0;r<14;r++){
+                const ph=((t*1.5+r*0.08)%1);
+                const rx=vx+4+r*17,ry=vy+ph*vh*0.50;
+                ctx.strokeStyle=`rgba(140,200,240,${(1-ph)*0.9})`;ctx.lineWidth=1.5;
+                ctx.beginPath();ctx.moveTo(rx,ry);ctx.lineTo(rx+2,ry+10);ctx.stroke();
+            }
+
+            // ── ZONE 2: ROCK WEATHERING (22%–63%) ──
+            const rockY=vy+vh*0.22, rockH=vh*0.41;
+            const fadeP=easeOut(Math.min((ms-200)/2200,1));
+            const surfaceFade=1-fadeP*0.70; // rock gradually dissolves
+            ctx.save();
+            ctx.globalAlpha=sp*surfaceFade;
+            const rockGd=ctx.createLinearGradient(vx,rockY,vx,rockY+rockH);
+            rockGd.addColorStop(0,'#8a6040');rockGd.addColorStop(1,'#5a3820');
+            ctx.fillStyle=rockGd;ctx.fillRect(vx,rockY,vw,rockH);
+            // Rock cracks
+            ctx.strokeStyle='rgba(30,15,5,0.6)';ctx.lineWidth=1;
+            for(let cr=0;cr<5;cr++){
+                ctx.beginPath();ctx.moveTo(vx+cr*45+10,rockY+8);
+                ctx.lineTo(vx+cr*45+22,rockY+rockH*0.5);
+                ctx.lineTo(vx+cr*45+12,rockY+rockH-10);ctx.stroke();
+            }
+            // Weathering pits (grow over time)
+            ctx.fillStyle='rgba(30,15,5,0.55)';
+            const nPits=Math.floor(8+fadeP*14);
+            for(let pt=0;pt<nPits;pt++){
+                ctx.beginPath();ctx.arc(vx+8+pt*19,rockY+10+(pt%4)*15,2.5+(pt%2),0,Math.PI*2);ctx.fill();
+            }
+            ctx.restore();
+
+            // SOLUBLE PARTICLES — bright cyan-blue, clearly washing down (ALWAYS fully visible)
+            for(let dr=0;dr<14;dr++){
+                const ph=((t*0.9+dr*0.09)%1);
+                const dxp=vx+6+dr*17;
+                const dyp=rockY+ph*rockH;
+                const fade=Math.max(0,1-ph)*0.9;
+                ctx.fillStyle=`rgba(100,190,255,${fade})`;
+                ctx.shadowColor='rgba(100,200,255,0.6)';ctx.shadowBlur=4;
+                ctx.beginPath();ctx.arc(dxp,dyp,3,0,Math.PI*2);ctx.fill();
+                ctx.shadowBlur=0;
+            }
+            // SOLUBLE LABEL — dark bg bar for contrast, always full opacity
+            ctx.save();ctx.globalAlpha=sp;
+            ctx.fillStyle='rgba(0,0,0,0.55)';
+            ctx.fillRect(vx+4,rockY+3,vw-8,19);
+            ctx.fillStyle='rgba(130,210,255,1)';
+            ctx.font="700 11px 'Inter',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+            _fitText('↓ '+(cd.decompWash||'SOLUBLE parts wash away'), vx+vw/2,rockY+12,vw-10);
+            ctx.restore();
+
+            // ── ZONE 3: INSOLUBLE RESIDUE — grows from bottom (63%–100%) ──
+            const oreP=easeOut(Math.min((ms-600)/1800,1));
+            const residueH=vh*0.40*oreP;
+            if(residueH>0){
+                ctx.save();ctx.globalAlpha=sp; // FULL opacity — always visible
+                const resGd=ctx.createLinearGradient(vx,vy+vh-residueH,vx,vy+vh);
+                resGd.addColorStop(0,'#e07030');resGd.addColorStop(0.5,'#b85020');resGd.addColorStop(1,'#8a3010');
+                ctx.fillStyle=resGd;ctx.fillRect(vx,vy+vh-residueH,vw,residueH);
+                // Bauxite pebbles
+                const nPeb=Math.floor(16*oreP);
+                for(let bp=0;bp<nPeb;bp++){
+                    const bx2=vx+7+(bp*18)%(vw-14),by2=vy+vh-residueH+8+(bp%4)*12;
+                    if(by2>vy+vh-4)continue;
+                    ctx.fillStyle=['#d06030','#a84020','#e07838'][bp%3];
+                    ctx.shadowColor='rgba(220,100,40,0.5)';ctx.shadowBlur=3;
+                    ctx.beginPath();ctx.arc(bx2,by2,3.5+(bp%2)*0.8,0,Math.PI*2);ctx.fill();
+                    ctx.shadowBlur=0;
+                }
+                // BAUXITE LABEL — dark background bar, always visible
+                if(residueH>28){
+                    const ly=vy+vh-residueH+14;
+                    ctx.fillStyle='rgba(0,0,0,0.6)';ctx.fillRect(vx+4,ly-10,vw-8,22);
+                    ctx.fillStyle='#fff';
+                    ctx.font="900 12px 'Inter',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+                    _fitText(cd.decompMineral||'BAUXITE',vx+vw/2,ly,vw-10);
+                    ctx.fillStyle='rgba(240,170,90,1)';
+                    ctx.font="600 10px 'Inter',sans-serif";
+                    _fitText(cd.decompResidual||'insoluble residue left behind',vx+vw/2,ly+14,vw-10);
+                }
+                // Divider line at top of residue
+                ctx.strokeStyle='rgba(255,130,50,0.7)';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+                ctx.beginPath();ctx.moveTo(vx,vy+vh-residueH);ctx.lineTo(vx+vw,vy+vh-residueH);ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.restore();
+            }
+            ctx.globalAlpha=sp;
+            // Time badge
+            ctx.fillStyle='rgba(10,10,10,0.85)';ctx.fillRect(vx+vw-66,vy+5,62,18);
+            ctx.fillStyle=C.copperLight;
+            ctx.font="700 11px 'Inter',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+            ctx.fillText('🕐 '+(cd.badge10e6||'~10⁶ yrs'),vx+vw-35,vy+14);
+
+        } else if(p.kind==='placer'){
+            // ── SKY + HILLS ──
+            const skyP=ctx.createLinearGradient(vx,vy,vx,vy+vh*0.20);
+            skyP.addColorStop(0,'#1a2838');skyP.addColorStop(1,'#3a5870');
+            ctx.fillStyle=skyP;ctx.fillRect(vx,vy,vw,vh*0.20);
+            // Hills silhouette
+            ctx.fillStyle='#2a2018';
+            ctx.beginPath();ctx.moveTo(vx,vy+vh*0.20);
+            ctx.lineTo(vx+vw*0.35,vy+vh*0.06);ctx.lineTo(vx+vw*0.55,vy+vh*0.12);
+            ctx.lineTo(vx+vw,vy+vh*0.20);ctx.closePath();ctx.fill();
+            // Sandy valley floor
+            const sandG=ctx.createLinearGradient(vx,vy+vh*0.20,vx,vy+vh);
+            sandG.addColorStop(0,'#9a7848');sandG.addColorStop(1,'#6a5030');
+            ctx.fillStyle=sandG;ctx.fillRect(vx,vy+vh*0.20,vw,vh*0.80);
+
+            // ── RIVER ──
+            const riverY=vy+vh*0.35, riverH=vh*0.22;
+            const rivG=ctx.createLinearGradient(vx,riverY,vx,riverY+riverH);
+            rivG.addColorStop(0,'#5aaae0');rivG.addColorStop(1,'#2a6898');
+            ctx.fillStyle=rivG;ctx.fillRect(vx,riverY,vw,riverH);
+            // River surface ripples
+            ctx.strokeStyle='rgba(255,255,255,0.55)';ctx.lineWidth=0.9;
+            for(let w=0;w<4;w++){
+                ctx.beginPath();
+                for(let s=0;s<=24;s++){
+                    const tt=s/24;
+                    const wx=vx+vw*tt;
+                    const wy=riverY+4+w*(riverH*0.2)+Math.sin(tt*Math.PI*5+t*2+w)*2.5;
+                    if(s===0)ctx.moveTo(wx,wy);else ctx.lineTo(wx,wy);
+                }
+                ctx.stroke();
+            }
+            // River bank lines
+            ctx.strokeStyle='rgba(180,140,80,0.6)';ctx.lineWidth=1.5;
+            ctx.beginPath();ctx.moveTo(vx,riverY);ctx.lineTo(vx+vw,riverY);ctx.stroke();
+            ctx.beginPath();ctx.moveTo(vx,riverY+riverH);ctx.lineTo(vx+vw,riverY+riverH);ctx.stroke();
+
+            // ── LIGHT SAND — streams sideways (suspended in current) ──
+            for(let p2=0;p2<14;p2++){
+                const ph=((t*0.7+p2*0.09)%1);
+                const sx2=vx+ph*vw;
+                const sy2=riverY+4+(p2%5)*(riverH*0.16);
+                const fade=0.7*(1-Math.abs(ph-0.5)*1.8);
+                ctx.fillStyle=`rgba(230,200,160,${Math.max(0,fade)})`;
+                ctx.beginPath();ctx.arc(sx2,sy2,2.5,0,Math.PI*2);ctx.fill();
+            }
+            // SAND label — above river
+            ctx.save();ctx.globalAlpha=sp;
+            ctx.fillStyle='rgba(0,0,0,0.55)';ctx.fillRect(vx+4,riverY-17,vw-8,15);
+            ctx.fillStyle='rgba(220,200,160,1)';
+            ctx.font="700 11px 'Inter',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+            _fitText('→ '+(cd.placerLight||'light sand swept away by current'),vx+vw/2,riverY-10,vw-10);
+            ctx.restore();
+
+            // ── HEAVY GOLD — falls DOWN through river water ──
+            const flakeP=easeOut(Math.min((ms-500)/2000,1));
+            for(let g=0;g<9;g++){
+                const ph2=((t*0.5+g*0.14)%1);
+                const gxc=vx+16+g*26+Math.sin(t*0.8+g)*3;
+                const gyc=riverY+4+ph2*(riverH-8);
+                if(gyc>riverY+riverH-3)continue;
+                ctx.fillStyle=C.gold;ctx.shadowColor=C.gold;ctx.shadowBlur=5;
+                ctx.beginPath();ctx.arc(gxc,gyc,2.8,0,Math.PI*2);ctx.fill();
+                ctx.shadowBlur=0;
+            }
+
+            // ── SETTLED GOLD LAYER — golden strip on river bed ──
+            ctx.save();ctx.globalAlpha=sp*flakeP;
+            const settledY=riverY+riverH;
+            // Gold band
+            const settledBandH=Math.min(vh*0.14,flakeP*vh*0.14);
+            const goldBandG=ctx.createLinearGradient(vx,settledY,vx,settledY+settledBandH);
+            goldBandG.addColorStop(0,C.gold+'cc');goldBandG.addColorStop(1,'rgba(180,120,20,0.4)');
+            ctx.fillStyle=goldBandG;ctx.fillRect(vx,settledY,vw,settledBandH);
+            // Gold flake sparkles
+            for(let fk=0;fk<24;fk++){
+                const fxc=vx+5+(fk*11)%(vw-10);
+                const fyc=settledY+3+(fk%4)*7;
+                if(fyc>settledY+settledBandH-2)continue;
+                const sparkle=Math.sin(t*2.5+fk*0.7)*0.35+0.65;
+                ctx.globalAlpha=sp*flakeP*sparkle;
+                ctx.fillStyle=[C.gold,C.gold,C.silver,C.copperLight,C.gold][fk%5];
+                ctx.shadowColor=C.gold;ctx.shadowBlur=5;
+                ctx.beginPath();ctx.arc(fxc,fyc,2.8,0,Math.PI*2);ctx.fill();
+                ctx.shadowBlur=0;
+            }
+            ctx.restore();
+            // GOLD SETTLES label — below river, always visible
+            ctx.save();ctx.globalAlpha=sp;
+            ctx.fillStyle='rgba(0,0,0,0.6)';ctx.fillRect(vx+4,settledY+2,vw-8,18);
+            ctx.fillStyle=C.gold;ctx.shadowColor=C.gold;ctx.shadowBlur=6;
+            ctx.font="900 12px 'Inter',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+            _fitText('↓ '+(cd.placerSettle||'GOLD · PLATINUM · TIN settle here'),vx+vw/2,settledY+11,vw-10);
+            ctx.shadowBlur=0;
+            ctx.restore();
+
+            ctx.globalAlpha=sp;
+            // Time badge
+            ctx.fillStyle='rgba(10,10,10,0.85)';ctx.fillRect(vx+vw-66,vy+5,62,18);
+            ctx.fillStyle=C.gold;
+            ctx.font="700 11px 'Inter',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+            ctx.fillText('🕐 '+(cd.badge10e5||'~10⁵ yrs'),vx+vw-35,vy+14);
+
+        } else {
+            // ── OCEAN PANEL — 3-zone process diagram ──
+            const evapP=easeOut(Math.min((ms-500)/2000,1));
+            const nodP =easeOut(Math.min((ms-700)/1300,1));
+
+            // ── ZONE A: OPEN OCEAN (top 35% ≈ 84px) ──
+            const zA_h=Math.round(vh*0.35); // 84
+            // Sky strip
+            const skyO=ctx.createLinearGradient(vx,vy,vx,vy+zA_h*0.28);
+            skyO.addColorStop(0,'#0d1b2e');skyO.addColorStop(1,'#1a3550');
+            ctx.fillStyle=skyO;ctx.fillRect(vx,vy,vw,zA_h*0.28);
+            // Ocean water
+            const oceanG=ctx.createLinearGradient(vx,vy+zA_h*0.28,vx,vy+zA_h);
+            oceanG.addColorStop(0,'#1e5fa0');oceanG.addColorStop(0.6,'#124070');oceanG.addColorStop(1,'#0a2a50');
+            ctx.fillStyle=oceanG;ctx.fillRect(vx,vy+zA_h*0.28,vw,zA_h*0.72);
+            // Animated sun
+            const sunX=vx+22,sunY=vy+14;
+            const sunPulse=Math.sin(t*1.5)*0.12+0.88;
+            ctx.save();ctx.globalAlpha=sp*sunPulse;
+            const sunG=ctx.createRadialGradient(sunX,sunY,0,sunX,sunY,13);
+            sunG.addColorStop(0,'#ffffc0');sunG.addColorStop(0.5,'#ffcc00');sunG.addColorStop(1,'rgba(255,180,0,0)');
+            ctx.fillStyle=sunG;ctx.beginPath();ctx.arc(sunX,sunY,13,0,Math.PI*2);ctx.fill();
+            ctx.strokeStyle='rgba(255,220,60,0.55)';ctx.lineWidth=1.2;
+            for(let sr=0;sr<8;sr++){
+                const ang=sr*Math.PI/4+t*0.3;
+                ctx.beginPath();ctx.moveTo(sunX+Math.cos(ang)*14,sunY+Math.sin(ang)*14);
+                ctx.lineTo(sunX+Math.cos(ang)*21,sunY+Math.sin(ang)*21);ctx.stroke();
+            }
+            ctx.restore();
+            // Animated waves at ocean surface
+            ctx.save();ctx.globalAlpha=sp;
+            ctx.strokeStyle='rgba(160,220,255,0.5)';ctx.lineWidth=1;
+            for(let wv=0;wv<3;wv++){
+                ctx.beginPath();
+                for(let s=0;s<=28;s++){
+                    const tt=s/28;
+                    const wx=vx+vw*tt;
+                    const wy=vy+zA_h*0.31+wv*4.5+Math.sin(tt*Math.PI*5+t*1.8+wv)*2;
+                    if(s===0)ctx.moveTo(wx,wy);else ctx.lineTo(wx,wy);
+                }
+                ctx.stroke();
+            }
+            ctx.restore();
+            // Dissolved ion circles floating
+            const ions=[
+                {n:'Na⁺',c:'#fff',r:10},{n:'Cl⁻',c:C.greenBright,r:10},
+                {n:'Mg²⁺',c:C.silverLight,r:10},{n:'Br⁻',c:C.copperLight,r:10}
+            ];
+            ions.forEach((io,k)=>{
+                const ix=vx+18+k*57+Math.sin(t+k*0.9)*4;
+                const iy=vy+zA_h*0.57+Math.cos(t*0.7+k)*5;
+                const pu=Math.sin(t*1.4+k*1.1)*0.15+0.85;
+                ctx.save();ctx.globalAlpha=sp*pu;
+                ctx.fillStyle='rgba(10,30,60,0.88)';
+                ctx.beginPath();ctx.arc(ix,iy,io.r,0,Math.PI*2);ctx.fill();
+                ctx.strokeStyle=io.c;ctx.lineWidth=1.3;ctx.stroke();
+                ctx.fillStyle=io.c;
+                ctx.font="800 9px 'Inter',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+                ctx.fillText(io.n,ix,iy);
+                ctx.restore();
+            });
+            // Zone A bottom label bar
+            ctx.save();ctx.globalAlpha=sp;
+            ctx.fillStyle='rgba(0,0,0,0.58)';ctx.fillRect(vx,vy+zA_h-16,vw,16);
+            ctx.fillStyle='rgba(180,220,255,1)';
+            ctx.font="600 10px 'Inter',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+            _fitText(cd.oceanIon||'OCEAN — ions dissolved, ultra dilute',vx+vw/2,vy+zA_h-8,vw-10);
+            ctx.restore();
+
+            // ── ZONE B: SOLAR EVAPORATION PAN (middle 38% ≈ 91px) ──
+            const zB_y=vy+zA_h, zB_h=Math.round(vh*0.38); // 91
+            // Sandy coastal background
+            const sandG=ctx.createLinearGradient(vx,zB_y,vx,zB_y+zB_h);
+            sandG.addColorStop(0,'#a08248');sandG.addColorStop(1,'#7a6028');
+            ctx.fillStyle=sandG;ctx.fillRect(vx,zB_y,vw,zB_h);
+            // Zone B top label
+            ctx.save();ctx.globalAlpha=sp;
+            ctx.fillStyle='rgba(0,0,0,0.62)';ctx.fillRect(vx,zB_y,vw,15);
+            ctx.fillStyle='#ffcc66';
+            ctx.font="700 10px 'Inter',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+            _fitText('☀️ '+(cd.evapPan||'EVAPORATION PAN — salts crystallise'),vx+vw/2,zB_y+7,vw-10);
+            ctx.restore();
+            // Pipe: ocean surface → pan inlet (left edge)
+            const pipeX=vx+16,pipeTopY=zB_y,pipeBotY=zB_y+24;
+            ctx.save();ctx.globalAlpha=sp;
+            ctx.strokeStyle='#5080b0';ctx.lineWidth=5;ctx.lineCap='round';
+            ctx.beginPath();ctx.moveTo(pipeX,pipeTopY);ctx.lineTo(pipeX,pipeBotY);ctx.stroke();
+            ctx.fillStyle='#3a6090';ctx.fillRect(pipeX-5,pipeBotY-5,10,8);
+            // Animated water droplets through pipe
+            for(let dp=0;dp<3;dp++){
+                const dpFrac=((t*0.55+dp*0.33)%1);
+                const dpY=pipeTopY+(pipeBotY-pipeTopY)*dpFrac;
+                ctx.fillStyle='rgba(100,180,255,0.85)';
+                ctx.beginPath();ctx.arc(pipeX,dpY,2.2,0,Math.PI*2);ctx.fill();
+            }
+            ctx.restore();
+            // Evaporation pan walls + water + crystals
+            const panX=vx+28,panY=zB_y+18,panW=vw-42,panH=zB_h-26;
+            ctx.save();ctx.globalAlpha=sp;
+            // Pan interior dark
+            ctx.fillStyle='#2e1e0c';ctx.fillRect(panX,panY,panW,panH);
+            // Animated water level (drops as evapP rises)
+            const maxWH=panH-8;
+            const waterH=Math.max(4,maxWH*(1-evapP*0.65));
+            const waterY=panY+panH-waterH-4;
+            const waterG=ctx.createLinearGradient(panX,waterY,panX,waterY+waterH);
+            waterG.addColorStop(0,'#2a7ab8');waterG.addColorStop(1,'#1a4a78');
+            ctx.fillStyle=waterG;ctx.fillRect(panX+2,waterY,panW-4,waterH);
+            // Water surface shimmer
+            ctx.strokeStyle='rgba(180,230,255,0.45)';ctx.lineWidth=0.9;
+            for(let ws=0;ws<2;ws++){
+                ctx.beginPath();
+                for(let s=0;s<=16;s++){
+                    const tt=s/16;
+                    const wx=panX+2+tt*(panW-4);
+                    const wy=waterY+2+ws*3+Math.sin(tt*Math.PI*4+t*2.5+ws)*1.5;
+                    if(s===0)ctx.moveTo(wx,wy);else ctx.lineTo(wx,wy);
+                }
+                ctx.stroke();
+            }
+            // Salt/mineral crystal spikes at pan bottom (grow as water drops)
+            const crystalZoneH=panH-8-waterH;
+            if(crystalZoneH>1&&evapP>0.05){
+                const nCr=10;
+                for(let cr=0;cr<nCr;cr++){
+                    const crX=panX+4+cr*(panW-8)/nCr;
+                    const crH=Math.min(crystalZoneH,(3+cr%3)*5)*easeOut(Math.min((evapP-0.05)/0.3,1));
+                    if(crH<1)continue;
+                    const crCol=cr%3===0?'#e0e0f0':cr%3===1?'#b8d0b0':'#d4b888';
+                    ctx.fillStyle=crCol;
+                    ctx.beginPath();
+                    ctx.moveTo(crX,panY+panH-4);
+                    ctx.lineTo(crX+3,panY+panH-4-crH);
+                    ctx.lineTo(crX+6,panY+panH-4);
+                    ctx.closePath();ctx.fill();
+                }
+                // Crystal label inside pan
+                if(evapP>0.3){
+                    const clA=easeOut(Math.min((evapP-0.3)/0.35,1));
+                    ctx.globalAlpha=sp*clA;
+                    ctx.fillStyle='rgba(0,0,0,0.72)';ctx.fillRect(panX,panY+panH-20,panW,18);
+                    ctx.fillStyle='#d8edd8';
+                    ctx.font="700 9px 'Inter',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+                    _fitText(cd.crystallising||'NaCl · MgSO₄ — crystallising',panX+panW/2,panY+panH-11,panW-8);
+                    ctx.globalAlpha=sp;
+                }
+            }
+            // Pan border
+            ctx.strokeStyle='#6a4820';ctx.lineWidth=3.5;
+            ctx.strokeRect(panX,panY,panW,panH);
+            // Solar heat arrows rising from water surface
+            if(waterH>6){
+                for(let ha=0;ha<5;ha++){
+                    const haX=panX+8+ha*(panW-16)/4;
+                    const haPh=((t*0.65+ha*0.22)%1);
+                    const haY=waterY-haPh*22;
+                    ctx.save();ctx.globalAlpha=sp*(1-haPh)*0.8;
+                    ctx.strokeStyle='#ffaa00';ctx.lineWidth=1.5;ctx.lineCap='round';
+                    ctx.beginPath();ctx.moveTo(haX,haY+10);ctx.lineTo(haX,haY+1);ctx.stroke();
+                    ctx.beginPath();ctx.moveTo(haX-3,haY+6);ctx.lineTo(haX,haY+1);ctx.lineTo(haX+3,haY+6);ctx.stroke();
+                    ctx.restore();
+                }
+            }
+            ctx.restore();
+
+            // ── ZONE C: DEEP SEABED (bottom 27% ≈ 65px) ──
+            const zC_y=zB_y+zB_h, zC_h=vh-zA_h-zB_h; // 65
+            // Deep ocean gradient
+            const deepG=ctx.createLinearGradient(vx,zC_y,vx,zC_y+zC_h);
+            deepG.addColorStop(0,'#0a1830');deepG.addColorStop(1,'#050c18');
+            ctx.fillStyle=deepG;ctx.fillRect(vx,zC_y,vw,zC_h);
+            // Zone C top label
+            ctx.save();ctx.globalAlpha=sp;
+            ctx.fillStyle='rgba(0,0,0,0.58)';ctx.fillRect(vx,zC_y,vw,15);
+            ctx.fillStyle='rgba(160,200,255,0.95)';
+            ctx.font="600 10px 'Inter',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+            _fitText(cd.seabed||'DEEP SEABED — Mn nodules accumulate',vx+vw/2,zC_y+7,vw-10);
+            ctx.restore();
+            // Seabed floor sediment
+            const floorY=zC_y+Math.round(zC_h*0.40);
+            const floorG=ctx.createLinearGradient(vx,floorY,vx,zC_y+zC_h);
+            floorG.addColorStop(0,'#4a3522');floorG.addColorStop(1,'#2a1e10');
+            ctx.fillStyle=floorG;ctx.fillRect(vx,floorY,vw,zC_y+zC_h-floorY);
+            // Seabed pebble texture
+            ctx.fillStyle='rgba(70,50,28,0.55)';
+            for(let sb=0;sb<14;sb++){
+                ctx.beginPath();ctx.arc(vx+7+sb*16,floorY+5+(sb%3)*5,1.8+(sb%2)*0.6,0,Math.PI*2);ctx.fill();
+            }
+            // Mn nodules (potato-shaped, animated appearance)
+            ctx.save();ctx.globalAlpha=sp*nodP;
+            const nodules=[
+                {x:0.06,y:0.61},{x:0.18,y:0.66},{x:0.30,y:0.59},{x:0.43,y:0.64},
+                {x:0.56,y:0.61},{x:0.70,y:0.67},{x:0.82,y:0.60},{x:0.92,y:0.64}
+            ];
+            nodules.forEach((nd,i)=>{
+                const nx=vx+vw*nd.x, ny=zC_y+zC_h*nd.y;
+                const nr=4.5+(i%3)*0.8;
+                const ng=ctx.createRadialGradient(nx-nr*0.3,ny-nr*0.3,0,nx,ny,nr);
+                ng.addColorStop(0,'#706050');ng.addColorStop(0.5,'#4a3820');ng.addColorStop(1,'#1a1208');
+                ctx.fillStyle=ng;
+                ctx.beginPath();ctx.ellipse(nx,ny,nr*1.45,nr,i*0.35,0,Math.PI*2);ctx.fill();
+                ctx.strokeStyle='#2a1e10';ctx.lineWidth=0.7;ctx.stroke();
+            });
+            ctx.restore();
+            // Mn nodule label at bottom
+            if(nodP>0.35){
+                const nlA=easeOut(Math.min((nodP-0.35)/0.4,1));
+                ctx.save();ctx.globalAlpha=sp*nlA;
+                ctx.fillStyle='rgba(0,0,0,0.68)';ctx.fillRect(vx+3,zC_y+zC_h-18,vw-6,16);
+                ctx.fillStyle=C.copperLight;
+                ctx.font="700 10px 'Inter',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+                _fitText(cd.nodules||'Mn NODULES — on deep seabed',vx+vw/2,zC_y+zC_h-10,vw-10);
+                ctx.restore();
+            }
+
+            // Time badge
+            ctx.globalAlpha=sp;
+            ctx.fillStyle='rgba(10,10,10,0.85)';ctx.fillRect(vx+vw-66,vy+5,62,18);
+            ctx.fillStyle=C.water+'cc';
+            ctx.font="700 11px 'Inter',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+            ctx.fillText('🕐 '+(cd.badge10e9||'~10⁶ yrs'),vx+vw-35,vy+14);
+        }
+        ctx.restore(); // clip
+
+        // Mineral name banner
+        D.roundRect(x+15,y+pH-58,pW-30,32,{fill:p.col+'22',stroke:p.col,radius:8,lineWidth:1.2});
+        D.text(p.mineral,x+pW/2,y+pH-42,{size:12,color:p.col,weight:'900',align:'center',glow:true,maxW:pW-30});
+
+        // Index dot
+        ctx.fillStyle=p.col;ctx.beginPath();ctx.arc(x+22,y+22,11,0,Math.PI*2);ctx.fill();
+        D.text(String(i+1),x+22,y+22,{size:13,color:'#1a1208',weight:'900',align:'center'});
+
+        ctx.restore();
+    });
+
+    // Footer recap — all 5 modes with icons
+    if(sec3StepTimes[2]&&now-sec3StepTimes[2]>1000){
+        const sp=easeOut(Math.min((now-sec3StepTimes[2]-1000)/700,1));
+        const pulse=Math.sin(t*2)*0.15+0.85;
+        ctx.save();ctx.globalAlpha=sp;
+        D.roundRect(W/2-310,520,620,42,{fill:`rgba(218,165,32,${0.10*pulse})`,stroke:C.gold+'aa',radius:14,lineWidth:1.4});
+        D.text(cd.recapTitle||'5 MODES of occurrence — recap',W/2,532,{size:11,color:C.gold,weight:'700',align:'center',maxW:600});
+        // 5 mode icons in a row
+        const modes = [
+            {ico:'🌋', n:cd.mode0||'Vein/Lode'},
+            {ico:'📚', n:cd.mode1||'Beds'},
+            {ico:'☔', n:cd.mode2||'Decomp'},
+            {ico:'🪙', n:cd.mode3||'Placer'},
+            {ico:'🌊', n:cd.mode4||'Ocean'},
+        ];
+        const modeW = 620 / 5;
+        modes.forEach((m, i) => {
+            const mx = W/2 - 310 + modeW*(i + 0.5);
+            ctx.font="700 14px 'Inter',sans-serif"; ctx.textAlign='center'; ctx.textBaseline='middle';
+            ctx.fillStyle = '#fff';
+            ctx.fillText(m.ico, mx-30, 552);
+            ctx.fillStyle = C.gold;
+            ctx.font="700 11px 'Inter',sans-serif";
+            _fitText(m.n, mx+8, 552,76);
+        });
+        ctx.restore();
+    }
+}
+
+/* ─────────────────────────────────────────────────────────
+   SECTION 4 — INDIA: WHERE MINERALS LIE
+   D3 India map shaded by region: peninsular / sedimentary flanks /
+   alluvial plains / Rajasthan-type. Plus deposit→mine flow.
+───────────────────────────────────────────────────────── */
+const REGION_CLASS={
+    'Punjab':'plain','Haryana':'plain','Delhi':'plain','Uttar Pradesh':'plain',
+    'Bihar':'plain','West Bengal':'plain','Assam':'sedi',
+    'Gujarat':'sedi',
+    'Rajasthan':'rajasthan',
+    'Madhya Pradesh':'pen','Chhattisgarh':'pen','Jharkhand':'pen',
+    'Odisha':'pen','Maharashtra':'pen','Telangana':'pen','Karnataka':'pen',
+    'Andhra Pradesh':'pen','Tamil Nadu':'pen','Kerala':'pen','Goa':'pen',
+    'Jammu & Kashmir':'hill','Ladakh':'hill','Himachal Pradesh':'hill',
+    'Uttarakhand':'hill','Sikkim':'hill','Arunachal Pradesh':'hill',
+    'Nagaland':'hill','Manipur':'hill','Mizoram':'hill','Tripura':'hill','Meghalaya':'pen',
+};
+const REGION_COLORS={
+    pen:'#B87333',sedi:'#5fa55f',plain:'#cc9090',rajasthan:'#e8c878',hill:'#a8a8b8'
+};
+const REGION_TIMING={pen:{step:0,stagger:0},rajasthan:{step:1,stagger:0},sedi:{step:1,stagger:300},plain:{step:2,stagger:0},hill:{step:2,stagger:300}};
+
+function drawRegionMap(cx,cy,outlineAlpha,stepTimes){
+    if(!indiaGeo)return false;
+    if(!indiaProj)buildProj(cx,cy,220,205);
+    if(!indiaGeoPath)return false;
+    indiaGeoPath=d3.geoPath().projection(indiaProj).context(ctx);
+    const now=performance.now();
+    for(const feat of indiaGeo.features){
+        const name=feat.properties.st_nm||feat.properties.NAME_1||feat.properties.name||'';
+        const cls=REGION_CLASS[name];
+        const col=cls?REGION_COLORS[cls]:null;
+        let groupAlpha=0;
+        if(col&&cls){
+            const tm=REGION_TIMING[cls]||{step:99,stagger:0};
+            const stepStart=stepTimes[tm.step];
+            if(stepStart){
+                const ms=now-stepStart-tm.stagger;
+                groupAlpha=ms>0?easeOut(Math.min(ms/700,1)):0;
+            }
+        }
+        ctx.save();ctx.globalAlpha=outlineAlpha;
+        ctx.beginPath();indiaGeoPath(feat);
+        ctx.fillStyle='rgba(255,255,255,0.92)';ctx.fill();
+        ctx.strokeStyle='rgba(80,80,80,0.85)';ctx.lineWidth=0.6;ctx.stroke();
+        ctx.restore();
+        if(col&&groupAlpha>0){
+            ctx.save();ctx.globalAlpha=outlineAlpha*groupAlpha*0.85;
+            ctx.beginPath();indiaGeoPath(feat);
+            ctx.fillStyle=col;ctx.fill();
+            ctx.strokeStyle=col+'aa';ctx.lineWidth=0.8;ctx.stroke();
+            ctx.restore();
+            // Rajasthan: overlay diagonal stripes to indicate "peninsular rocks underneath"
+            if(cls==='rajasthan'){
+                ctx.save();
+                ctx.globalAlpha=outlineAlpha*groupAlpha*0.55;
+                ctx.beginPath();indiaGeoPath(feat);
+                ctx.clip();
+                ctx.strokeStyle = REGION_COLORS.pen;
+                ctx.lineWidth = 1.2;
+                const bb = indiaGeoPath.bounds(feat);
+                for(let xx=bb[0][0]-20; xx<bb[1][0]+20; xx+=6){
+                    ctx.beginPath();
+                    ctx.moveTo(xx, bb[0][1]);
+                    ctx.lineTo(xx+25, bb[1][1]);
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+            // Northern Plains: overlay "X" pattern indicating devoid of minerals
+            if(cls==='plain'){
+                ctx.save();
+                ctx.globalAlpha=outlineAlpha*groupAlpha*0.4;
+                ctx.beginPath();indiaGeoPath(feat);
+                ctx.clip();
+                ctx.strokeStyle = '#aa3333';
+                ctx.lineWidth = 0.8;
+                const bb = indiaGeoPath.bounds(feat);
+                for(let xx=bb[0][0]; xx<bb[1][0]; xx+=10){
+                    ctx.beginPath();
+                    ctx.moveTo(xx, bb[0][1]);
+                    ctx.lineTo(xx+10, bb[1][1]);
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+        }
+    }
+    return true;
+}
+
+// Mineral hotspot pins + ray labels — drawn AFTER regions so they sit on top
+function drawMineralHotspots(stepTimes, outlineAlpha, cd){
+    if(!indiaProj)return;
+    const now = performance.now();
+    cd=cd||{};
+    const hotspots = [
+        {lon:85.6, lat:23.4, label:cd.hotspot0place||'Jharkhand', mineral:cd.hotspot0mineral||'COAL · IRON',   col:C.gold,        step:0, stagger:700,  rdx:-20, rdy:-70, ta:'center'},   // 5_2 visual fix: label above the pin (was right-aligned over the North-East, hiding its ray)
+        {lon:84.5, lat:21.5, label:cd.hotspot1place||'Odisha',    mineral:cd.hotspot1mineral||'IRON ORE',      col:C.copperLight, step:0, stagger:1050, rdx:90, rdy:12,  ta:'left'},
+        {lon:77.1, lat:14.5, label:cd.hotspot2place||'Karnataka', mineral:cd.hotspot2mineral||'GOLD',          col:C.gold,        step:0, stagger:1400, rdx:68, rdy:32,  ta:'left'},
+        {lon:73.5, lat:26.0, label:cd.hotspot3place||'Rajasthan', mineral:cd.hotspot3mineral||'COPPER · ZINC', col:'#e8c878',     step:1, stagger:450,  rdx:-72,rdy:-10, ta:'right'},
+        {lon:71.5, lat:22.5, label:cd.hotspot4place||'Gujarat',   mineral:cd.hotspot4mineral||'PETROLEUM',     col:C.greenBright, step:1, stagger:800,  rdx:-55,rdy:55,  ta:'right'},
+        {lon:93.0, lat:26.5, label:cd.hotspot5place||'Assam',     mineral:cd.hotspot5mineral||'PETROLEUM',     col:C.greenBright, step:1, stagger:1100, rdx:-46,rdy:-128,ta:'center'},
+    ];
+    hotspots.forEach((h, i) => {
+        const ss = stepTimes[h.step];
+        if(!ss) return;
+        const ms = now - ss - h.stagger;
+        if(ms < 0) return;
+        const hp = easeOut(Math.min(ms/700, 1));
+        const pt = indiaProj([h.lon, h.lat]);
+        if(!pt) return;
+        const [px, py] = pt;
+        ctx.save();
+        ctx.globalAlpha = outlineAlpha * hp;
+
+        const ex = px + h.rdx, ey = py + h.rdy;
+
+        // Dashed ray line from pin to label
+        ctx.strokeStyle = h.col + 'bb';
+        ctx.lineWidth = 1.1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(ex, ey); ctx.stroke();
+        ctx.setLineDash([]);
+        // Tiny dot at ray end
+        ctx.fillStyle = h.col;
+        ctx.beginPath(); ctx.arc(ex, ey, 1.8, 0, Math.PI*2); ctx.fill();
+
+        // Measure text for background box
+        ctx.font = "700 10px 'Inter',sans-serif";
+        ctx.textBaseline = 'middle';
+        const w1 = ctx.measureText(h.label).width;
+        ctx.font = "600 9px 'Inter',sans-serif";
+        const w2 = ctx.measureText(h.mineral).width;
+        const bw = Math.max(w1, w2) + 10, bh = 26;
+        // Clamp to canvas edges so no label is ever cut off
+        let bx = h.ta==='right' ? ex-bw-2 : h.ta==='center' ? ex-bw/2 : ex+3;
+        let by = ey - bh/2;
+        bx = Math.max(4, Math.min(bx, W-bw-4));
+        by = Math.max(54, Math.min(by, H-bh-4));
+
+        // Dark rounded background
+        ctx.fillStyle = 'rgba(8,6,4,0.88)';
+        ctx.beginPath();
+        if(ctx.roundRect) ctx.roundRect(bx, by, bw, bh, 3);
+        else ctx.rect(bx, by, bw, bh);
+        ctx.fill();
+        ctx.strokeStyle = h.col + '55';
+        ctx.lineWidth = 0.8; ctx.stroke();
+
+        // Label text — anchor relative to the clamped box, not the raw endpoint
+        const tx = h.ta==='right' ? bx+bw-5 : h.ta==='center' ? bx+bw/2 : bx+5;
+        ctx.textAlign = h.ta==='right' ? 'right' : h.ta==='center' ? 'center' : 'left';
+        ctx.font = "700 10px 'Inter',sans-serif";
+        ctx.fillStyle = '#fff';
+        ctx.fillText(h.label, tx, by+9);
+        ctx.font = "600 9px 'Inter',sans-serif";
+        ctx.fillStyle = h.col;
+        ctx.fillText(h.mineral, tx, by+21);
+
+        // Pulsing dot at geographic pin
+        const pulse = Math.sin(now/300 + i)*0.3 + 0.7;
+        ctx.fillStyle = h.col;
+        ctx.shadowColor = h.col; ctx.shadowBlur = 10*pulse;
+        ctx.beginPath(); ctx.arc(px, py, 5, 0, Math.PI*2); ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#fff';
+        ctx.beginPath(); ctx.arc(px, py, 2, 0, Math.PI*2); ctx.fill();
+
+        ctx.restore();
+    });
+}
+
+function paintSection4(elapsed,prog,ts){
+    D.clear();
+    const now=performance.now(),t=ts*0.001;
+    const cd=getSectionCanvas(4);
+
+    if(sec4StepTimes[0]){
+        const hp=easeOut(Math.min((now-sec4StepTimes[0])/700,1));
+        ctx.save();ctx.globalAlpha=hp;
+        D.text(cd.title||'INDIA — UNEVENLY ENDOWED',W/2,28,{size:16,color:C.gold,weight:'900',align:'center',maxW:880});
+        D.text(cd.subtitle||'Geological structure decides where minerals lie',W/2,46,{size:12,color:C.textDim,align:'center',maxW:880});
+        ctx.restore();
+    }
+
+    // Map — larger, shifted right so western states have canvas space for left-going ray labels
+    const mCx=295,mCy=290;
+    if(sec4StepTimes[0]){
+        const ap=easeOut(Math.min((now-sec4StepTimes[0])/900,1));
+        if(!drawRegionMap(mCx,mCy,ap,sec4StepTimes)){
+            ctx.save();ctx.globalAlpha=ap;
+            D.text(cd.loadingMap||'Loading map…',mCx,mCy,{size:14,color:C.gold+'88',align:'center',maxW:240});
+            ctx.restore();
+        }
+        // Mineral hotspot pins on the map
+        drawMineralHotspots(sec4StepTimes, ap, cd);
+    }
+
+    // ── RIGHT: Region Legend (color + name only) ──
+    if(sec4StepTimes[0]){
+        const sp=easeOut(Math.min((now-sec4StepTimes[0])/700,1));
+        ctx.save();ctx.globalAlpha=sp;
+        const lx=545,ly=66;
+        D.roundRect(lx,ly,362,158,{fill:'rgba(15,12,10,0.7)',stroke:C.gold+'55',radius:12,lineWidth:1.2});
+        D.text(cd.legendTitle||'MAP LEGEND — REGIONS',lx+181,ly+17,{size:12,color:C.gold,weight:'900',align:'center',maxW:340});
+
+        const items=[
+            {col:REGION_COLORS.pen,      name:cd.region0||'Peninsular Rocks',   step:0, stagger:0},
+            {col:REGION_COLORS.rajasthan,name:cd.region1||'Rajasthan',           step:1, stagger:0},
+            {col:REGION_COLORS.sedi,     name:cd.region2||'Sedimentary Flanks',  step:1, stagger:300},
+            {col:REGION_COLORS.plain,    name:cd.region3||'Alluvial Plains',     step:2, stagger:0},
+            {col:REGION_COLORS.hill,     name:cd.region4||'Himalayan Hills',     step:2, stagger:300},
+        ];
+        // 2-column layout: col A (items 0,1,2) left half, col B (items 3,4) right half
+        items.forEach((it,i)=>{
+            const ss=sec4StepTimes[it.step];
+            if(!ss)return;
+            const ms=now-ss-it.stagger;
+            if(ms<0)return;
+            const ip=easeOut(Math.min(ms/600,1));
+            ctx.save();ctx.globalAlpha=sp*ip;
+            const colX = i<3 ? lx+14 : lx+192;
+            const rowY = ly+34+(i<3?i:(i-3))*40;
+            // Color swatch
+            D.roundRect(colX,rowY,20,20,{fill:it.col,stroke:'rgba(255,255,255,0.45)',radius:4,lineWidth:1});
+            // Region name
+            D.text(it.name,colX+28,rowY+10,{size:12,color:'#fff',weight:'800',align:'left',maxW:132});
+            ctx.restore();
+        });
+        ctx.restore();
+    }
+
+    // ── RIGHT BOTTOM: 3 mining factors — fires on sec4StepTimes[3] (spoken when narration reaches "Three more factors") ──
+    if(sec4StepTimes[3]){
+        const sp=easeOut(Math.min((now-sec4StepTimes[3])/800,1));
+        ctx.save();ctx.globalAlpha=sp;
+        const fx=545,fy=238,fw=362,fh=138;
+        D.roundRect(fx,fy,fw,fh,{fill:'rgba(40,28,20,0.65)',stroke:C.copper+'aa',radius:12,lineWidth:1.4});
+        D.text(cd.mineableTitle||'IS A DEPOSIT MINEABLE? — 3 FACTORS',fx+fw/2,fy+18,{size:11,color:C.copperLight,weight:'900',align:'center',maxW:fw-20});
+
+        // Three factor cards
+        const factors = [
+            {ico:'💎', name:cd.factor0name||'Concentration', sub:cd.factor0sub||'rich enough to sell?', col:C.gold},
+            {ico:'⛏️', name:cd.factor1name||'Extraction',    sub:cd.factor1sub||'easy or hard to dig?', col:C.amber},
+            {ico:'🏭', name:cd.factor2name||'Market',        sub:cd.factor2sub||'far or near buyers?',  col:C.greenBright},
+        ];
+        const cardW = (fw - 30) / 3;
+        factors.forEach((f, i) => {
+            const ms = now - sec4StepTimes[3] - 300 - i*220;
+            if(ms < 0) return;
+            const fp = easeOut(Math.min(ms/600, 1));
+            ctx.save();ctx.globalAlpha = sp * fp;
+            const fxx = fx + 10 + cardW * i + 5;
+            const fyy = fy + 36;
+            D.roundRect(fxx, fyy, cardW - 10, fh - 50, {fill:f.col+'18', stroke:f.col+'aa', radius:8, lineWidth:1.2});
+            D.text(f.ico, fxx + (cardW-10)/2, fyy + 22, {size:22, align:'center'});
+            D.text(f.name, fxx + (cardW-10)/2, fyy + 50, {size:13, color:f.col, weight:'900', align:'center',maxW:cardW-10});
+            D.text(f.sub, fxx + (cardW-10)/2, fyy + 66, {size:10, color:C.textDim, weight:'500', align:'center',maxW:cardW-10});
+            ctx.restore();
+        });
+        ctx.restore();
+    }
+
+    // Footer
+    if(sec4StepTimes[3]&&now-sec4StepTimes[3]>13000){   // 5_2 canvas fix: on "To meet the demand … turns into a mine"
+        const sp=easeOut(Math.min((now-sec4StepTimes[3]-13000)/700,1));
+        const pulse=Math.sin(t*2)*0.15+0.85;
+        ctx.save();ctx.globalAlpha=sp;
+        D.roundRect(20,525,W-40,30,{fill:`rgba(218,165,32,${0.10*pulse})`,stroke:C.gold+'aa',radius:14,lineWidth:1.4});
+        D.text(cd.mineConclusion||'Chosen to meet the demand — a deposit or reserve becomes a MINE',W/2,540,{size:12,color:C.gold,weight:'700',align:'center',maxW:W-60});
+        ctx.restore();
+    }
+}
+
+/* SCREEN MGMT */
+function showScreen(id){
+    document.querySelectorAll('.screen').forEach(s=>{
+        s.style.transition='none';s.style.opacity='0';s.style.visibility='hidden';
+        s.classList.remove('active');s.style.position='absolute';
+    });
+    const el=document.getElementById('screen-'+id);
+    if(el){el.style.transition='';el.style.opacity='';el.style.visibility='';el.classList.add('active');el.style.position='relative';}
+}
+function updateBg(idx){const bgs=['bg-section-0','bg-section-1','bg-section-2','bg-section-3','bg-section-4'];document.body.className=bgs[idx]||'bg-welcome';}
+function updateOrbs(idx){
+    const palettes=[['#B87333','#DAA520','#C0C0C0'],['#ff7030','#DAA520','#cc3010'],['#84CC6D','#DAA520','#a8e06a'],['#64b5f6','#DAA520','#84CC6D'],['#cc4040','#DAA520','#B87333']];
+    const pal=palettes[idx]||palettes[0];
+    document.querySelector('.orb-1').style.background=pal[0];
+    document.querySelector('.orb-2').style.background=pal[1];
+    document.querySelector('.orb-3').style.background=pal[2];
+}
+
+async function startJourney(){S.currentSection=0;S.completedSections=[];updateSidebar();await showQuestion();}
+
+async function showQuestion(){
+    const idx=S.currentSection;
+    if(idx>=lessons.length){await showExercise();return;}
+    const L=lessons[idx];const r=stopAll();
+    document.getElementById('questionText').textContent=L.question;
+    document.getElementById('sectionLabel').textContent=L.label;
+    updateBg(idx);updateOrbs(idx);showScreen('question');updateSidebar();
+    if(window.gsap){gsap.fromTo('#screen-question .question',{opacity:0,y:20},{opacity:1,y:0,duration:0.7,ease:'power2.out'});}
+    await speech.speak(L.question);
+}
+
+async function revealExplanation(){
+    const idx=S.currentSection;const L=lessons[idx];const r=stopAll();
+    showScreen('explanation');
+    const painters=[paintSection0,paintSection1,paintSection2,paintSection3,paintSection4];
+    startLoop(painters[idx]||paintSection0);
+
+    const stepTimers=[sec0StepTimes,sec1StepTimes,sec2StepTimes,sec3StepTimes,sec4StepTimes];
+    if(stepTimers[idx])stepTimers[idx].length=0;
+    const parts=(L.steps||[]).map(s=>s.text||s);
+
+    if(!parts.length){
+        narrate(L.completeMsg||'');await speech.speak(L.completeMsg||'');
+    }else{
+        for(let i=0;i<parts.length;i++){
+            if(!isRunValid(r))return;
+            narrate(parts[i]);
+            if(stepTimers[idx])stepTimers[idx][i]=performance.now();
+            await speech.speak(parts[i]);
+            if(i<parts.length-1)await waitR(280,r);
+        }
+    }
+
+    if(!isRunValid(r))return;
+    await waitR(800,r);if(!isRunValid(r))return;
+    await showExercise();
+}
+
+async function showExercise(){
+    const r=stopAll();const ex=document.getElementById('exerciseContainer');
+    const idx=S.currentSection;if(idx>=exercises.length){await showCompletionScreen();return;}
+    const E=exercises[idx];
+    document.getElementById('exerciseQuestion').textContent=E.question;
+    const correctIdx=E.correct;
+    const safeExpl=(E.explanation||'').replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+    ex.innerHTML=(E.options||[]).map((o,i)=>`<button class="option" data-correct="${i===correctIdx}" data-expl="${safeExpl}">${o}</button>`).join('');
+    ex.querySelectorAll('.option').forEach(btn=>{btn.addEventListener('click',()=>checkMCQ(btn,btn.dataset.correct==='true',btn.dataset.expl.replace(/&#39;/g,"'").replace(/&quot;/g,'"')));});
+    document.getElementById('feedback').className='feedback';document.getElementById('feedback').innerHTML='';
+    updateBg(idx);updateOrbs(idx);showScreen('exercise');updateSidebar();
+    const _U=(_localeData&&_localeData.ui)||{};
+    await speech.speak(_U.testUnderstandingPrefix||'Now test your understanding.');
+    if(!isRunValid(r))return;
+    await speech.speak(E.question);
+}
+
+async function checkMCQ(el,isCorrect,explanation){
+    el.classList.add(isCorrect?'correct':'incorrect');
+    document.querySelectorAll('.option').forEach(o=>{o.onclick=null;o.style.cursor='default';});
+    document.querySelectorAll('.option').forEach(o=>{const c=o.cloneNode(true);o.parentNode.replaceChild(c,o);});
+    const fb=document.getElementById('feedback');const r=stopAll();
+    const _U=(_localeData&&_localeData.ui)||{};
+    if(isCorrect){fb.className='feedback success visible';
+        fb.innerHTML='<span style="display:inline-block;vertical-align:middle;width:18px;height:18px;color:#5fa55f;margin-right:8px">'+SVG_ICONS.check+'</span>'+(_U.feedbackCorrectLabel||'Correct! ')+explanation;
+        if(!S.completedSections.includes(S.currentSection))S.completedSections.push(S.currentSection);
+        updateSidebar();
+        await speech.speak(_U.feedbackCorrectPrefix||"Excellent! That's correct.");
+        if(!isRunValid(r))return;
+        await speech.speak(explanation);
+    }else{
+        fb.className='feedback error visible';
+        fb.innerHTML='<span style="display:inline-block;vertical-align:middle;width:18px;height:18px;color:#fca5a5;margin-right:8px">&#x2715;</span>'+(_U.feedbackIncorrectLabel||'Not quite. ')+explanation;
+        document.querySelectorAll('.option').forEach((o,i)=>{if(i===(exercises[S.currentSection]||{}).correct)o.classList.add('correct');});
+        await speech.speak(_U.feedbackIncorrectPrefix||'Not quite right.');
+        if(!isRunValid(r))return;
+        await speech.speak(explanation);
+    }
+    if(!isRunValid(r))return;await waitR(900,r);if(!isRunValid(r))return;
+    await showCompletionScreen();
+}
+
+async function showCompletionScreen(){
+    const idx=S.currentSection;const L=lessons[idx];
+    if(!S.completedSections.includes(idx))S.completedSections.push(idx);
+    updateSidebar();
+    {const _CT=(_localeData&&_localeData.ui)||{};document.getElementById('completeTitle').textContent=idx<2?(_CT.completeTitleExcellent||'Excellent!'):idx<4?(_CT.completeTitleWellDone||'Well Done!'):(_CT.completeTitleOutstanding||'Outstanding!');}
+    document.getElementById('completeMessage').textContent=L.completeMsg;
+    const nextBtn=document.getElementById('nextBtn');
+    const _U=(_localeData&&_localeData.ui)||{};
+    if(idx>=lessons.length-1){nextBtn.textContent=_U.nextBtn||'Continue';nextBtn.onclick=()=>handleButtonClick(showFinalScreen);}
+    else{nextBtn.textContent=_U.nextBtn||'Continue';nextBtn.onclick=()=>handleButtonClick(()=>nextSection());}
+    updateBg(idx);showScreen('complete');
+    if(window.gsap){gsap.from('#completeTitle',{scale:0.6,opacity:0,duration:0.6,ease:'back.out(1.7)'});}
+    await speech.speak(L.completeMsg);
+}
+async function nextSection(){S.currentSection++;await showQuestion();}
+async function restartSection(){await showQuestion();}
+function showFinalScreen(){
+    stopAll();document.body.className='bg-complete';showScreen('final');
+    const _U=(_localeData&&_localeData.ui)||{};
+    const finalSpeech=_U.finalSpeech||"Brilliant work. You have completed Part 2 of Chapter 5 — Mode of Occurrence of Minerals. From the very definition of an ore, through veins and lodes in igneous rock, beds and layers in sedimentary rock, the three more paths of decomposition, placer deposits, and ocean waters, and finally the uneven distribution of minerals across India — you now understand how nature places its minerals. Next up, the Classification of Minerals.";
+    setTimeout(()=>{if(speech)speech.speak(finalSpeech);},400);
+}
+
+document.getElementById('pauseToggle').addEventListener('click',function(){
+    S.isPaused=!S.isPaused;this.classList.toggle('paused',S.isPaused);
+    this.innerHTML=S.isPaused?'<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>':'<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+    if(S.isPaused)speech.pause();else speech.resume();
+});
+document.getElementById('audioToggle').addEventListener('click',function(){
+    S.isMuted=!S.isMuted;
+    this.innerHTML=S.isMuted?'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor"/></svg>':'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
+    if(speech&&speech.audio)speech.audio.muted=S.isMuted;
+});
+window.addEventListener('resize',()=>{if(document.getElementById('screen-explanation').classList.contains('active'))initCanvas();});
+
+document.addEventListener('keydown',function(e){if(e.key===' '||e.code==='Space'){e.preventDefault();}});
+
+async function init(){
+    try{await loadLessonContent();}catch(e){console.warn('loadLessonContent failed:',e);}
+    speech=new SpeechMgr();
+    createParticles();
+    updateSidebar();
+    if(window.gsap){
+        gsap.fromTo('#screen-welcome .title',{y:40,opacity:0},{y:0,opacity:1,duration:1,ease:'power3.out',delay:0.3});
+        gsap.fromTo('#screen-welcome .subtitle',{y:30,opacity:0},{y:0,opacity:1,duration:0.9,ease:'power2.out',delay:0.6});
+        gsap.fromTo('#screen-welcome .btn',{y:20,opacity:0},{y:0,opacity:1,duration:0.8,ease:'power2.out',delay:0.9});
+    }
+    setTimeout(()=>{
+        if(document.getElementById('screen-welcome').classList.contains('active')){
+            const _W=(_localeData&&_localeData.welcome)||{};
+            const ws=_W.welcomeSpeech||"Welcome to Part 2 of Chapter 5, Minerals and Energy Resources — Mode of Occurrence of Minerals. How does nature place its minerals? Cracks in igneous rocks, layers in sedimentary rocks, weathered surface rocks, valley sands, even the ocean itself. Minerals are not scattered randomly; they follow rules. Let's read those rules. Press Begin Lesson when you are ready.";
+            speech.speak(ws);
+        }
+    },1200);
+}
+init();
+</script>
+<script src="../../language-button.js"></script>
+</body>
+</html>

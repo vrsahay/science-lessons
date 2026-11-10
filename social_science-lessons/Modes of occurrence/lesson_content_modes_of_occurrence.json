@@ -1,0 +1,987 @@
+{
+  "defaultLocale": "en",
+  "supportedLocales": [
+    "en",
+    "hi",
+    "ja"
+  ],
+  "localeLabels": {
+    "en": "English",
+    "hi": "हिंदी",
+    "ja": "日本語"
+  },
+  "locales": {
+    "en": {
+      "documentTitle": "Minerals and Energy Resources — Part 2: Modes of Occurrence",
+      "welcome": {
+        "badge": "NCERT",
+        "badgeSub": "Class 10 · Geography",
+        "label": "Minerals & Energy Resources — Part 2",
+        "title": "Modes of Occurrence",
+        "subtitle": "How does nature place its minerals? Cracks in lava, layers in old seabeds, weathered surfaces, river sands, even the ocean itself — minerals are not scattered randomly. They follow rules. Let's read those rules.",
+        "beginButton": "Begin Lesson",
+        "welcomeSpeech": "Welcome to Part 2 of Minerals and Energy Resources — Modes of Occurrence. How does nature place its minerals? Cracks in lava, layers in old seabeds, weathered surfaces, river sands, even the ocean itself. Let's read those rules. Press Begin Lesson when you are ready."
+      },
+      "ui": {
+        "revealButton": "Discover the Answer",
+        "exerciseLabel": "Test Your Understanding",
+        "testUnderstandingPrefix": "Now test your understanding.",
+        "feedbackCorrectPrefix": "Excellent! That's correct.",
+        "feedbackIncorrectPrefix": "Not quite right.",
+        "sectionCompleteLabel": "Section Complete",
+        "nextBtn": "Continue",
+        "reviewAgainButton": "Review Again",
+        "finalLabel": "Part 2 Complete",
+        "finalTitle": "Modes Mastered!",
+        "finalSubtitle": "From ore to vein, from sediment to placer, from ocean nodule to mine — you've travelled the five paths nature carves to bring minerals within reach. Next: Classification.",
+        "finalFacesText": "ORE · VEINS · BEDS · OTHERS · INDIA",
+        "finalFacesSub": "FIVE PATHS NATURE TAKES",
+        "startAgainButton": "Start Again",
+        "finalSpeech": "Brilliant work. You have completed Part 2 — Modes of Occurrence of Minerals. From the very definition of an ore, through veins and lodes in igneous rock, beds and layers in sedimentary rock, the three more paths of decomposition, placer deposits, and ocean waters, and finally the uneven distribution of minerals across India — you now understand how nature places its minerals. Next up, the Classification of Minerals."
+      },
+      "sidebar": {
+        "completed": "Completed",
+        "inProgress": "In Progress"
+      },
+      "sections": [
+        {
+          "name": "What is an Ore?",
+          "status": "Foundation"
+        },
+        {
+          "name": "Veins & Lodes",
+          "status": "Igneous · Metamorphic"
+        },
+        {
+          "name": "Beds & Layers",
+          "status": "Sedimentary"
+        },
+        {
+          "name": "Three More Modes",
+          "status": "Weather · Placer · Ocean"
+        },
+        {
+          "name": "India Distribution",
+          "status": "Where it all lies"
+        }
+      ],
+      "lessons": [
+        {
+          "question": "Minerals are described as found in 'ores'. What makes a mass of rock actually an ORE — and not just any rock?",
+          "label": "What is an Ore?",
+          "completeMsg": "An ore is an accumulation of a mineral mixed with other elements — and the mineral content must be high enough to make extraction commercially viable. The structure of formation decides how easily — and how cheaply — it can be mined.",
+          "steps": [
+            {
+              "text": "Minerals are usually not found pure. They are scattered through rock, mixed with other elements. Such an accumulation is called an ore. But not every rock with a mineral counts. The mineral content of the ore must be in sufficient concentration to make its extraction commercially viable."
+            },
+            {
+              "text": "The type of formation or structure in which a mineral is found also matters. It decides the relative ease with which the ore may be mined — and that, in turn, decides the cost of extraction. So before we can even talk about classification, we must understand the ways in which minerals occur."
+            }
+          ],
+          "exercise": {
+            "question": "Which condition is essential for a rock mass to be called an ORE?",
+            "options": [
+              "Any rock containing any mineral",
+              "The mineral content must be in sufficient concentration to make extraction commercially viable",
+              "Only rocks containing gold",
+              "Rocks coloured red or yellow"
+            ],
+            "correct": 1,
+            "explanation": "An ore is an accumulation of a mineral mixed with other elements — but the mineral content must be high enough that extracting it is commercially worthwhile."
+          },
+          "canvas": {
+            "title": "FROM ROCK TO ORE",
+            "subtitle": "Concentration of mineral decides if it is an ORE",
+            "stage0name": "PLAIN ROCK",
+            "stage0label": "mostly silica, very few mineral grains",
+            "stage0verdict": "Not worth mining",
+            "stage1name": "LOW-GRADE",
+            "stage1label": "some mineral, but extraction expensive",
+            "stage1verdict": "Borderline — high cost",
+            "stage2name": "ORE",
+            "stage2label": "rich enough — extraction is profitable",
+            "stage2verdict": "Commercially viable!",
+            "oreDefinition": "ORE = a rock with enough mineral that extraction is commercially worthwhile",
+            "structureTitle": "STRUCTURE OF FORMATION — DECIDES MINING EASE & COST",
+            "factor0": "Shape",
+            "factor1": "Depth",
+            "factor2": "Hardness",
+            "factor3": "Market",
+            "modesTitle": "5 MODES of occurrence: Vein · Lode · Bed · Decomposition · Placer · Ocean"
+          }
+        },
+        {
+          "question": "In igneous and metamorphic rocks, minerals hide inside cracks, faults and joints. What are these called — and how did they get there?",
+          "label": "Veins & Lodes",
+          "completeMsg": "Smaller cracks holding minerals are veins, larger ones are lodes. Liquid, molten and gaseous minerals are forced upward through cavities, cool, and solidify. Tin, copper, zinc, and lead come from veins and lodes.",
+          "steps": [
+            {
+              "text": "Inside igneous and metamorphic rocks, minerals occur in cracks, crevices, faults and joints. The smaller occurrences are called veins; the larger ones are called lodes."
+            },
+            {
+              "text": "These usually form when minerals — in liquid, molten or even gaseous form — are forced upward through cavities towards the earth's surface. As they rise, they cool, and they solidify in the cracks. Major metallic minerals like tin, copper, zinc and lead are obtained from veins and lodes."
+            }
+          ],
+          "exercise": {
+            "question": "Smaller occurrences of minerals in cracks of igneous rocks are called veins; the larger ones are called:",
+            "options": [
+              "Beds",
+              "Lodes",
+              "Placers",
+              "Nodules"
+            ],
+            "correct": 1,
+            "explanation": "Smaller cracks and faults filled with minerals are veins, while the larger ones are lodes. Both form when molten or gaseous minerals rise, cool, and solidify in the cavities."
+          },
+          "canvas": {
+            "title": "VEINS & LODES — IGNEOUS / METAMORPHIC ROCK",
+            "subtitle": "Molten minerals rise · cool in cracks · solidify into mineral-rich seams",
+            "igneous": "IGNEOUS",
+            "igneousSub": "(cooled magma)",
+            "metamorphic": "METAMORPHIC",
+            "metamorphicSub": "(heat-altered)",
+            "magma": "MAGMA",
+            "vein": "VEIN",
+            "veinSub": "thin (cm)",
+            "lode": "LODE",
+            "lodeSub": "thick (m)",
+            "step1": "rise",
+            "step2": "cool",
+            "step3": "solidify",
+            "fromVeinsTitle": "FROM VEINS & LODES",
+            "majorMetallic": "Major metallic minerals",
+            "m0name": "TIN",
+            "m0use": "cans · solder",
+            "m1name": "COPPER",
+            "m1use": "wires · pipes",
+            "m2name": "ZINC",
+            "m2use": "galvanising",
+            "m3name": "LEAD",
+            "m3use": "batteries"
+          }
+        },
+        {
+          "question": "Some minerals lie in flat horizontal layers — millions of years of pressure and evaporation. Which minerals are these?",
+          "label": "Beds & Layers",
+          "completeMsg": "Sedimentary minerals form in beds and layers — coal and some iron ore from heat and pressure; gypsum, potash and sodium salt from evaporation in arid regions. Horizontal strata, deposited and concentrated over ages.",
+          "steps": [
+            {
+              "text": "In sedimentary rocks, a number of minerals occur in beds or layers. They have been formed as a result of deposition, accumulation, and concentration in horizontal strata."
+            },
+            {
+              "text": "Another group of sedimentary minerals — gypsum, potash salt, and sodium salt — are formed as a result of evaporation, especially in arid regions. As water dries up, the dissolved minerals are left behind as crystals."
+            },
+            {
+              "text": "Coal, and some forms of iron ore, have been concentrated by something different — long periods under great heat and great pressure. Plants buried millions of years ago are slowly transformed into peat, then lignite, then bituminous coal — finally anthracite. Iron ore bands likewise become rich after ages of compression."
+            }
+          ],
+          "exercise": {
+            "question": "Gypsum, potash salt and sodium salt are sedimentary minerals formed mainly by:",
+            "options": [
+              "Volcanic eruption",
+              "Evaporation, especially in arid regions",
+              "River deposition",
+              "Ocean tides"
+            ],
+            "correct": 1,
+            "explanation": "Gypsum, potash salt and sodium salt are formed as a result of evaporation, especially in arid regions — leaving the mineral concentrated as the water disappears."
+          },
+          "canvas": {
+            "title": "BEDS & LAYERS — IN SEDIMENTARY ROCKS",
+            "subtitle": "Deposition — accumulation — concentration in horizontal strata",
+            "strataTitle": "SEDIMENTARY STRATA",
+            "strataSub": "Particles rain down — settle — compress — harden",
+            "layer0": "Soil",
+            "layer1": "Sandstone",
+            "layer2": "Shale",
+            "layer3": "COAL",
+            "layer3sub": "plant matter compressed",
+            "layer4": "Limestone",
+            "layer5": "IRON ORE",
+            "layer5sub": "iron-rich sediment",
+            "layer6": "Sandstone",
+            "layer7": "Shale",
+            "millionsYears": "millions of years",
+            "evapTitle": "EVAPORATION (ARID REGIONS)",
+            "evapSub": "desert lake — water evaporates — minerals left as crystals",
+            "saltWater": "salt water",
+            "evap0": "GYPSUM",
+            "evap1": "POTASH SALT",
+            "evap2": "SODIUM SALT",
+            "coalTitle": "COAL FORMATION — COMPRESSION TIMELINE",
+            "coalSub": "Plant matter buried — heat and pressure — carbon-rich coal",
+            "stage0name": "PLANTS",
+            "stage1name": "PEAT",
+            "stage2name": "LIGNITE",
+            "stage3name": "COAL",
+            "pressureLabel": "PRESSURE & HEAT increase"
+          }
+        },
+        {
+          "question": "Three more paths nature takes — surface decay, river sands, and ocean water. What do each give us?",
+          "label": "Three More Modes",
+          "completeMsg": "Decomposition leaves a residual mass of weathered material — bauxite. Placer deposits in valley sands give gold, silver, tin, platinum. Oceans give common salt, magnesium, bromine and manganese nodules from the seabed.",
+          "steps": [
+            {
+              "text": "Some minerals form by the decomposition of surface rocks. The soluble parts are washed away by rain, leaving behind a residual mass of weathered material that contains ores. Bauxite, the source of aluminium, is formed exactly this way."
+            },
+            {
+              "text": "Certain minerals occur as alluvial deposits in the sands of valley floors and the base of hills. These are called placer deposits. The minerals that survive in placers are those not corroded by water — gold, silver, tin and platinum are the most important."
+            },
+            {
+              "text": "Ocean waters contain vast quantities of minerals. Most of these are too widely diffused to be of economic significance. But common salt, magnesium and bromine are largely derived from ocean waters. The ocean beds, too, are rich in manganese nodules — small dark lumps scattered across the deep sea floor."
+            }
+          ],
+          "exercise": {
+            "question": "Which of the following is NOT a typical placer-deposit mineral?",
+            "options": [
+              "Gold",
+              "Platinum",
+              "Bauxite",
+              "Tin"
+            ],
+            "correct": 2,
+            "explanation": "Placer deposits in valley sands typically contain minerals not corroded by water — gold, silver, tin and platinum. Bauxite is formed by decomposition of surface rocks, not by river deposition."
+          },
+          "canvas": {
+            "title": "THREE MORE PATHS",
+            "subtitle": "Decomposition · Placer deposits · Ocean waters",
+            "decompTitle": "DECOMPOSITION",
+            "decompSub": "Surface rocks weather — soluble bits wash away",
+            "decompMineral": "BAUXITE",
+            "decompWash": "SOLUBLE parts wash away",
+            "decompResidual": "insoluble residue left behind",
+            "placerTitle": "PLACER DEPOSITS",
+            "placerSub": "In sands of valley floors — minerals not corroded by water",
+            "placerMinerals": "GOLD · SILVER · TIN · PLATINUM",
+            "placerLight": "light sand swept away by current",
+            "placerSettle": "GOLD · PLATINUM · TIN settle here",
+            "oceanTitle": "OCEAN WATERS",
+            "oceanSub": "Seas and seabeds yield diffused minerals",
+            "oceanMinerals": "SALT · MAGNESIUM · BROMINE · Mn",
+            "oceanIon": "OCEAN — ions dissolved, ultra dilute",
+            "evapPan": "EVAPORATION PAN — salts crystallise",
+            "crystallising": "NaCl · MgSO4 · Br — crystallising",
+            "seabed": "DEEP SEABED — Mn nodules accumulate",
+            "nodules": "Mn NODULES — on deep seabed",
+            "recapTitle": "5 MODES of occurrence — recap",
+            "mode0": "Vein/Lode",
+            "mode1": "Beds",
+            "mode2": "Decomp",
+            "mode3": "Placer",
+            "mode4": "Ocean"
+          }
+        },
+        {
+          "question": "India's mineral wealth is rich — but unevenly spread. Why does the south have so much, and the north so little?",
+          "label": "Distribution in India",
+          "completeMsg": "Peninsular rocks hold most coal, metallic minerals, mica and many non-metals. Sedimentary flanks of Gujarat and Assam hold petroleum. Rajasthan holds non-ferrous minerals. The vast alluvial north plains are almost devoid of economic minerals. A deposit becomes a mine once extracted.",
+          "steps": [
+            {
+              "text": "India is fortunate to have fairly rich and varied mineral resources — but they are unevenly distributed. The peninsular rocks of the south contain most of the reserves of coal, metallic minerals, mica, and many other non-metallic minerals. This is the great storehouse."
+            },
+            {
+              "text": "Sedimentary rocks on the western and eastern flanks of the peninsula — in Gujarat and Assam — hold most of the petroleum deposits. Rajasthan, with rock systems of the peninsula, has reserves of many non-ferrous minerals."
+            },
+            {
+              "text": "The vast alluvial plains of north India are almost devoid of economic minerals. These variations exist largely because of differences in geological structure, processes, and time involved in formation."
+            },
+            {
+              "text": "Three more factors decide whether a deposit is worth mining — concentration of the mineral, ease of extraction, and closeness to the market. When a deposit or reserve is finally extracted, it turns into a mine."
+            }
+          ],
+          "exercise": {
+            "question": "Why are the vast alluvial plains of north India almost devoid of economic minerals?",
+            "options": [
+              "Because alluvial soil contains too much water",
+              "Because they are recent sediments lacking the geological structure that concentrates minerals",
+              "Because they are too cold",
+              "Because all minerals were already mined"
+            ],
+            "correct": 1,
+            "explanation": "Variations exist because of differences in the geological structure, processes and time of mineral formation. The young alluvial plains lack the ancient peninsular rocks that concentrate metallic minerals."
+          },
+          "canvas": {
+            "title": "INDIA — UNEVENLY ENDOWED",
+            "subtitle": "Geological structure decides where minerals lie",
+            "loadingMap": "Loading map…",
+            "legendTitle": "MAP LEGEND — REGIONS",
+            "region0": "Peninsular Rocks",
+            "region1": "Rajasthan",
+            "region2": "Sedimentary Flanks",
+            "region3": "Alluvial Plains",
+            "region4": "Himalayan Hills",
+            "mineableTitle": "IS A DEPOSIT MINEABLE? — 3 FACTORS",
+            "factor0name": "Concentration",
+            "factor0sub": "rich enough to sell?",
+            "factor1name": "Extraction",
+            "factor1sub": "easy or hard to dig?",
+            "factor2name": "Market",
+            "factor2sub": "far or near buyers?",
+            "hotspot0place": "Jharkhand",
+            "hotspot0mineral": "COAL · IRON",
+            "hotspot1place": "Odisha",
+            "hotspot1mineral": "IRON ORE",
+            "hotspot2place": "Karnataka",
+            "hotspot2mineral": "GOLD",
+            "hotspot3place": "Rajasthan",
+            "hotspot3mineral": "COPPER · ZINC",
+            "hotspot4place": "Gujarat",
+            "hotspot4mineral": "PETROLEUM",
+            "hotspot5place": "Assam",
+            "hotspot5mineral": "PETROLEUM",
+            "mineConclusion": "Once a deposit clears all 3 factors — it becomes a MINE"
+          }
+        }
+      ]
+    },
+    "hi": {
+      "documentTitle": "खनिज और ऊर्जा संसाधन — भाग 2: पाए जाने के तरीके",
+      "welcome": {
+        "badge": "एनसीईआरटी",
+        "badgeSub": "कक्षा 10 · भूगोल",
+        "label": "खनिज एवं ऊर्जा संसाधन — भाग 2",
+        "title": "घटित होने के तरीके",
+        "subtitle": "प्रकृति अपने खनिजों को कैसे व्यवस्थित करती है? लावा की दरारें, पुराने समुद्र तल की परतें, अपक्षयित सतहें, नदी की रेत, यहाँ तक कि स्वयं महासागर भी—खनिज बेतरतीब ढंग से बिखरे नहीं होते। वे नियमों का पालन करते हैं। आइए उन नियमों को पढ़ें।",
+        "beginButton": "पाठ प्रारंभ करें",
+        "welcomeSpeech": "खनिज और ऊर्जा संसाधन - प्राप्ति के तरीके - के भाग 2 में आपका स्वागत है। प्रकृति अपने खनिजों को कैसे जमा करती है? लावा की दरारें, पुराने समुद्र तल की परतें, अपक्षरित सतहें, नदी की रेत, यहाँ तक कि स्वयं महासागर भी। आइए इन नियमों को पढ़ें। जब आप तैयार हों, तो 'पाठ शुरू करें' बटन दबाएँ।"
+      },
+      "ui": {
+        "revealButton": "उत्तर खोजें",
+        "exerciseLabel": "अपनी समझ का परीक्षण करें",
+        "testUnderstandingPrefix": "अब अपनी समझ का परीक्षण करें।",
+        "feedbackCorrectPrefix": "बहुत बढ़िया! यह सही है।",
+        "feedbackIncorrectPrefix": "बिलकुल ठीक नहीं।",
+        "sectionCompleteLabel": "अनुभाग पूर्ण",
+        "nextBtn": "जारी रखना",
+        "reviewAgainButton": "पुनः समीक्षा करें",
+        "finalLabel": "भाग 2 पूर्ण",
+        "finalTitle": "मोड्स में महारत हासिल!",
+        "finalSubtitle": "अयस्क से शिरा तक, तलछट से प्लेसर तक, समुद्री पिंड से खदान तक — आपने प्रकृति द्वारा निर्मित उन पाँच रास्तों को तय किया है जो खनिजों को आप तक पहुँचाते हैं। अगला चरण: वर्गीकरण।",
+        "finalFacesText": "अयस्क · शिराएँ · परतें · अन्य · भारत",
+        "finalFacesSub": "प्रकृति के पाँच मार्ग",
+        "startAgainButton": "फिर से शुरू करें",
+        "finalSpeech": "बहुत बढ़िया! आपने भाग 2 - खनिजों की उत्पत्ति के तरीके - पूरा कर लिया है। अयस्क की परिभाषा से लेकर आग्नेय चट्टानों में शिराओं और लट्ठों, अवसादी चट्टानों में परतों और स्तरों, अपघटन के तीन अन्य मार्गों, प्लेसर निक्षेपों और महासागरीय जल, और अंत में भारत भर में खनिजों के असमान वितरण तक - अब आप समझ गए हैं कि प्रकृति अपने खनिजों को कैसे वितरित करती है। अगला भाग, खनिजों का वर्गीकरण।"
+      },
+      "sidebar": {
+        "completed": "पुरा होना।",
+        "inProgress": "प्रगति पर है"
+      },
+      "sections": [
+        {
+          "name": "अयस्क क्या होता है?",
+          "status": "नींव"
+        },
+        {
+          "name": "नसें और अयस्क भंडार",
+          "status": "आग्नेय · रूपांतरित"
+        },
+        {
+          "name": "बिस्तर और परतें",
+          "status": "गाद का"
+        },
+        {
+          "name": "तीन और मोड",
+          "status": "मौसम · प्लेसर · महासागर"
+        },
+        {
+          "name": "भारत वितरण",
+          "status": "यह सब यहीं निहित है"
+        }
+      ],
+      "lessons": [
+        {
+          "question": "खनिजों को 'अयस्क' के रूप में वर्णित किया जाता है। आखिर किस बात से चट्टान का कोई पिंड वास्तव में अयस्क कहलाता है, न कि कोई साधारण चट्टान?",
+          "label": "अयस्क क्या होता है?",
+          "completeMsg": "अयस्क किसी खनिज का अन्य तत्वों के साथ मिश्रित भंडार होता है, और खनन को व्यावसायिक रूप से व्यवहार्य बनाने के लिए खनिज की मात्रा पर्याप्त होनी चाहिए। अयस्क की संरचना यह निर्धारित करती है कि उसका खनन कितनी आसानी से और कितने कम खर्चे में किया जा सकता है।",
+          "steps": [
+            {
+              "text": "खनिज आमतौर पर शुद्ध रूप में नहीं पाए जाते। वे चट्टानों में बिखरे हुए होते हैं और अन्य तत्वों के साथ मिश्रित होते हैं। इस प्रकार के संचय को अयस्क कहा जाता है। लेकिन खनिज युक्त हर चट्टान अयस्क नहीं होती। अयस्क में खनिज की सांद्रता इतनी पर्याप्त होनी चाहिए कि उसका निष्कर्षण व्यावसायिक रूप से लाभदायक हो सके।"
+            },
+            {
+              "text": "जिस प्रकार की संरचना या निर्माण में खनिज पाया जाता है, वह भी मायने रखता है। इससे अयस्क के खनन में आसानी निर्धारित होती है और बदले में, खनन की लागत भी उसी के अनुसार तय होती है। इसलिए वर्गीकरण की बात करने से पहले, हमें यह समझना होगा कि खनिज किस प्रकार पाए जाते हैं।"
+            }
+          ],
+          "exercise": {
+            "question": "किसी चट्टान समूह को अयस्क कहलाने के लिए कौन सी शर्त आवश्यक है?",
+            "options": [
+              "किसी भी खनिज युक्त कोई भी चट्टान",
+              "खनिज पदार्थों की सांद्रता इतनी पर्याप्त होनी चाहिए कि उनका निष्कर्षण व्यावसायिक रूप से व्यवहार्य हो सके।",
+              "केवल सोने से युक्त चट्टानें",
+              "लाल या पीले रंग की चट्टानें"
+            ],
+            "correct": 1,
+            "explanation": "अयस्क किसी खनिज का अन्य तत्वों के साथ मिश्रित भंडार होता है - लेकिन खनिज की मात्रा इतनी अधिक होनी चाहिए कि उसका निष्कर्षण व्यावसायिक रूप से लाभदायक हो।"
+          },
+          "canvas": {
+            "title": "चट्टान से अयस्क तक",
+            "subtitle": "खनिज की सांद्रता से यह निर्धारित होता है कि वह अयस्क है या नहीं।",
+            "stage0name": "प्लेन रॉक",
+            "stage0label": "मुख्यतः सिलिका, बहुत कम खनिज कण",
+            "stage0verdict": "खनन करना व्यर्थ है",
+            "stage1name": "निम्न श्रेणी",
+            "stage1label": "कुछ खनिज मौजूद हैं, लेकिन उनका निष्कर्षण महंगा है।",
+            "stage1verdict": "सीमा रेखा पर — उच्च लागत",
+            "stage2name": "अयस्क",
+            "stage2label": "पर्याप्त धन उपलब्ध है — खनन लाभदायक है",
+            "stage2verdict": "व्यावसायिक रूप से व्यवहार्य!",
+            "oreDefinition": "अयस्क = एक ऐसी चट्टान जिसमें पर्याप्त खनिज मौजूद हो और जिसका निष्कर्षण व्यावसायिक रूप से लाभदायक हो।",
+            "structureTitle": "निर्माण की संरचना — खनन की सुगमता और लागत निर्धारित करती है",
+            "factor0": "आकार",
+            "factor1": "गहराई",
+            "factor2": "कठोरता",
+            "factor3": "बाज़ार",
+            "modesTitle": "पाए जाने के 5 तरीके: शिरा · अयस्क भंडार · परत · अपघटन · प्लेसर · महासागर"
+          }
+        },
+        {
+          "question": "आग्नेय और रूपांतरित चट्टानों में, खनिज दरारों, भ्रान्तों और जोड़ों के अंदर छिपे होते हैं। इन्हें क्या कहा जाता है — और ये वहाँ कैसे पहुँचे?",
+          "label": "नसें और अयस्क भंडार",
+          "completeMsg": "खनिजों को धारण करने वाली छोटी दरारें शिराएँ कहलाती हैं, जबकि बड़ी दरारें अयस्क भंडार कहलाती हैं। तरल, पिघले हुए और गैसीय खनिज इन गुहाओं के माध्यम से ऊपर की ओर धकेले जाते हैं, ठंडे होते हैं और जम जाते हैं। टिन, तांबा, जस्ता और सीसा शिराओं और अयस्क भंडारों से प्राप्त होते हैं।",
+          "steps": [
+            {
+              "text": "आग्नेय और रूपांतरित चट्टानों के भीतर, खनिज दरारों, छिद्रों, भ्रान्तों और जोड़ों में पाए जाते हैं। छोटे भंडारों को शिराएँ कहा जाता है; बड़े भंडारों को अयस्क भंडार कहा जाता है।"
+            },
+            {
+              "text": "ये भंडार आमतौर पर तब बनते हैं जब खनिज - तरल, पिघले हुए या गैसीय रूप में - गुहाओं के माध्यम से पृथ्वी की सतह की ओर ऊपर की ओर धकेले जाते हैं। ऊपर उठते समय वे ठंडे हो जाते हैं और दरारों में जम जाते हैं। टिन, तांबा, जस्ता और सीसा जैसे प्रमुख धात्विक खनिज शिराओं और अयस्क भंडारों से प्राप्त होते हैं।"
+            }
+          ],
+          "exercise": {
+            "question": "आग्नेय चट्टानों की दरारों में पाए जाने वाले खनिजों के छोटे भंडार शिराओं कहलाते हैं; बड़े भंडारों को कहा जाता है:",
+            "options": [
+              "बेड",
+              "लोड्स",
+              "प्लेसर",
+              "पिंड"
+            ],
+            "correct": 1,
+            "explanation": "खनिजों से भरी छोटी दरारें और भ्रंश शिराएँ कहलाती हैं, जबकि बड़ी दरारें अयस्क भंडार कहलाती हैं। ये दोनों तब बनती हैं जब पिघले हुए या गैसीय खनिज ऊपर उठते हैं, ठंडे होते हैं और गुहाओं में जम जाते हैं।"
+          },
+          "canvas": {
+            "title": "शिराएँ और अयस्क भंडार — आग्नेय/कायांतरित चट्टान",
+            "subtitle": "पिघले हुए खनिज ऊपर उठते हैं, दरारों में ठंडे होते हैं और जम कर खनिज-समृद्ध परतों में बदल जाते हैं।",
+            "igneous": "आतशी",
+            "igneousSub": "(शीतित मैग्मा)",
+            "metamorphic": "रूपांतरित",
+            "metamorphicSub": "(ताप से परिवर्तित)",
+            "magma": "मेग्मा",
+            "vein": "नस",
+            "veinSub": "पतला (सेमी)",
+            "lode": "परत",
+            "lodeSub": "मोटा (मी)",
+            "step1": "उठना",
+            "step2": "ठंडा",
+            "step3": "ठोस करना",
+            "fromVeinsTitle": "शिराओं और अयस्क शिराओं से",
+            "majorMetallic": "प्रमुख धात्विक खनिज",
+            "m0name": "टिन",
+            "m0use": "डिब्बे · सोल्डर",
+            "m1name": "ताँबा",
+            "m1use": "तार · पाइप",
+            "m2name": "जस्ता",
+            "m2use": "GALVANIZING",
+            "m3name": "नेतृत्व करना",
+            "m3use": "बैटरियों"
+          }
+        },
+        {
+          "question": "कुछ खनिज लाखों वर्षों के दबाव और वाष्पीकरण के परिणामस्वरूप समतल क्षैतिज परतों में पाए जाते हैं। ये कौन से खनिज हैं?",
+          "label": "बिस्तर और परतें",
+          "completeMsg": "अवसादी खनिज परतों और स्तरों में बनते हैं — कोयला और कुछ लौह अयस्क ऊष्मा और दबाव से; जिप्सम, पोटाश और सोडियम लवण शुष्क क्षेत्रों में वाष्पीकरण से बनते हैं। क्षैतिज स्तर, युगों से निक्षेपित और संकेंद्रित होते हैं।",
+          "steps": [
+            {
+              "text": "अवसादी चट्टानों में, कई खनिज परतों या स्तरों में पाए जाते हैं। इनका निर्माण क्षैतिज स्तरों में निक्षेपण, संचय और सांद्रण के परिणामस्वरूप हुआ है।"
+            },
+            {
+              "text": "अवसादी खनिजों का एक अन्य समूह - जिप्सम, पोटाश लवण और सोडियम लवण - वाष्पीकरण के परिणामस्वरूप बनता है, विशेषकर शुष्क क्षेत्रों में। जैसे-जैसे पानी सूखता है, घुले हुए खनिज क्रिस्टल के रूप में पीछे रह जाते हैं।"
+            },
+            {
+              "text": "कोयला और लौह अयस्क के कुछ रूप एक अलग प्रक्रिया से संकेंद्रित हुए हैं - अत्यधिक गर्मी और अत्यधिक दबाव की लंबी अवधि के कारण। लाखों साल पहले दबे पौधे धीरे-धीरे पीट, फिर लिग्नाइट, फिर बिटुमिनस कोयले और अंत में एन्थ्रेसाइट में परिवर्तित हो जाते हैं। इसी प्रकार, लौह अयस्क की परतें भी सदियों के संपीड़न के बाद समृद्ध हो जाती हैं।"
+            }
+          ],
+          "exercise": {
+            "question": "जिप्सम, पोटाश नमक और सोडियम नमक अवसादी खनिज हैं जो मुख्य रूप से निम्न द्वारा निर्मित होते हैं:",
+            "options": [
+              "ज्वालामुखी का विस्फोट",
+              "वाष्पीकरण, विशेषकर शुष्क क्षेत्रों में",
+              "नदी निक्षेपण",
+              "समुद्री ज्वार"
+            ],
+            "correct": 1,
+            "explanation": "वाष्पीकरण के परिणामस्वरूप जिप्सम, पोटाश नमक और सोडियम नमक का निर्माण होता है, खासकर शुष्क क्षेत्रों में - पानी के गायब होने पर खनिज की सांद्रता बढ़ जाती है।"
+          },
+          "canvas": {
+            "title": "अवसादी चट्टानों में परतें और भूभाग",
+            "subtitle": "क्षैतिज स्तरों में निक्षेपण— संचय— सांद्रण",
+            "strataTitle": "अवसादी परतें",
+            "strataSub": "कण बरसते हैं — जम जाते हैं — संपीड़ित होते हैं — कठोर हो जाते हैं",
+            "layer0": "मिट्टी",
+            "layer1": "बलुआ पत्थर",
+            "layer2": "एक प्रकार की शीस्ट",
+            "layer3": "कोयला",
+            "layer3sub": "पौधे का पदार्थ संपीड़ित",
+            "layer4": "चूना पत्थर",
+            "layer5": "लौह अयस्क",
+            "layer5sub": "लौह-समृद्ध तलछट",
+            "layer6": "बलुआ पत्थर",
+            "layer7": "एक प्रकार की शीस्ट",
+            "millionsYears": "लाखों वर्षों",
+            "evapTitle": "वाष्पीकरण (शुष्क क्षेत्र)",
+            "evapSub": "रेगिस्तानी झील — पानी वाष्पित हो जाता है — खनिज क्रिस्टल के रूप में शेष रह जाते हैं",
+            "saltWater": "नमक का पानी",
+            "evap0": "जिप्सम",
+            "evap1": "पोटाश नमक",
+            "evap2": "सोडियम लवण",
+            "coalTitle": "कोयला निर्माण — संपीड़न समयरेखा",
+            "coalSub": "गर्मी और दबाव के कारण दबे हुए वनस्पति अवशेष कार्बन युक्त कोयले में तब्दील हो गए।",
+            "stage0name": "पौधे",
+            "stage1name": "पीट",
+            "stage2name": "लिग्नाइट",
+            "stage3name": "कोयला",
+            "pressureLabel": "दबाव और गर्मी में वृद्धि"
+          }
+        },
+        {
+          "question": "प्रकृति के तीन और मार्ग हैं — सतही क्षय, नदी की रेत और महासागर का जल। इनमें से प्रत्येक से हमें क्या मिलता है?",
+          "label": "तीन और मोड",
+          "completeMsg": "अपघटन से अपक्षयित पदार्थ का अवशिष्ट द्रव्यमान - बॉक्साइट - बच जाता है। घाटी की रेत में पाए जाने वाले प्लेसर निक्षेपों से सोना, चांदी, टिन और प्लैटिनम प्राप्त होते हैं। महासागरों से साधारण नमक, मैग्नीशियम, ब्रोमीन और मैंगनीज के पिंड समुद्र तल से प्राप्त होते हैं।",
+          "steps": [
+            {
+              "text": "कुछ खनिज सतही चट्टानों के अपघटन से बनते हैं। घुलनशील भाग बारिश से बह जाते हैं, जिससे अपक्षयित पदार्थ का एक अवशिष्ट द्रव्यमान बच जाता है जिसमें अयस्क होते हैं। एल्युमिनियम का स्रोत बॉक्साइट, ठीक इसी प्रकार बनता है।"
+            },
+            {
+              "text": "कुछ खनिज घाटियों के तल और पहाड़ियों की नींव की रेत में जलोढ़ निक्षेपों के रूप में पाए जाते हैं। इन्हें प्लेसर निक्षेप कहा जाता है। प्लेसर में वे खनिज बचे रहते हैं जो पानी से नष्ट नहीं होते हैं - सोना, चांदी, टिन और प्लैटिनम इनमें सबसे महत्वपूर्ण हैं।"
+            },
+            {
+              "text": "महासागर के जल में खनिजों की विशाल मात्रा पाई जाती है। इनमें से अधिकांश खनिज इतने व्यापक रूप से फैले हुए हैं कि उनका आर्थिक महत्व नहीं है। लेकिन साधारण नमक, मैग्नीशियम और ब्रोमीन मुख्य रूप से महासागर के जल से ही प्राप्त होते हैं। महासागर की तलहटी भी मैंगनीज की गांठों से समृद्ध है - ये छोटी-छोटी गहरे रंग की गांठें हैं जो गहरे समुद्र तल पर बिखरी हुई हैं।"
+            }
+          ],
+          "exercise": {
+            "question": "निम्नलिखित में से कौन सा एक विशिष्ट प्लेसर-डिपॉजिट खनिज नहीं है?",
+            "options": [
+              "सोना",
+              "प्लैटिनम",
+              "बाक्साइट",
+              "टिन"
+            ],
+            "correct": 2,
+            "explanation": "घाटी की रेतीली परतों में पाए जाने वाले प्लेसर निक्षेपों में आमतौर पर ऐसे खनिज होते हैं जो पानी से नष्ट नहीं होते हैं — जैसे सोना, चांदी, टिन और प्लैटिनम। बॉक्साइट का निर्माण सतह की चट्टानों के अपघटन से होता है, न कि नदी द्वारा निक्षेपण से।"
+          },
+          "canvas": {
+            "title": "तीन और रास्ते",
+            "subtitle": "अपघटन · प्लेसर निक्षेप · महासागरीय जल",
+            "decompTitle": "सड़न",
+            "decompSub": "सतही चट्टानों का क्षरण होता है—घुलनशील कण बह जाते हैं",
+            "decompMineral": "बाक्साइट",
+            "decompWash": "घुलनशील भाग धुल जाते हैं",
+            "decompResidual": "पीछे रह गया अघुलनशील अवशेष",
+            "placerTitle": "प्लेसर जमा",
+            "placerSub": "घाटी की तलहटी की रेत में — ऐसे खनिज पाए जाते हैं जो पानी से नष्ट नहीं होते।",
+            "placerMinerals": "सोना · चांदी · टिन · प्लैटिनम",
+            "placerLight": "हल्की रेत धारा के साथ बह गई",
+            "placerSettle": "सोना · प्लैटिनम · टिन यहीं बसें",
+            "oceanTitle": "महासागरीय जल",
+            "oceanSub": "समुद्र और समुद्र तल से बिखरे हुए खनिज प्राप्त होते हैं।",
+            "oceanMinerals": "नमक · मैग्नीशियम · ब्रोमीन · मैंगनीज",
+            "oceanIon": "महासागर — आयन घुले हुए, अति तनु",
+            "evapPan": "वाष्पीकरण पैन — नमक क्रिस्टलीकृत हो जाते हैं",
+            "crystallising": "NaCl · MgSO4 · Br — क्रिस्टलीकरण",
+            "seabed": "गहरे समुद्र तल पर — मैंगनीज के पिंड जमा होते हैं",
+            "nodules": "गहरे समुद्र तल पर पाए जाने वाले Mn नोड्यूल्स",
+            "recapTitle": "घटित होने के 5 तरीके — सारांश",
+            "mode0": "शिरा/लोहे",
+            "mode1": "बेड",
+            "mode2": "अपघटन",
+            "mode3": "प्लेसर",
+            "mode4": "महासागर"
+          }
+        },
+        {
+          "question": "भारत की खनिज संपदा समृद्ध है, लेकिन इसका वितरण असमान है। दक्षिण में इतनी अधिक और उत्तर में इतनी कम क्यों है?",
+          "label": "भारत में वितरण",
+          "completeMsg": "प्रायद्वीपीय चट्टानों में अधिकांश कोयला, धात्विक खनिज, अभ्रक और कई अधात्विक पदार्थ पाए जाते हैं। गुजरात और असम के तलछटी ढलानों में पेट्रोलियम पाया जाता है। राजस्थान में अलौह खनिज पाए जाते हैं। विशाल जलोढ़ उत्तरी मैदान आर्थिक रूप से महत्वपूर्ण खनिजों से लगभग रहित हैं। एक बार खनन हो जाने पर कोई भंडार खदान बन जाता है।",
+          "steps": [
+            {
+              "text": "भारत सौभाग्यशाली है कि उसके पास पर्याप्त समृद्ध और विविध खनिज संसाधन हैं — लेकिन उनका वितरण असमान है। दक्षिणी प्रायद्वीप की चट्टानों में कोयले, धात्विक खनिजों, अभ्रक और कई अन्य अधात्विक खनिजों का अधिकांश भंडार मौजूद है। यही भारत का विशाल भंडार है।"
+            },
+            {
+              "text": "प्रायद्वीप के पश्चिमी और पूर्वी किनारों पर स्थित अवसादी चट्टानों (गुजरात और असम में) में अधिकांश पेट्रोलियम भंडार मौजूद हैं। राजस्थान में प्रायद्वीप की चट्टानी प्रणालियों के साथ-साथ कई अलौह खनिजों के भंडार भी हैं।"
+            },
+            {
+              "text": "उत्तर भारत के विशाल जलोढ़ मैदान आर्थिक महत्व के खनिजों से लगभग रहित हैं। ये भिन्नताएं मुख्यतः भूवैज्ञानिक संरचना, प्रक्रियाओं और निर्माण में लगने वाले समय में अंतर के कारण मौजूद हैं।"
+            },
+            {
+              "text": "किसी भंडार के खनन योग्य होने या न होने का निर्धारण करने वाले तीन अन्य कारक हैं - खनिज की सांद्रता, निष्कर्षण में आसानी और बाजार से निकटता। जब किसी भंडार या रिजर्व का अंततः निष्कर्षण हो जाता है, तो वह एक खदान में परिवर्तित हो जाता है।"
+            }
+          ],
+          "exercise": {
+            "question": "उत्तर भारत के विशाल जलोढ़ मैदान आर्थिक खनिजों से लगभग रहित क्यों हैं?",
+            "options": [
+              "क्योंकि जलोढ़ मिट्टी में बहुत अधिक पानी होता है",
+              "क्योंकि ये हाल ही के अवसाद हैं जिनमें खनिजों को केंद्रित करने वाली भूवैज्ञानिक संरचना का अभाव है।",
+              "क्योंकि वे बहुत ठंडे हैं",
+              "क्योंकि सभी खनिजों का खनन पहले ही हो चुका था।"
+            ],
+            "correct": 1,
+            "explanation": "भूवैज्ञानिक संरचना, खनिज निर्माण की प्रक्रियाओं और समय में अंतर के कारण विभिन्नताएँ पाई जाती हैं। युवा जलोढ़ मैदानों में प्राचीन प्रायद्वीपीय चट्टानें नहीं होतीं जिनमें धात्विक खनिज संवर्धित होते हैं।"
+          },
+          "canvas": {
+            "title": "भारत — असमान रूप से संपन्न",
+            "subtitle": "भूवैज्ञानिक संरचना यह निर्धारित करती है कि खनिज कहाँ स्थित हैं।",
+            "loadingMap": "मानचित्र लोड हो रहा है…",
+            "legendTitle": "मानचित्र विवरण — क्षेत्र",
+            "region0": "प्रायद्वीपीय चट्टानें",
+            "region1": "राजस्थान",
+            "region2": "तलछटी ढलान",
+            "region3": "जलोढ़ मैदान",
+            "region4": "हिमालयी पहाड़ियाँ",
+            "mineableTitle": "क्या कोई भंडार खनन योग्य है? — 3 कारक",
+            "factor0name": "एकाग्रता",
+            "factor0sub": "क्या आप बेचने के लिए पर्याप्त अमीर हैं?",
+            "factor1name": "निष्कर्षण",
+            "factor1sub": "खोदना आसान है या मुश्किल?",
+            "factor2name": "बाज़ार",
+            "factor2sub": "दूर के खरीदार या पास के?",
+            "hotspot0place": "झारखंड",
+            "hotspot0mineral": "कोयला · लोहा",
+            "hotspot1place": "ओडिशा",
+            "hotspot1mineral": "लौह अयस्क",
+            "hotspot2place": "कर्नाटक",
+            "hotspot2mineral": "सोना",
+            "hotspot3place": "राजस्थान",
+            "hotspot3mineral": "तांबा · जस्ता",
+            "hotspot4place": "गुजरात",
+            "hotspot4mineral": "पेट्रोलियम",
+            "hotspot5place": "असम",
+            "hotspot5mineral": "पेट्रोलियम",
+            "mineConclusion": "एक बार जब कोई निक्षेप तीनों कारकों को पूरा कर लेता है, तो वह एक खदान बन जाता है।"
+          }
+        }
+      ]
+    },
+    "ja": {
+      "documentTitle": "鉱物資源とエネルギー資源 ― パート2：産出形態",
+      "welcome": {
+        "badge": "NCERT",
+        "badgeSub": "クラス10 · 地理",
+        "label": "鉱物・エネルギー資源 ― パート2",
+        "title": "発生様式",
+        "subtitle": "自然はどのようにして鉱物を配置するのでしょうか？溶岩の亀裂、古い海底の層、風化した地表、川の砂、そして海そのものに至るまで、鉱物は無作為に散らばっているわけではありません。そこには一定の法則があります。では、その法則を見ていきましょう。",
+        "beginButton": "レッスンを開始する",
+        "welcomeSpeech": "鉱物とエネルギー資源 ― 産出形態 ― パート2へようこそ。自然はどのようにして鉱物を産出するのでしょうか？溶岩の亀裂、古い海底の層、風化した地表、川の砂、そして海そのものまで。これらの法則を見ていきましょう。準備ができたら「レッスン開始」ボタンを押してください。"
+      },
+      "ui": {
+        "revealButton": "答えを見つけよう",
+        "exerciseLabel": "理解度をテストしてみましょう",
+        "testUnderstandingPrefix": "それでは、理解度をテストしてみましょう。",
+        "feedbackCorrectPrefix": "素晴らしい！その通りです。",
+        "feedbackIncorrectPrefix": "少し違う。",
+        "sectionCompleteLabel": "セクション完了",
+        "nextBtn": "続く",
+        "reviewAgainButton": "再度確認する",
+        "finalLabel": "パート2完了",
+        "finalTitle": "モードをマスターしました！",
+        "finalSubtitle": "鉱石から鉱脈へ、堆積物から砂鉱床へ、海洋団塊から鉱山へ――あなたは、鉱物を手の届くところに届けるために自然が切り開いた5つの道を辿ってきました。次は分類です。",
+        "finalFacesText": "鉱石・鉱脈・鉱床・その他・インド",
+        "finalFacesSub": "自然が辿る5つの道",
+        "startAgainButton": "最初からやり直す",
+        "finalSpeech": "素晴らしい出来栄えです。パート2「鉱物の産出様式」を完了しました。鉱石の定義から始まり、火成岩中の鉱脈や鉱床、堆積岩中の層や地層、さらに3つの分解経路、砂鉱床、海洋水、そしてインド全土における鉱物の不均一な分布に至るまで、自然がどのように鉱物を配置するのかを理解しました。次は「鉱物の分類」です。"
+      },
+      "sidebar": {
+        "completed": "完了",
+        "inProgress": "進行中"
+      },
+      "sections": [
+        {
+          "name": "鉱石とは何ですか？",
+          "status": "財団"
+        },
+        {
+          "name": "鉱脈と鉱脈",
+          "status": "火成岩・変成岩"
+        },
+        {
+          "name": "ベッド＆レイヤー",
+          "status": "堆積岩"
+        },
+        {
+          "name": "さらに3つのモード",
+          "status": "天気・砂浜・海"
+        },
+        {
+          "name": "インドでの流通",
+          "status": "全てはそこにある"
+        }
+      ],
+      "lessons": [
+        {
+          "question": "鉱物は「鉱石」の中に存在すると表現されます。では、岩石の塊が単なる岩石ではなく、実際に鉱石となるのはなぜでしょうか？",
+          "label": "鉱石とは何ですか？",
+          "completeMsg": "鉱石とは、鉱物とその他の元素が混ざり合った集合体であり、商業的に採算が取れるためには、鉱物含有量が十分に高くなければならない。鉱床の構造によって、採掘の容易さとコストが決まる。",
+          "steps": [
+            {
+              "text": "鉱物は通常、純粋な状態では見つかりません。岩石中に散在し、他の元素と混ざり合っています。このような鉱物の集積物を鉱石と呼びます。しかし、鉱物を含むすべての岩石が鉱石として認められるわけではありません。鉱石中の鉱物含有量は、商業的に採算が取れるだけの十分な濃度でなければなりません。"
+            },
+            {
+              "text": "鉱物が産出される地層や構造の種類も重要です。それは鉱石の採掘の容易さを左右し、ひいては採掘コストを決定づけるからです。したがって、鉱物の分類について議論する前に、まず鉱物がどのように産出されるかを理解する必要があります。"
+            }
+          ],
+          "exercise": {
+            "question": "岩塊が鉱石と呼ばれるために不可欠な条件は何ですか？",
+            "options": [
+              "鉱物を含む岩石",
+              "鉱物含有量は、抽出を商業的に実現可能にするのに十分な濃度でなければならない。",
+              "金を含む岩石のみ",
+              "赤や黄色の岩"
+            ],
+            "correct": 1,
+            "explanation": "鉱石とは、鉱物と他の元素が混ざり合った集合体のことである。ただし、商業的に採算が取れるためには、鉱物の含有量が十分に高くなければならない。"
+          },
+          "canvas": {
+            "title": "岩石から鉱石へ",
+            "subtitle": "鉱物の濃度によって、それが鉱石であるかどうかが決まる",
+            "stage0name": "プレインロック",
+            "stage0label": "主にシリカ、ごく少量の鉱物粒子",
+            "stage0verdict": "採掘する価値がない",
+            "stage1name": "低品質",
+            "stage1label": "鉱物はあるが、採掘費用が高い",
+            "stage1verdict": "境界線上 ― 高コスト",
+            "stage2name": "鉱石",
+            "stage2label": "十分に豊かであれば、採掘は利益を生む。",
+            "stage2verdict": "商業的に実現可能！",
+            "oreDefinition": "鉱石＝採掘が商業的に採算が取れるほどの鉱物を含む岩石",
+            "structureTitle": "地層構造 ― 採掘の容易さとコストを左右する",
+            "factor0": "形",
+            "factor1": "深さ",
+            "factor2": "硬度",
+            "factor3": "市場",
+            "modesTitle": "5つの発生様式：鉱脈・鉱床・分解・漂砂鉱床・海洋"
+          }
+        },
+        {
+          "question": "火成岩や変成岩では、鉱物は亀裂、断層、節理の中に隠れています。これらは何と呼ばれ、どのようにしてそこに存在するようになったのでしょうか？",
+          "label": "鉱脈と鉱脈",
+          "completeMsg": "鉱物を含む小さな亀裂は鉱脈、大きな亀裂は鉱床と呼ばれます。液体、溶融状態、気体状態の鉱物は空洞を通って上昇し、冷却されて固まります。錫、銅、亜鉛、鉛は鉱脈や鉱床から産出されます。",
+          "steps": [
+            {
+              "text": "火成岩や変成岩の内部では、鉱物は亀裂、割れ目、断層、節理などに存在します。小さな鉱脈は鉱脈と呼ばれ、大きな鉱脈は鉱床と呼ばれます。"
+            },
+            {
+              "text": "これらは通常、液体、溶融状態、あるいは気体状態の鉱物が、空洞を通って地表に向かって押し上げられる際に形成されます。上昇するにつれて冷却され、亀裂の中で固まります。錫、銅、亜鉛、鉛などの主要な金属鉱物は、鉱脈や鉱床から採取されます。"
+            }
+          ],
+          "exercise": {
+            "question": "火成岩の亀裂に見られる鉱物の小さな集まりは鉱脈と呼ばれ、より大きな集まりは次のように呼ばれます。",
+            "options": [
+              "ベッド",
+              "鉱脈",
+              "入賞者",
+              "結節"
+            ],
+            "correct": 1,
+            "explanation": "鉱物が詰まった小さな亀裂や断層は鉱脈と呼ばれ、より大きなものは鉱床と呼ばれます。どちらも、溶融または気体の鉱物が上昇し、空洞内で冷却・固化することによって形成されます。"
+          },
+          "canvas": {
+            "title": "鉱脈と鉱床 — 火成岩／変成岩",
+            "subtitle": "溶融した鉱物が上昇し、亀裂の中で冷え固まり、鉱物を豊富に含む鉱脈となる。",
+            "igneous": "火成岩",
+            "igneousSub": "（冷えたマグマ）",
+            "metamorphic": "変容",
+            "metamorphicSub": "（熱処理済み）",
+            "magma": "マグマ",
+            "vein": "静脈",
+            "veinSub": "細い（cm）",
+            "lode": "ロード",
+            "lodeSub": "厚さ（メートル）",
+            "step1": "上昇",
+            "step2": "いいね",
+            "step3": "固める",
+            "fromVeinsTitle": "鉱脈と鉱床から",
+            "majorMetallic": "主要な金属鉱物",
+            "m0name": "錫",
+            "m0use": "缶・はんだ",
+            "m1name": "銅",
+            "m1use": "電線・パイプ",
+            "m2name": "亜鉛",
+            "m2use": "亜鉛めっき",
+            "m3name": "鉛",
+            "m3use": "電池"
+          }
+        },
+        {
+          "question": "鉱物の中には、何百万年にもわたる圧力と蒸発によって、水平な層状に堆積しているものがあります。これらの鉱物とはどのようなものでしょうか？",
+          "label": "ベッド＆レイヤー",
+          "completeMsg": "堆積鉱物は層状に形成され、石炭や一部の鉄鉱石は熱と圧力によって、石膏、カリウム塩、ナトリウム塩は乾燥地帯での蒸発によって形成される。水平な地層は、長い年月をかけて堆積・濃縮される。",
+          "steps": [
+            {
+              "text": "堆積岩には、多くの鉱物が層状または層状に存在します。これらは、水平な地層における堆積、集積、濃集の結果として形成されたものです。"
+            },
+            {
+              "text": "もう一つの堆積鉱物群である石膏、カリ塩、ナトリウム塩は、特に乾燥地帯において、蒸発の結果として形成される。水が干上がると、溶解していた鉱物が結晶として残る。"
+            },
+            {
+              "text": "石炭や一部の鉄鉱石は、高温高圧下で長期間にわたって濃縮されるという、これまでとは異なる過程を経て形成された。数百万年前に地中に埋もれた植物は、ゆっくりと泥炭、亜炭、瀝青炭へと変化し、最終的に無煙炭となる。鉄鉱石層も同様に、長年の圧縮を経て高濃度の鉄鉱石となる。"
+            }
+          ],
+          "exercise": {
+            "question": "石膏、カリ塩、ナトリウム塩は、主に以下のものから形成される堆積鉱物です。",
+            "options": [
+              "火山噴火",
+              "蒸発、特に乾燥地帯では",
+              "河川堆積物",
+              "海の潮汐"
+            ],
+            "correct": 1,
+            "explanation": "石膏、カリ塩、ナトリウム塩は、特に乾燥地帯において、蒸発の結果として形成される。水が蒸発するにつれて、これらの鉱物が濃縮されるのである。"
+          },
+          "canvas": {
+            "title": "堆積岩における層と地層",
+            "subtitle": "水平層における堆積・集積・濃集",
+            "strataTitle": "堆積層",
+            "strataSub": "粒子が降り注ぎ、沈降し、圧縮され、固まる。",
+            "layer0": "土壌",
+            "layer1": "砂岩",
+            "layer2": "頁岩",
+            "layer3": "石炭",
+            "layer3sub": "圧縮された植物性物質",
+            "layer4": "石灰岩",
+            "layer5": "鉄鉱石",
+            "layer5sub": "鉄分を豊富に含む堆積物",
+            "layer6": "砂岩",
+            "layer7": "頁岩",
+            "millionsYears": "数百万年",
+            "evapTitle": "蒸発（乾燥地域）",
+            "evapSub": "砂漠の湖 ― 水が蒸発し、鉱物が結晶となって残る",
+            "saltWater": "塩水",
+            "evap0": "石膏",
+            "evap1": "炭酸カリウム塩",
+            "evap2": "ナトリウム塩",
+            "coalTitle": "石炭の形成 ― 圧縮のタイムライン",
+            "coalSub": "埋没した植物性物質 ― 熱と圧力 ― 炭素を豊富に含む石炭",
+            "stage0name": "植物",
+            "stage1name": "泥炭",
+            "stage2name": "亜炭",
+            "stage3name": "石炭",
+            "pressureLabel": "圧力と熱の上昇"
+          }
+        },
+        {
+          "question": "自然が辿る道は他にも3つある。地表の風化、川の砂、そして海水だ。それぞれが私たちに何をもたらしてくれるのだろうか？",
+          "label": "さらに3つのモード",
+          "completeMsg": "分解によって風化した物質の残渣、すなわちボーキサイトが残る。谷底の砂鉱床からは金、銀、錫、プラチナが産出される。海洋からは海底から食塩、マグネシウム、臭素、マンガンの団塊が産出される。",
+          "steps": [
+            {
+              "text": "鉱物の中には、地表の岩石が分解されて形成されるものがある。溶解した部分は雨によって洗い流され、鉱石を含む風化物質の残骸が残る。アルミニウムの原料であるボーキサイトも、まさにこの方法で形成される。"
+            },
+            {
+              "text": "特定の鉱物は、谷底や丘陵の麓の砂の中に沖積鉱床として産出します。これらは砂鉱床と呼ばれます。砂鉱床に残る鉱物は、水による腐食を受けにくいもので、金、銀、錫、プラチナなどが最も重要な鉱物です。"
+            },
+            {
+              "text": "海水には膨大な量の鉱物が含まれている。これらのほとんどは広範囲に拡散しているため、経済的に重要な意味を持つことはない。しかし、食塩、マグネシウム、臭素は主に海水から得られている。海底にもマンガン団塊が豊富に存在し、深海の海底には小さな黒っぽい塊が点在している。"
+            }
+          ],
+          "exercise": {
+            "question": "次のうち、典型的な砂鉱床鉱物ではないものはどれですか？",
+            "options": [
+              "金",
+              "白金",
+              "ボーキサイト",
+              "錫"
+            ],
+            "correct": 2,
+            "explanation": "谷底の砂鉱床には、一般的に水による腐食を受けにくい鉱物（金、銀、錫、プラチナなど）が含まれている。ボーキサイトは、河川による堆積ではなく、地表の岩石の分解によって形成される。"
+          },
+          "canvas": {
+            "title": "さらに３つの道",
+            "subtitle": "分解・漂砂鉱床・海洋水",
+            "decompTitle": "分解",
+            "decompSub": "表面の岩石が風化すると、溶けやすい部分が洗い流される。",
+            "decompMineral": "ボーキサイト",
+            "decompWash": "水溶性成分は洗い流される",
+            "decompResidual": "不溶性残留物が残る",
+            "placerTitle": "プレースホルダー預託金",
+            "placerSub": "谷底の砂の中には、水によって腐食されていない鉱物が含まれている。",
+            "placerMinerals": "金・銀・錫・プラチナ",
+            "placerLight": "流れによって流された軽い砂",
+            "placerSettle": "金・プラチナ・錫がここに定着する",
+            "oceanTitle": "海水",
+            "oceanSub": "海や海底からは拡散した鉱物が産出される。",
+            "oceanMinerals": "塩・マグネシウム・臭素・マンガン",
+            "oceanIon": "海洋 — 溶解したイオン、超希薄",
+            "evapPan": "蒸発皿 ― 塩が結晶化する",
+            "crystallising": "NaCl・MgSO4・Br — 結晶化",
+            "seabed": "深海底 — マンガン団塊が蓄積する",
+            "nodules": "マンガン団塊 ― 深海底",
+            "recapTitle": "発生様式5選 ― まとめ",
+            "mode0": "鉱脈／鉱脈",
+            "mode1": "ベッド",
+            "mode2": "分解",
+            "mode3": "プレースラー",
+            "mode4": "海"
+          }
+        },
+        {
+          "question": "インドの鉱物資源は豊富だが、その分布は偏っている。なぜ南部にはこれほど多くの資源があり、北部にはこれほど少ないのだろうか？",
+          "label": "インドでの販売",
+          "completeMsg": "半島部の岩石には、石炭、金属鉱物、雲母、そして多くの非金属鉱物が豊富に含まれている。グジャラート州とアッサム州の堆積岩層には石油が埋蔵されている。ラジャスタン州には非鉄金属鉱物が埋蔵されている。広大な北部沖積平野には、経済的に価値のある鉱物はほとんど存在しない。鉱床は、採掘されると鉱山となる。",
+          "steps": [
+            {
+              "text": "インドは幸運にも、豊富で多様な鉱物資源に恵まれているが、それらは均等に分布しているわけではない。南部半島部の岩石には、石炭、金属鉱物、雲母、その他多くの非金属鉱物の埋蔵量の大部分が含まれている。ここはまさに巨大な資源の宝庫である。"
+            },
+            {
+              "text": "半島西部と東部のグジャラート州とアッサム州に分布する堆積岩には、石油資源の大部分が埋蔵されている。半島の岩盤系を有するラジャスタン州には、多くの非鉄鉱物資源が埋蔵されている。"
+            },
+            {
+              "text": "北インドの広大な沖積平野には、経済的に価値のある鉱物がほとんど存在しない。こうした差異は、主に地質構造、形成過程、そして形成に要した時間の違いに起因する。"
+            },
+            {
+              "text": "鉱床を採掘する価値があるかどうかは、さらに3つの要素によって決まります。それは、鉱物の濃度、採掘の容易さ、そして市場への近さです。鉱床や埋蔵量が最終的に採掘されると、そこは鉱山へと変わります。"
+            }
+          ],
+          "exercise": {
+            "question": "北インドの広大な沖積平野には、なぜ経済的に価値のある鉱物がほとんど存在しないのだろうか？",
+            "options": [
+              "沖積土には水分が多すぎるため",
+              "それらは鉱物を濃縮する地質構造を持たない、比較的新しい堆積物であるため",
+              "寒すぎるから",
+              "全ての鉱物が既に採掘済みだったため"
+            ],
+            "correct": 1,
+            "explanation": "鉱物の形成過程や時間、地質構造の違いによって、様々な差異が生じる。若い沖積平野には、金属鉱物を濃集させる古代の半島岩が存在しない。"
+          },
+          "canvas": {
+            "title": "インド ― 不均等な資源配分",
+            "subtitle": "鉱物の分布場所は地質構造によって決まる",
+            "loadingMap": "地図を読み込んでいます…",
+            "legendTitle": "地図凡例 — 地域",
+            "region0": "半島岩",
+            "region1": "ラジャスタン",
+            "region2": "堆積岩の斜面",
+            "region3": "沖積平野",
+            "region4": "ヒマラヤの丘陵地帯",
+            "mineableTitle": "鉱床は採掘可能か？ ― 3つの要素",
+            "factor0name": "集中",
+            "factor0sub": "売るのに十分なほど裕福？",
+            "factor1name": "抽出",
+            "factor1sub": "掘りやすいか、それとも掘りにくいか？",
+            "factor2name": "市場",
+            "factor2sub": "遠方の購入者か、近方の購入者か？",
+            "hotspot0place": "ジャールカンド",
+            "hotspot0mineral": "石炭・鉄",
+            "hotspot1place": "オリッサ州",
+            "hotspot1mineral": "鉄鉱石",
+            "hotspot2place": "カルナータカ州",
+            "hotspot2mineral": "金",
+            "hotspot3place": "ラジャスタン",
+            "hotspot3mineral": "銅・亜鉛",
+            "hotspot4place": "グジャラート州",
+            "hotspot4mineral": "石油",
+            "hotspot5place": "アッサム",
+            "hotspot5mineral": "石油",
+            "mineConclusion": "預金が3つの条件すべてを満たすと、それは鉱山になります。"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,5 @@
+# Local tooling and build leftovers
+.claude/
+__pycache__/
+*.pyc
+*.prechirp

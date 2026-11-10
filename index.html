@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Science Lessons</title>
+<title>Lessons</title>
 <script>
 (function(){
   var ok=['as','en','hi','ja'],p=new URLSearchParams(location.search),l=p.get('language');
@@ -19,7 +19,7 @@
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700&display=swap">
 <style>
-  /* Layout: one column of numbered chapter rows, like a textbook contents page. */
+  /* Layout: one column per subject, each a list of numbered chapter rows, like a textbook contents page. */
   :root {
     --bg: #f3f6f9; --fg: #16202e; --muted: #566577; --line: #d4dce5; --row: #ffffff; --accent: #1f5f99;
     --font: "Noto Sans", "Noto Sans Bengali", "Noto Sans Devanagari", "Noto Sans JP", system-ui, sans-serif;
@@ -29,8 +29,10 @@
   }
   * { box-sizing: border-box; margin: 0; }
   body { background: var(--bg); color: var(--fg); font-family: var(--font); line-height: 1.5; padding-block: 72px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-  main { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  main { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
   h1 { font-size: 1.75rem; line-height: 1.25; text-wrap: balance; }
+  section { display: flex; flex-direction: column; gap: 12px; }
+  h2 { font-size: 1.125rem; color: var(--muted); font-weight: 600; }
   ol { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
   a.lesson { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 14px 16px; background: var(--row); border: 1px solid var(--line); border-radius: 8px; color: inherit; text-decoration: none; }
   a.lesson:hover { border-color: var(--accent); }
@@ -41,30 +43,57 @@
 </style>
 </head>
 <body>
-<main>
+<main id="main">
   <h1 id="heading"></h1>
-  <ol id="lessons"></ol>
 </main>
 <script>
   (function () {
-    var CATALOG = [{"slug":"average-acceleration","no":"4.1.4","titles":{"as":"গড় ত্বৰণ","en":"Average Acceleration","hi":"औसत त्वरण","ja":"平均加速度"}},{"slug":"immiscible-liquids","no":"5.4.1","titles":{"as":"অমিশ্ৰণীয় তৰল","en":"Immiscible Liquids","hi":"अमिश्रणीय द्रव","ja":"混ざり合わない液体"}},{"slug":"newtons-first-law","no":"6.4","titles":{"as":"নিউটনৰ গতিৰ প্ৰথম সূত্ৰ","en":"Newton's First Law of Motion","hi":"न्यूटन का गति का प्रथम नियम","ja":"ニュートンの第一運動法則"}},{"slug":"pulley","no":"7.6.1","titles":{"as":"কপিকল","en":"Pulleys","hi":"घिरनियाँ","ja":"滑車"}},{"slug":"atomic-number","no":"8.5","titles":{"as":"পাৰমাণৱিক সংখ্যা","en":"The Atomic Number","hi":"परमाणु संख्या","ja":"原子番号"}},{"slug":"daltons-atomic-theory","no":"9.3","titles":{"as":"ডাল্টনৰ পাৰমাণৱিক তত্ত্ব","en":"Dalton’s Atomic Theory","hi":"डाल्टन का परमाणु सिद्धांत","ja":"ドルトンの原子論"}},{"slug":"sound-waves","no":"10.3","titles":{"as":"শব্দ তৰংগ","en":"Sound Waves","hi":"ध्वनि तरंगें","ja":"音波"}}];
+    // Each lesson's "path" is its HTML file relative to this page; the subject folders keep their own layouts.
+    var SUBJECTS = [
+      { titles: { as: 'বিজ্ঞান', en: 'Science', hi: 'विज्ञान', ja: '理科' }, lessons: [
+        {"path":"science-lessons/average-acceleration/index.html","no":"4.1.4","titles":{"as":"গড় ত্বৰণ","en":"Average Acceleration","hi":"औसत त्वरण","ja":"平均加速度"}},
+        {"path":"science-lessons/immiscible-liquids/index.html","no":"5.4.1","titles":{"as":"অমিশ্ৰণীয় তৰল","en":"Immiscible Liquids","hi":"अमिश्रणीय द्रव","ja":"混ざり合わない液体"}},
+        {"path":"science-lessons/newtons-first-law/index.html","no":"6.4","titles":{"as":"নিউটনৰ গতিৰ প্ৰথম সূত্ৰ","en":"Newton's First Law of Motion","hi":"न्यूटन का गति का प्रथम नियम","ja":"ニュートンの第一運動法則"}},
+        {"path":"science-lessons/pulley/index.html","no":"7.6.1","titles":{"as":"কপিকল","en":"Pulleys","hi":"घिरनियाँ","ja":"滑車"}},
+        {"path":"science-lessons/atomic-number/index.html","no":"8.5","titles":{"as":"পাৰমাণৱিক সংখ্যা","en":"The Atomic Number","hi":"परमाणु संख्या","ja":"原子番号"}},
+        {"path":"science-lessons/daltons-atomic-theory/index.html","no":"9.3","titles":{"as":"ডাল্টনৰ পাৰমাণৱিক তত্ত্ব","en":"Dalton’s Atomic Theory","hi":"डाल्टन का परमाणु सिद्धांत","ja":"ドルトンの原子論"}},
+        {"path":"science-lessons/sound-waves/index.html","no":"10.3","titles":{"as":"শব্দ তৰংগ","en":"Sound Waves","hi":"ध्वनि तरंगें","ja":"音波"}}
+      ]},
+      { titles: { as: 'সমাজ বিজ্ঞান', en: 'Social Science', hi: 'सामाजिक विज्ञान', ja: '社会科' }, lessons: [
+        {"path":"social_science-lessons/2_2_what_makes_india_federal/v1/index.html","no":"2.2","titles":{"as":"ভাৰতক কিহে যুক্তৰাষ্ট্ৰীয় দেশ কৰি তোলে","en":"What Makes India Federal","hi":"किन बातों के कारण भारत संघीय देश है","ja":"インドが連邦制である理由"}},
+        {"path":"social_science-lessons/3_money_and_credit/MoneyCredit_3.html","no":"3.3","titles":{"as":"ধন আৰু ঋণ","en":"Money and Credit","hi":"मुद्रा और साख","ja":"貨幣と信用"}},
+        {"path":"social_science-lessons/4_economic_systems/v1/4_economic_systems.html","no":"4","titles":{"as":"অৰ্থনৈতিক ব্যৱস্থা আৰু বাছনি কেনেকৈ কৰা হয়","en":"Economic Systems and How Choices Are Made","hi":"आर्थिक प्रणालियाँ और चयन कैसे किए जाते हैं","ja":"経済システムと選択の仕組み"}},
+        {"path":"social_science-lessons/Modes of occurrence/2_modes_of_occurrence.html","no":"5.2","titles":{"as":"খনিজ পদাৰ্থৰ অৱস্থিতিৰ ধৰণ","en":"Mode of Occurrence of Minerals","hi":"खनिजों की उपलब्धता","ja":"鉱物の産出形態"}},
+        {"path":"social_science-lessons/6_4_types_of_democracy/6_4_types_of_democracy_______.html","no":"6.4","titles":{"as":"গণতন্ত্ৰৰ প্ৰকাৰ","en":"Types of Democracy","hi":"लोकतंत्र के प्रकार","ja":"民主主義の種類"}}
+      ]}
+    ];
     var HEADING = { as: 'পাঠসমূহ', en: 'Lessons', hi: 'पाठ', ja: 'レッスン' };
     var lang = new URLSearchParams(location.search).get('language') || 'as';
     document.getElementById('heading').textContent = HEADING[lang];
-    var list = document.getElementById('lessons');
-    CATALOG.forEach(function (c) {
-      var li = document.createElement('li');
-      var a = document.createElement('a');
-      a.className = 'lesson';
-      a.href = c.slug + '/?language=' + lang;
-      [['no', c.no], ['name', c.titles[lang]], ['go', '→']].forEach(function (p) {
-        var s = document.createElement('span');
-        s.className = p[0];
-        s.textContent = p[1];
-        a.appendChild(s);
+    document.title = HEADING[lang];
+    var main = document.getElementById('main');
+    SUBJECTS.forEach(function (subj) {
+      var sec = document.createElement('section');
+      var h2 = document.createElement('h2');
+      h2.textContent = subj.titles[lang];
+      sec.appendChild(h2);
+      var list = document.createElement('ol');
+      subj.lessons.forEach(function (c) {
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.className = 'lesson';
+        a.href = encodeURI(c.path) + '?language=' + lang;
+        [['no', c.no], ['name', c.titles[lang]], ['go', '→']].forEach(function (p) {
+          var s = document.createElement('span');
+          s.className = p[0];
+          s.textContent = p[1];
+          a.appendChild(s);
+        });
+        li.appendChild(a);
+        list.appendChild(li);
       });
-      li.appendChild(a);
-      list.appendChild(li);
+      sec.appendChild(list);
+      main.appendChild(sec);
     });
   })();
 </script>
