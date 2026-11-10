@@ -4,7 +4,7 @@
 <head>
 <script>
 (function(){
-  var ok=['as','en','hi','ja'],p=new URLSearchParams(location.search),l=p.get('language');
+  var ok=['as','en','hi'],p=new URLSearchParams(location.search),l=p.get('language');
   if(ok.indexOf(l)<0){
     l=null;try{l=localStorage.getItem('siteLanguage');}catch(e){}
     if(ok.indexOf(l)<0)l='as';

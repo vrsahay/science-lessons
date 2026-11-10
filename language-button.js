@@ -1,6 +1,6 @@
 // Language button shown on the landing page and on every lesson.
 (function () {
-  var LANGS = [['as', 'অসমীয়া'], ['en', 'English'], ['hi', 'हिन्दी'], ['ja', '日本語']];
+  var LANGS = [['as', 'অসমীয়া'], ['en', 'English'], ['hi', 'हिन्दी']];
   var ALL_LESSONS = { as: 'সকলো পাঠ', en: 'All lessons', hi: 'सभी पाठ', ja: 'すべてのレッスン' };
   var LANGUAGE = { as: 'ভাষা', en: 'Language', hi: 'भाषा', ja: '言語' };
   var isLesson = !document.documentElement.hasAttribute('data-landing');
