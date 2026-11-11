@@ -8,8 +8,7 @@
 (function(){
   var ok=['as','en','hi'],p=new URLSearchParams(location.search),l=p.get('language');
   if(ok.indexOf(l)<0){
-    l=null;try{l=localStorage.getItem('siteLanguage');}catch(e){}
-    if(ok.indexOf(l)<0)l='as';
+    l='as'; // a visit without ?language= always starts in Assamese
     p.set('language',l);
     history.replaceState(null,'',location.pathname+'?'+p.toString()+location.hash);
   }
